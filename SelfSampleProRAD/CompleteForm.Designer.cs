@@ -59,6 +59,10 @@
             refreshBtn = new Button();
             adminLogoutLbl1 = new LinkLabel();
             employeeDataGrid = new DataGridView();
+            uID = new DataGridViewTextBoxColumn();
+            usrNameClm = new DataGridViewTextBoxColumn();
+            accStatusClm = new DataGridViewTextBoxColumn();
+            cngStBtn = new DataGridViewButtonColumn();
             newEmpLink = new LinkLabel();
             AddNewTabPage = new TabPage();
             adminLogoutLbl2 = new LinkLabel();
@@ -127,10 +131,6 @@
             submitTaskBtn = new Button();
             doTaskRcTxtBx = new RichTextBox();
             empTaskLbl = new Label();
-            uID = new DataGridViewTextBoxColumn();
-            usrNameClm = new DataGridViewTextBoxColumn();
-            accStatusClm = new DataGridViewTextBoxColumn();
-            cngStBtn = new DataGridViewButtonColumn();
             loginPanel.SuspendLayout();
             managerPanel.SuspendLayout();
             addTaskPanel.SuspendLayout();
@@ -157,24 +157,26 @@
             loginPanel.Controls.Add(passwordTxt);
             loginPanel.Controls.Add(userNameTxt);
             loginPanel.Location = new Point(0, -1);
+            loginPanel.Margin = new Padding(3, 2, 3, 2);
             loginPanel.Name = "loginPanel";
-            loginPanel.Size = new Size(816, 569);
+            loginPanel.Size = new Size(714, 427);
             loginPanel.TabIndex = 0;
             // 
             // loginInfoLbl
             // 
             loginInfoLbl.AutoSize = true;
             loginInfoLbl.ForeColor = Color.Red;
-            loginInfoLbl.Location = new Point(272, 145);
+            loginInfoLbl.Location = new Point(238, 109);
             loginInfoLbl.Name = "loginInfoLbl";
-            loginInfoLbl.Size = new Size(0, 20);
+            loginInfoLbl.Size = new Size(0, 15);
             loginInfoLbl.TabIndex = 10;
             // 
             // loginBtb
             // 
-            loginBtb.Location = new Point(366, 282);
+            loginBtb.Location = new Point(320, 212);
+            loginBtb.Margin = new Padding(3, 2, 3, 2);
             loginBtb.Name = "loginBtb";
-            loginBtb.Size = new Size(109, 37);
+            loginBtb.Size = new Size(95, 28);
             loginBtb.TabIndex = 9;
             loginBtb.Text = "Login";
             loginBtb.UseVisualStyleBackColor = true;
@@ -183,36 +185,38 @@
             // passwordLbl
             // 
             passwordLbl.AutoSize = true;
-            passwordLbl.Location = new Point(162, 230);
+            passwordLbl.Location = new Point(142, 172);
             passwordLbl.Name = "passwordLbl";
-            passwordLbl.Size = new Size(70, 20);
+            passwordLbl.Size = new Size(57, 15);
             passwordLbl.TabIndex = 8;
             passwordLbl.Text = "Password";
             // 
             // userNameLbl
             // 
             userNameLbl.AutoSize = true;
-            userNameLbl.Location = new Point(162, 189);
+            userNameLbl.Location = new Point(142, 142);
             userNameLbl.Name = "userNameLbl";
-            userNameLbl.Size = new Size(79, 20);
+            userNameLbl.Size = new Size(63, 15);
             userNameLbl.TabIndex = 7;
             userNameLbl.Text = "User name";
             // 
             // passwordTxt
             // 
             passwordTxt.BorderStyle = BorderStyle.FixedSingle;
-            passwordTxt.Location = new Point(272, 230);
+            passwordTxt.Location = new Point(238, 172);
+            passwordTxt.Margin = new Padding(3, 2, 3, 2);
             passwordTxt.Name = "passwordTxt";
             passwordTxt.PasswordChar = '•';
-            passwordTxt.Size = new Size(314, 27);
+            passwordTxt.Size = new Size(275, 23);
             passwordTxt.TabIndex = 6;
             // 
             // userNameTxt
             // 
             userNameTxt.BorderStyle = BorderStyle.FixedSingle;
-            userNameTxt.Location = new Point(272, 190);
+            userNameTxt.Location = new Point(238, 142);
+            userNameTxt.Margin = new Padding(3, 2, 3, 2);
             userNameTxt.Name = "userNameTxt";
-            userNameTxt.Size = new Size(314, 27);
+            userNameTxt.Size = new Size(275, 23);
             userNameTxt.TabIndex = 5;
             userNameTxt.TextChanged += userNameTxt_TextChanged;
             // 
@@ -224,16 +228,17 @@
             managerPanel.Controls.Add(addTaskPanel);
             managerPanel.Controls.Add(taskAsgTbl);
             managerPanel.Location = new Point(-1, 0);
+            managerPanel.Margin = new Padding(3, 2, 3, 2);
             managerPanel.Name = "managerPanel";
-            managerPanel.Size = new Size(816, 569);
+            managerPanel.Size = new Size(714, 427);
             managerPanel.TabIndex = 1;
             // 
             // manLogoutLbl
             // 
             manLogoutLbl.AutoSize = true;
-            manLogoutLbl.Location = new Point(724, 36);
+            manLogoutLbl.Location = new Point(634, 27);
             manLogoutLbl.Name = "manLogoutLbl";
-            manLogoutLbl.Size = new Size(56, 20);
+            manLogoutLbl.Size = new Size(45, 15);
             manLogoutLbl.TabIndex = 8;
             manLogoutLbl.TabStop = true;
             manLogoutLbl.Text = "Logout";
@@ -242,9 +247,9 @@
             // addTaskLkLbl
             // 
             addTaskLkLbl.AutoSize = true;
-            addTaskLkLbl.Location = new Point(13, 90);
+            addTaskLkLbl.Location = new Point(11, 68);
             addTaskLkLbl.Name = "addTaskLkLbl";
-            addTaskLkLbl.Size = new Size(74, 20);
+            addTaskLkLbl.Size = new Size(60, 15);
             addTaskLkLbl.TabIndex = 7;
             addTaskLkLbl.TabStop = true;
             addTaskLkLbl.Text = "Add Tasks";
@@ -254,9 +259,9 @@
             // 
             mgrLbl.AutoSize = true;
             mgrLbl.Font = new Font("Segoe UI", 24F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            mgrLbl.Location = new Point(200, 36);
+            mgrLbl.Location = new Point(175, 27);
             mgrLbl.Name = "mgrLbl";
-            mgrLbl.Size = new Size(317, 54);
+            mgrLbl.Size = new Size(254, 45);
             mgrLbl.TabIndex = 6;
             mgrLbl.Text = "Manager Portal";
             // 
@@ -271,9 +276,10 @@
             addTaskPanel.Controls.Add(assgToLbl);
             addTaskPanel.Controls.Add(taskNameLbl);
             addTaskPanel.Controls.Add(taskIdLbl);
-            addTaskPanel.Location = new Point(447, 118);
+            addTaskPanel.Location = new Point(391, 88);
+            addTaskPanel.Margin = new Padding(3, 2, 3, 2);
             addTaskPanel.Name = "addTaskPanel";
-            addTaskPanel.Size = new Size(356, 350);
+            addTaskPanel.Size = new Size(312, 263);
             addTaskPanel.TabIndex = 5;
             addTaskPanel.Visible = false;
             // 
@@ -281,9 +287,9 @@
             // 
             manClsLbl.AutoSize = true;
             manClsLbl.LinkColor = Color.Red;
-            manClsLbl.Location = new Point(333, 0);
+            manClsLbl.Location = new Point(291, 0);
             manClsLbl.Name = "manClsLbl";
-            manClsLbl.Size = new Size(18, 20);
+            manClsLbl.Size = new Size(14, 15);
             manClsLbl.TabIndex = 14;
             manClsLbl.TabStop = true;
             manClsLbl.Text = "X";
@@ -291,9 +297,10 @@
             // 
             // asgnTaskBtn
             // 
-            asgnTaskBtn.Location = new Point(145, 170);
+            asgnTaskBtn.Location = new Point(127, 128);
+            asgnTaskBtn.Margin = new Padding(3, 2, 3, 2);
             asgnTaskBtn.Name = "asgnTaskBtn";
-            asgnTaskBtn.Size = new Size(119, 29);
+            asgnTaskBtn.Size = new Size(104, 22);
             asgnTaskBtn.TabIndex = 13;
             asgnTaskBtn.Text = "Assign Tasks";
             asgnTaskBtn.UseVisualStyleBackColor = true;
@@ -303,49 +310,52 @@
             // 
             asgToCmbBx.DropDownStyle = ComboBoxStyle.DropDownList;
             asgToCmbBx.FormattingEnabled = true;
-            asgToCmbBx.Location = new Point(107, 121);
+            asgToCmbBx.Location = new Point(94, 91);
+            asgToCmbBx.Margin = new Padding(3, 2, 3, 2);
             asgToCmbBx.Name = "asgToCmbBx";
-            asgToCmbBx.Size = new Size(237, 28);
+            asgToCmbBx.Size = new Size(208, 23);
             asgToCmbBx.TabIndex = 12;
             // 
             // tskNmTxtBx
             // 
-            tskNmTxtBx.Location = new Point(107, 80);
+            tskNmTxtBx.Location = new Point(94, 60);
+            tskNmTxtBx.Margin = new Padding(3, 2, 3, 2);
             tskNmTxtBx.Name = "tskNmTxtBx";
-            tskNmTxtBx.Size = new Size(237, 27);
+            tskNmTxtBx.Size = new Size(208, 23);
             tskNmTxtBx.TabIndex = 11;
             // 
             // tskIdTxtBx
             // 
-            tskIdTxtBx.Location = new Point(107, 40);
+            tskIdTxtBx.Location = new Point(94, 30);
+            tskIdTxtBx.Margin = new Padding(3, 2, 3, 2);
             tskIdTxtBx.Name = "tskIdTxtBx";
-            tskIdTxtBx.Size = new Size(237, 27);
+            tskIdTxtBx.Size = new Size(208, 23);
             tskIdTxtBx.TabIndex = 10;
             // 
             // assgToLbl
             // 
             assgToLbl.AutoSize = true;
-            assgToLbl.Location = new Point(3, 119);
+            assgToLbl.Location = new Point(3, 89);
             assgToLbl.Name = "assgToLbl";
-            assgToLbl.Size = new Size(89, 20);
+            assgToLbl.Size = new Size(71, 15);
             assgToLbl.TabIndex = 9;
             assgToLbl.Text = "Assigned To";
             // 
             // taskNameLbl
             // 
             taskNameLbl.AutoSize = true;
-            taskNameLbl.Location = new Point(3, 80);
+            taskNameLbl.Location = new Point(3, 60);
             taskNameLbl.Name = "taskNameLbl";
-            taskNameLbl.Size = new Size(79, 20);
+            taskNameLbl.Size = new Size(63, 15);
             taskNameLbl.TabIndex = 8;
             taskNameLbl.Text = "task Name";
             // 
             // taskIdLbl
             // 
             taskIdLbl.AutoSize = true;
-            taskIdLbl.Location = new Point(3, 43);
+            taskIdLbl.Location = new Point(3, 32);
             taskIdLbl.Name = "taskIdLbl";
-            taskIdLbl.Size = new Size(59, 20);
+            taskIdLbl.Size = new Size(48, 15);
             taskIdLbl.TabIndex = 7;
             taskIdLbl.Text = "Tasks Id";
             // 
@@ -357,12 +367,13 @@
             taskAsgTbl.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             taskAsgTbl.Columns.AddRange(new DataGridViewColumn[] { taskIdClm, taskName, assignedToClm, taskStatusClm });
             taskAsgTbl.EditMode = DataGridViewEditMode.EditProgrammatically;
-            taskAsgTbl.Location = new Point(13, 115);
+            taskAsgTbl.Location = new Point(11, 86);
+            taskAsgTbl.Margin = new Padding(3, 2, 3, 2);
             taskAsgTbl.MultiSelect = false;
             taskAsgTbl.Name = "taskAsgTbl";
             taskAsgTbl.RowHeadersWidth = 51;
             taskAsgTbl.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.DisableResizing;
-            taskAsgTbl.Size = new Size(428, 350);
+            taskAsgTbl.Size = new Size(374, 262);
             taskAsgTbl.TabIndex = 4;
             // 
             // taskIdClm
@@ -396,18 +407,20 @@
             // 
             adminPanel.Controls.Add(adminTabCrtl);
             adminPanel.Location = new Point(0, 0);
+            adminPanel.Margin = new Padding(3, 2, 3, 2);
             adminPanel.Name = "adminPanel";
-            adminPanel.Size = new Size(816, 569);
+            adminPanel.Size = new Size(714, 427);
             adminPanel.TabIndex = 2;
             // 
             // adminTabCrtl
             // 
             adminTabCrtl.Controls.Add(viewTabPage);
             adminTabCrtl.Controls.Add(AddNewTabPage);
-            adminTabCrtl.Location = new Point(12, 12);
+            adminTabCrtl.Location = new Point(10, 9);
+            adminTabCrtl.Margin = new Padding(3, 2, 3, 2);
             adminTabCrtl.Name = "adminTabCrtl";
             adminTabCrtl.SelectedIndex = 0;
-            adminTabCrtl.Size = new Size(790, 544);
+            adminTabCrtl.Size = new Size(691, 408);
             adminTabCrtl.TabIndex = 0;
             // 
             // viewTabPage
@@ -416,10 +429,11 @@
             viewTabPage.Controls.Add(adminLogoutLbl1);
             viewTabPage.Controls.Add(employeeDataGrid);
             viewTabPage.Controls.Add(newEmpLink);
-            viewTabPage.Location = new Point(4, 29);
+            viewTabPage.Location = new Point(4, 24);
+            viewTabPage.Margin = new Padding(3, 2, 3, 2);
             viewTabPage.Name = "viewTabPage";
-            viewTabPage.Padding = new Padding(3);
-            viewTabPage.Size = new Size(782, 511);
+            viewTabPage.Padding = new Padding(3, 2, 3, 2);
+            viewTabPage.Size = new Size(683, 380);
             viewTabPage.TabIndex = 0;
             viewTabPage.Text = "View Employees";
             viewTabPage.UseVisualStyleBackColor = true;
@@ -428,9 +442,10 @@
             // 
             refreshBtn.FlatStyle = FlatStyle.Flat;
             refreshBtn.Font = new Font("Segoe UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            refreshBtn.Location = new Point(491, 15);
+            refreshBtn.Location = new Point(430, 11);
+            refreshBtn.Margin = new Padding(3, 2, 3, 2);
             refreshBtn.Name = "refreshBtn";
-            refreshBtn.Size = new Size(41, 40);
+            refreshBtn.Size = new Size(36, 30);
             refreshBtn.TabIndex = 47;
             refreshBtn.Text = "↻";
             refreshBtn.UseVisualStyleBackColor = true;
@@ -439,9 +454,9 @@
             // adminLogoutLbl1
             // 
             adminLogoutLbl1.AutoSize = true;
-            adminLogoutLbl1.Location = new Point(719, 3);
+            adminLogoutLbl1.Location = new Point(629, 2);
             adminLogoutLbl1.Name = "adminLogoutLbl1";
-            adminLogoutLbl1.Size = new Size(56, 20);
+            adminLogoutLbl1.Size = new Size(45, 15);
             adminLogoutLbl1.TabIndex = 46;
             adminLogoutLbl1.TabStop = true;
             adminLogoutLbl1.Text = "Logout";
@@ -456,769 +471,14 @@
             employeeDataGrid.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             employeeDataGrid.Columns.AddRange(new DataGridViewColumn[] { uID, usrNameClm, accStatusClm, cngStBtn });
             employeeDataGrid.EditMode = DataGridViewEditMode.EditProgrammatically;
-            employeeDataGrid.Location = new Point(19, 61);
+            employeeDataGrid.Location = new Point(17, 46);
+            employeeDataGrid.Margin = new Padding(3, 2, 3, 2);
             employeeDataGrid.Name = "employeeDataGrid";
             employeeDataGrid.RowHeadersWidth = 51;
-            employeeDataGrid.Size = new Size(513, 429);
+            employeeDataGrid.Size = new Size(449, 322);
             employeeDataGrid.StandardTab = true;
             employeeDataGrid.TabIndex = 3;
             employeeDataGrid.CellContentClick += employeeDataGrid_CellContentClick;
-            // 
-            // newEmpLink
-            // 
-            newEmpLink.AutoSize = true;
-            newEmpLink.Location = new Point(19, 23);
-            newEmpLink.Name = "newEmpLink";
-            newEmpLink.Size = new Size(141, 20);
-            newEmpLink.TabIndex = 2;
-            newEmpLink.TabStop = true;
-            newEmpLink.Text = "Add New Employee";
-            newEmpLink.LinkClicked += newEmpLink_LinkClicked;
-            // 
-            // AddNewTabPage
-            // 
-            AddNewTabPage.Controls.Add(adminLogoutLbl2);
-            AddNewTabPage.Controls.Add(clearBtn);
-            AddNewTabPage.Controls.Add(saveBtn);
-            AddNewTabPage.Controls.Add(empImgPanel);
-            AddNewTabPage.Controls.Add(regPanel);
-            AddNewTabPage.Location = new Point(4, 29);
-            AddNewTabPage.Name = "AddNewTabPage";
-            AddNewTabPage.Padding = new Padding(3);
-            AddNewTabPage.Size = new Size(782, 511);
-            AddNewTabPage.TabIndex = 1;
-            AddNewTabPage.Text = "Add New Employee";
-            AddNewTabPage.UseVisualStyleBackColor = true;
-            // 
-            // adminLogoutLbl2
-            // 
-            adminLogoutLbl2.AutoSize = true;
-            adminLogoutLbl2.Location = new Point(719, 3);
-            adminLogoutLbl2.Name = "adminLogoutLbl2";
-            adminLogoutLbl2.Size = new Size(56, 20);
-            adminLogoutLbl2.TabIndex = 47;
-            adminLogoutLbl2.TabStop = true;
-            adminLogoutLbl2.Text = "Logout";
-            adminLogoutLbl2.LinkClicked += adminLogoutLbl2_LinkClicked;
-            // 
-            // clearBtn
-            // 
-            clearBtn.Location = new Point(253, 474);
-            clearBtn.Name = "clearBtn";
-            clearBtn.Size = new Size(94, 29);
-            clearBtn.TabIndex = 19;
-            clearBtn.Text = "Clear";
-            clearBtn.UseVisualStyleBackColor = true;
-            // 
-            // saveBtn
-            // 
-            saveBtn.Location = new Point(153, 474);
-            saveBtn.Name = "saveBtn";
-            saveBtn.Size = new Size(94, 29);
-            saveBtn.TabIndex = 18;
-            saveBtn.Text = "Save";
-            saveBtn.UseVisualStyleBackColor = true;
-            saveBtn.Click += saveBtn_Click;
-            // 
-            // empImgPanel
-            // 
-            empImgPanel.BorderStyle = BorderStyle.FixedSingle;
-            empImgPanel.Location = new Point(496, 31);
-            empImgPanel.Margin = new Padding(4);
-            empImgPanel.Name = "empImgPanel";
-            empImgPanel.Size = new Size(281, 249);
-            empImgPanel.TabIndex = 17;
-            // 
-            // regPanel
-            // 
-            regPanel.BorderStyle = BorderStyle.FixedSingle;
-            regPanel.Controls.Add(contrRdBtn);
-            regPanel.Controls.Add(partimeRdBtn);
-            regPanel.Controls.Add(fullTimeRadBtn);
-            regPanel.Controls.Add(positionSelect);
-            regPanel.Controls.Add(genderSelect);
-            regPanel.Controls.Add(ageTxtBx);
-            regPanel.Controls.Add(dobSelector);
-            regPanel.Controls.Add(taxTxtBx);
-            regPanel.Controls.Add(salaryTxtBx);
-            regPanel.Controls.Add(lastNameTxtBx);
-            regPanel.Controls.Add(fNameTxtBx);
-            regPanel.Controls.Add(empIdTxtBx);
-            regPanel.Controls.Add(taxLbl);
-            regPanel.Controls.Add(salaryLbl);
-            regPanel.Controls.Add(catagoryLbl);
-            regPanel.Controls.Add(positionLbl);
-            regPanel.Controls.Add(genderLbl);
-            regPanel.Controls.Add(empIdLbl);
-            regPanel.Controls.Add(ageLbl);
-            regPanel.Controls.Add(lastNameLbl);
-            regPanel.Controls.Add(firstNameLbl);
-            regPanel.Location = new Point(10, 19);
-            regPanel.Margin = new Padding(4);
-            regPanel.Name = "regPanel";
-            regPanel.Size = new Size(479, 448);
-            regPanel.TabIndex = 16;
-            // 
-            // contrRdBtn
-            // 
-            contrRdBtn.AutoSize = true;
-            contrRdBtn.Location = new Point(344, 263);
-            contrRdBtn.Name = "contrRdBtn";
-            contrRdBtn.Size = new Size(86, 24);
-            contrRdBtn.TabIndex = 30;
-            contrRdBtn.TabStop = true;
-            contrRdBtn.Text = "Contract";
-            contrRdBtn.UseVisualStyleBackColor = true;
-            // 
-            // partimeRdBtn
-            // 
-            partimeRdBtn.AutoSize = true;
-            partimeRdBtn.Location = new Point(242, 263);
-            partimeRdBtn.Name = "partimeRdBtn";
-            partimeRdBtn.Size = new Size(80, 24);
-            partimeRdBtn.TabIndex = 29;
-            partimeRdBtn.TabStop = true;
-            partimeRdBtn.Text = "Partime";
-            partimeRdBtn.UseVisualStyleBackColor = true;
-            // 
-            // fullTimeRadBtn
-            // 
-            fullTimeRadBtn.AutoSize = true;
-            fullTimeRadBtn.Location = new Point(144, 263);
-            fullTimeRadBtn.Name = "fullTimeRadBtn";
-            fullTimeRadBtn.Size = new Size(87, 24);
-            fullTimeRadBtn.TabIndex = 28;
-            fullTimeRadBtn.TabStop = true;
-            fullTimeRadBtn.Text = "Full time";
-            fullTimeRadBtn.UseVisualStyleBackColor = true;
-            // 
-            // positionSelect
-            // 
-            positionSelect.DropDownStyle = ComboBoxStyle.DropDownList;
-            positionSelect.FormattingEnabled = true;
-            positionSelect.Items.AddRange(new object[] { "Developer", "Project Manager", "Support Staff" });
-            positionSelect.Location = new Point(146, 224);
-            positionSelect.Margin = new Padding(4);
-            positionSelect.Name = "positionSelect";
-            positionSelect.Size = new Size(170, 28);
-            positionSelect.TabIndex = 27;
-            // 
-            // genderSelect
-            // 
-            genderSelect.DropDownStyle = ComboBoxStyle.DropDownList;
-            genderSelect.FormattingEnabled = true;
-            genderSelect.Items.AddRange(new object[] { "Male", "Female", "Other" });
-            genderSelect.Location = new Point(146, 179);
-            genderSelect.Margin = new Padding(4);
-            genderSelect.Name = "genderSelect";
-            genderSelect.Size = new Size(170, 28);
-            genderSelect.TabIndex = 26;
-            // 
-            // ageTxtBx
-            // 
-            ageTxtBx.BorderStyle = BorderStyle.FixedSingle;
-            ageTxtBx.Enabled = false;
-            ageTxtBx.Location = new Point(146, 138);
-            ageTxtBx.Margin = new Padding(4);
-            ageTxtBx.Name = "ageTxtBx";
-            ageTxtBx.Size = new Size(66, 27);
-            ageTxtBx.TabIndex = 25;
-            // 
-            // dobSelector
-            // 
-            dobSelector.Format = DateTimePickerFormat.Short;
-            dobSelector.Location = new Point(220, 138);
-            dobSelector.Margin = new Padding(4);
-            dobSelector.Name = "dobSelector";
-            dobSelector.Size = new Size(158, 27);
-            dobSelector.TabIndex = 24;
-            dobSelector.ValueChanged += dobSelector_ValueChanged;
-            // 
-            // taxTxtBx
-            // 
-            taxTxtBx.BorderStyle = BorderStyle.FixedSingle;
-            taxTxtBx.Enabled = false;
-            taxTxtBx.Location = new Point(146, 388);
-            taxTxtBx.Margin = new Padding(4);
-            taxTxtBx.Name = "taxTxtBx";
-            taxTxtBx.Size = new Size(216, 27);
-            taxTxtBx.TabIndex = 22;
-            // 
-            // salaryTxtBx
-            // 
-            salaryTxtBx.BorderStyle = BorderStyle.FixedSingle;
-            salaryTxtBx.Enabled = false;
-            salaryTxtBx.Location = new Point(146, 348);
-            salaryTxtBx.Margin = new Padding(4);
-            salaryTxtBx.Name = "salaryTxtBx";
-            salaryTxtBx.Size = new Size(216, 27);
-            salaryTxtBx.TabIndex = 21;
-            // 
-            // lastNameTxtBx
-            // 
-            lastNameTxtBx.BorderStyle = BorderStyle.FixedSingle;
-            lastNameTxtBx.Location = new Point(146, 94);
-            lastNameTxtBx.Margin = new Padding(4);
-            lastNameTxtBx.Name = "lastNameTxtBx";
-            lastNameTxtBx.Size = new Size(287, 27);
-            lastNameTxtBx.TabIndex = 20;
-            // 
-            // fNameTxtBx
-            // 
-            fNameTxtBx.BorderStyle = BorderStyle.FixedSingle;
-            fNameTxtBx.Location = new Point(146, 57);
-            fNameTxtBx.Margin = new Padding(4);
-            fNameTxtBx.Name = "fNameTxtBx";
-            fNameTxtBx.Size = new Size(287, 27);
-            fNameTxtBx.TabIndex = 19;
-            // 
-            // empIdTxtBx
-            // 
-            empIdTxtBx.BorderStyle = BorderStyle.FixedSingle;
-            empIdTxtBx.Location = new Point(146, 19);
-            empIdTxtBx.Margin = new Padding(4);
-            empIdTxtBx.Name = "empIdTxtBx";
-            empIdTxtBx.Size = new Size(287, 27);
-            empIdTxtBx.TabIndex = 18;
-            empIdTxtBx.Tag = "";
-            // 
-            // taxLbl
-            // 
-            taxLbl.AutoSize = true;
-            taxLbl.Location = new Point(18, 388);
-            taxLbl.Margin = new Padding(4, 0, 4, 0);
-            taxLbl.Name = "taxLbl";
-            taxLbl.Size = new Size(30, 20);
-            taxLbl.TabIndex = 17;
-            taxLbl.Text = "Tax";
-            // 
-            // salaryLbl
-            // 
-            salaryLbl.AutoSize = true;
-            salaryLbl.Location = new Point(14, 351);
-            salaryLbl.Margin = new Padding(4, 0, 4, 0);
-            salaryLbl.Name = "salaryLbl";
-            salaryLbl.Size = new Size(77, 20);
-            salaryLbl.TabIndex = 16;
-            salaryLbl.Text = "Net Salary";
-            // 
-            // catagoryLbl
-            // 
-            catagoryLbl.AutoSize = true;
-            catagoryLbl.Location = new Point(14, 263);
-            catagoryLbl.Margin = new Padding(4, 0, 4, 0);
-            catagoryLbl.Name = "catagoryLbl";
-            catagoryLbl.Size = new Size(69, 20);
-            catagoryLbl.TabIndex = 15;
-            catagoryLbl.Text = "Catagory";
-            // 
-            // positionLbl
-            // 
-            positionLbl.AutoSize = true;
-            positionLbl.Location = new Point(14, 224);
-            positionLbl.Margin = new Padding(4, 0, 4, 0);
-            positionLbl.Name = "positionLbl";
-            positionLbl.Size = new Size(61, 20);
-            positionLbl.TabIndex = 14;
-            positionLbl.Text = "Position";
-            // 
-            // genderLbl
-            // 
-            genderLbl.AutoSize = true;
-            genderLbl.Location = new Point(14, 179);
-            genderLbl.Margin = new Padding(4, 0, 4, 0);
-            genderLbl.Name = "genderLbl";
-            genderLbl.Size = new Size(57, 20);
-            genderLbl.TabIndex = 13;
-            genderLbl.Text = "Gender";
-            // 
-            // empIdLbl
-            // 
-            empIdLbl.AutoSize = true;
-            empIdLbl.Location = new Point(14, 18);
-            empIdLbl.Margin = new Padding(4, 0, 4, 0);
-            empIdLbl.Name = "empIdLbl";
-            empIdLbl.Size = new Size(94, 20);
-            empIdLbl.TabIndex = 12;
-            empIdLbl.Text = "Employee ID";
-            // 
-            // ageLbl
-            // 
-            ageLbl.AutoSize = true;
-            ageLbl.Location = new Point(14, 139);
-            ageLbl.Margin = new Padding(4, 0, 4, 0);
-            ageLbl.Name = "ageLbl";
-            ageLbl.Size = new Size(36, 20);
-            ageLbl.TabIndex = 11;
-            ageLbl.Text = "Age";
-            // 
-            // lastNameLbl
-            // 
-            lastNameLbl.AutoSize = true;
-            lastNameLbl.Location = new Point(14, 98);
-            lastNameLbl.Margin = new Padding(4, 0, 4, 0);
-            lastNameLbl.Name = "lastNameLbl";
-            lastNameLbl.Size = new Size(79, 20);
-            lastNameLbl.TabIndex = 10;
-            lastNameLbl.Text = "Last Name";
-            // 
-            // firstNameLbl
-            // 
-            firstNameLbl.AutoSize = true;
-            firstNameLbl.Location = new Point(14, 55);
-            firstNameLbl.Margin = new Padding(4, 0, 4, 0);
-            firstNameLbl.Name = "firstNameLbl";
-            firstNameLbl.Size = new Size(80, 20);
-            firstNameLbl.TabIndex = 9;
-            firstNameLbl.Text = "First Name";
-            // 
-            // devPanel
-            // 
-            devPanel.Controls.Add(employeeTabs);
-            devPanel.Location = new Point(0, 0);
-            devPanel.Name = "devPanel";
-            devPanel.Size = new Size(816, 569);
-            devPanel.TabIndex = 3;
-            // 
-            // employeeTabs
-            // 
-            employeeTabs.Controls.Add(employeeProfileTab);
-            employeeTabs.Controls.Add(employeeTaskTab);
-            employeeTabs.Location = new Point(15, 7);
-            employeeTabs.Name = "employeeTabs";
-            employeeTabs.SelectedIndex = 0;
-            employeeTabs.Size = new Size(786, 555);
-            employeeTabs.TabIndex = 1;
-            // 
-            // employeeProfileTab
-            // 
-            employeeProfileTab.Controls.Add(pwdChangePanel);
-            employeeProfileTab.Controls.Add(cngPwdLkLbl);
-            employeeProfileTab.Controls.Add(devLogoutLbl1);
-            employeeProfileTab.Controls.Add(catagProfTxtBx);
-            employeeProfileTab.Controls.Add(positionProfTxtBx);
-            employeeProfileTab.Controls.Add(genderProfTxtBx);
-            employeeProfileTab.Controls.Add(ageProfTxtBx);
-            employeeProfileTab.Controls.Add(taxProfTxtBx);
-            employeeProfileTab.Controls.Add(salaryProfTxtBx);
-            employeeProfileTab.Controls.Add(lNameProfTxtBx);
-            employeeProfileTab.Controls.Add(fNameProfTxtBx);
-            employeeProfileTab.Controls.Add(empIDProfTxtBx);
-            employeeProfileTab.Controls.Add(imgProPanel);
-            employeeProfileTab.Controls.Add(taxProfLbl);
-            employeeProfileTab.Controls.Add(salaryProfLbl);
-            employeeProfileTab.Controls.Add(catgProfLbl);
-            employeeProfileTab.Controls.Add(posProfLbl);
-            employeeProfileTab.Controls.Add(genderProfLbl);
-            employeeProfileTab.Controls.Add(empIdProfLbl);
-            employeeProfileTab.Controls.Add(ageProfLbl);
-            employeeProfileTab.Controls.Add(lNameProfLbl);
-            employeeProfileTab.Controls.Add(fNameProfLbl);
-            employeeProfileTab.Location = new Point(4, 29);
-            employeeProfileTab.Name = "employeeProfileTab";
-            employeeProfileTab.Padding = new Padding(3);
-            employeeProfileTab.Size = new Size(778, 522);
-            employeeProfileTab.TabIndex = 0;
-            employeeProfileTab.Text = "Profile";
-            employeeProfileTab.UseVisualStyleBackColor = true;
-            // 
-            // pwdChangePanel
-            // 
-            pwdChangePanel.BorderStyle = BorderStyle.FixedSingle;
-            pwdChangePanel.Controls.Add(cngPwdBtn);
-            pwdChangePanel.Controls.Add(oldPwdTxtBx);
-            pwdChangePanel.Controls.Add(nwPwdTxtBx);
-            pwdChangePanel.Controls.Add(reNwPwdTxtBx);
-            pwdChangePanel.Controls.Add(reNwPwdLbl);
-            pwdChangePanel.Controls.Add(clsPwdCngLbl);
-            pwdChangePanel.Controls.Add(pwdCngLbl);
-            pwdChangePanel.Controls.Add(nwPwdLbl);
-            pwdChangePanel.Controls.Add(oldPwdLbl);
-            pwdChangePanel.Location = new Point(129, 66);
-            pwdChangePanel.Margin = new Padding(4, 5, 4, 5);
-            pwdChangePanel.Name = "pwdChangePanel";
-            pwdChangePanel.Size = new Size(536, 367);
-            pwdChangePanel.TabIndex = 42;
-            pwdChangePanel.Visible = false;
-            // 
-            // cngPwdBtn
-            // 
-            cngPwdBtn.Location = new Point(198, 217);
-            cngPwdBtn.Name = "cngPwdBtn";
-            cngPwdBtn.Size = new Size(176, 29);
-            cngPwdBtn.TabIndex = 8;
-            cngPwdBtn.Text = "Change Password";
-            cngPwdBtn.UseVisualStyleBackColor = true;
-            cngPwdBtn.Click += cngPwdBtn_Click;
-            // 
-            // oldPwdTxtBx
-            // 
-            oldPwdTxtBx.Location = new Point(213, 69);
-            oldPwdTxtBx.Name = "oldPwdTxtBx";
-            oldPwdTxtBx.PasswordChar = '•';
-            oldPwdTxtBx.Size = new Size(283, 27);
-            oldPwdTxtBx.TabIndex = 7;
-            // 
-            // nwPwdTxtBx
-            // 
-            nwPwdTxtBx.Location = new Point(213, 116);
-            nwPwdTxtBx.Name = "nwPwdTxtBx";
-            nwPwdTxtBx.PasswordChar = '•';
-            nwPwdTxtBx.Size = new Size(283, 27);
-            nwPwdTxtBx.TabIndex = 6;
-            // 
-            // reNwPwdTxtBx
-            // 
-            reNwPwdTxtBx.Location = new Point(213, 157);
-            reNwPwdTxtBx.Name = "reNwPwdTxtBx";
-            reNwPwdTxtBx.PasswordChar = '•';
-            reNwPwdTxtBx.Size = new Size(283, 27);
-            reNwPwdTxtBx.TabIndex = 5;
-            // 
-            // reNwPwdLbl
-            // 
-            reNwPwdLbl.AutoSize = true;
-            reNwPwdLbl.Location = new Point(35, 162);
-            reNwPwdLbl.Name = "reNwPwdLbl";
-            reNwPwdLbl.Size = new Size(159, 20);
-            reNwPwdLbl.TabIndex = 4;
-            reNwPwdLbl.Text = "Reenter New Password";
-            // 
-            // clsPwdCngLbl
-            // 
-            clsPwdCngLbl.AutoSize = true;
-            clsPwdCngLbl.Font = new Font("Segoe UI", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            clsPwdCngLbl.LinkColor = Color.Red;
-            clsPwdCngLbl.Location = new Point(493, 8);
-            clsPwdCngLbl.Name = "clsPwdCngLbl";
-            clsPwdCngLbl.Size = new Size(29, 31);
-            clsPwdCngLbl.TabIndex = 3;
-            clsPwdCngLbl.TabStop = true;
-            clsPwdCngLbl.Text = "X";
-            clsPwdCngLbl.LinkClicked += clsPwdCngLbl_LinkClicked;
-            // 
-            // pwdCngLbl
-            // 
-            pwdCngLbl.AutoSize = true;
-            pwdCngLbl.Font = new Font("Segoe UI Semibold", 10.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            pwdCngLbl.Location = new Point(181, 18);
-            pwdCngLbl.Name = "pwdCngLbl";
-            pwdCngLbl.Size = new Size(157, 25);
-            pwdCngLbl.TabIndex = 2;
-            pwdCngLbl.Text = "Change Password";
-            // 
-            // nwPwdLbl
-            // 
-            nwPwdLbl.AutoSize = true;
-            nwPwdLbl.Location = new Point(35, 119);
-            nwPwdLbl.Name = "nwPwdLbl";
-            nwPwdLbl.Size = new Size(104, 20);
-            nwPwdLbl.TabIndex = 1;
-            nwPwdLbl.Text = "New Password";
-            // 
-            // oldPwdLbl
-            // 
-            oldPwdLbl.AutoSize = true;
-            oldPwdLbl.Location = new Point(35, 76);
-            oldPwdLbl.Name = "oldPwdLbl";
-            oldPwdLbl.Size = new Size(98, 20);
-            oldPwdLbl.TabIndex = 0;
-            oldPwdLbl.Text = "Old Password";
-            // 
-            // cngPwdLkLbl
-            // 
-            cngPwdLkLbl.AutoSize = true;
-            cngPwdLkLbl.Location = new Point(624, 275);
-            cngPwdLkLbl.Name = "cngPwdLkLbl";
-            cngPwdLkLbl.Size = new Size(124, 20);
-            cngPwdLkLbl.TabIndex = 46;
-            cngPwdLkLbl.TabStop = true;
-            cngPwdLkLbl.Text = "Change Password";
-            cngPwdLkLbl.LinkClicked += cngPwdLkLbl_LinkClicked;
-            // 
-            // devLogoutLbl1
-            // 
-            devLogoutLbl1.AutoSize = true;
-            devLogoutLbl1.Location = new Point(716, 5);
-            devLogoutLbl1.Name = "devLogoutLbl1";
-            devLogoutLbl1.Size = new Size(56, 20);
-            devLogoutLbl1.TabIndex = 45;
-            devLogoutLbl1.TabStop = true;
-            devLogoutLbl1.Text = "Logout";
-            devLogoutLbl1.LinkClicked += devLogoutLbl1_LinkClicked;
-            // 
-            // catagProfTxtBx
-            // 
-            catagProfTxtBx.BackColor = SystemColors.Control;
-            catagProfTxtBx.BorderStyle = BorderStyle.None;
-            catagProfTxtBx.Enabled = false;
-            catagProfTxtBx.Font = new Font("Segoe UI", 10.8F, FontStyle.Bold);
-            catagProfTxtBx.Location = new Point(172, 328);
-            catagProfTxtBx.Margin = new Padding(4, 5, 4, 5);
-            catagProfTxtBx.Name = "catagProfTxtBx";
-            catagProfTxtBx.Size = new Size(158, 24);
-            catagProfTxtBx.TabIndex = 44;
-            // 
-            // positionProfTxtBx
-            // 
-            positionProfTxtBx.BackColor = SystemColors.Control;
-            positionProfTxtBx.BorderStyle = BorderStyle.None;
-            positionProfTxtBx.Enabled = false;
-            positionProfTxtBx.Font = new Font("Segoe UI", 10.8F, FontStyle.Bold);
-            positionProfTxtBx.Location = new Point(172, 283);
-            positionProfTxtBx.Margin = new Padding(4, 5, 4, 5);
-            positionProfTxtBx.Name = "positionProfTxtBx";
-            positionProfTxtBx.Size = new Size(158, 24);
-            positionProfTxtBx.TabIndex = 43;
-            // 
-            // genderProfTxtBx
-            // 
-            genderProfTxtBx.BackColor = SystemColors.Control;
-            genderProfTxtBx.BorderStyle = BorderStyle.None;
-            genderProfTxtBx.Enabled = false;
-            genderProfTxtBx.Font = new Font("Segoe UI", 10.8F, FontStyle.Bold);
-            genderProfTxtBx.Location = new Point(172, 231);
-            genderProfTxtBx.Margin = new Padding(4, 5, 4, 5);
-            genderProfTxtBx.Name = "genderProfTxtBx";
-            genderProfTxtBx.Size = new Size(74, 24);
-            genderProfTxtBx.TabIndex = 42;
-            // 
-            // ageProfTxtBx
-            // 
-            ageProfTxtBx.BackColor = SystemColors.Control;
-            ageProfTxtBx.BorderStyle = BorderStyle.None;
-            ageProfTxtBx.Enabled = false;
-            ageProfTxtBx.Font = new Font("Segoe UI", 10.8F, FontStyle.Bold);
-            ageProfTxtBx.Location = new Point(172, 184);
-            ageProfTxtBx.Margin = new Padding(4, 5, 4, 5);
-            ageProfTxtBx.Name = "ageProfTxtBx";
-            ageProfTxtBx.Size = new Size(74, 24);
-            ageProfTxtBx.TabIndex = 40;
-            // 
-            // taxProfTxtBx
-            // 
-            taxProfTxtBx.BackColor = SystemColors.Control;
-            taxProfTxtBx.BorderStyle = BorderStyle.None;
-            taxProfTxtBx.Enabled = false;
-            taxProfTxtBx.Font = new Font("Segoe UI", 10.8F, FontStyle.Bold);
-            taxProfTxtBx.Location = new Point(172, 472);
-            taxProfTxtBx.Margin = new Padding(4, 5, 4, 5);
-            taxProfTxtBx.Name = "taxProfTxtBx";
-            taxProfTxtBx.Size = new Size(243, 24);
-            taxProfTxtBx.TabIndex = 39;
-            // 
-            // salaryProfTxtBx
-            // 
-            salaryProfTxtBx.BackColor = SystemColors.Control;
-            salaryProfTxtBx.BorderStyle = BorderStyle.None;
-            salaryProfTxtBx.Enabled = false;
-            salaryProfTxtBx.Font = new Font("Segoe UI", 10.8F, FontStyle.Bold);
-            salaryProfTxtBx.Location = new Point(172, 426);
-            salaryProfTxtBx.Margin = new Padding(4, 5, 4, 5);
-            salaryProfTxtBx.Name = "salaryProfTxtBx";
-            salaryProfTxtBx.Size = new Size(243, 24);
-            salaryProfTxtBx.TabIndex = 38;
-            // 
-            // lNameProfTxtBx
-            // 
-            lNameProfTxtBx.BackColor = SystemColors.Control;
-            lNameProfTxtBx.BorderStyle = BorderStyle.None;
-            lNameProfTxtBx.Enabled = false;
-            lNameProfTxtBx.Font = new Font("Segoe UI", 10.8F, FontStyle.Bold);
-            lNameProfTxtBx.Location = new Point(172, 133);
-            lNameProfTxtBx.Margin = new Padding(4, 5, 4, 5);
-            lNameProfTxtBx.Name = "lNameProfTxtBx";
-            lNameProfTxtBx.Size = new Size(323, 24);
-            lNameProfTxtBx.TabIndex = 37;
-            // 
-            // fNameProfTxtBx
-            // 
-            fNameProfTxtBx.BackColor = SystemColors.Control;
-            fNameProfTxtBx.BorderStyle = BorderStyle.None;
-            fNameProfTxtBx.Enabled = false;
-            fNameProfTxtBx.Font = new Font("Segoe UI", 10.8F, FontStyle.Bold);
-            fNameProfTxtBx.Location = new Point(172, 91);
-            fNameProfTxtBx.Margin = new Padding(4, 5, 4, 5);
-            fNameProfTxtBx.Name = "fNameProfTxtBx";
-            fNameProfTxtBx.Size = new Size(323, 24);
-            fNameProfTxtBx.TabIndex = 36;
-            // 
-            // empIDProfTxtBx
-            // 
-            empIDProfTxtBx.BackColor = SystemColors.Control;
-            empIDProfTxtBx.BorderStyle = BorderStyle.None;
-            empIDProfTxtBx.Enabled = false;
-            empIDProfTxtBx.Font = new Font("Segoe UI", 10.8F, FontStyle.Bold);
-            empIDProfTxtBx.Location = new Point(172, 47);
-            empIDProfTxtBx.Margin = new Padding(4, 5, 4, 5);
-            empIDProfTxtBx.Name = "empIDProfTxtBx";
-            empIDProfTxtBx.Size = new Size(323, 24);
-            empIDProfTxtBx.TabIndex = 35;
-            empIDProfTxtBx.Tag = "";
-            // 
-            // imgProPanel
-            // 
-            imgProPanel.BorderStyle = BorderStyle.FixedSingle;
-            imgProPanel.Location = new Point(504, 46);
-            imgProPanel.Margin = new Padding(4, 5, 4, 5);
-            imgProPanel.Name = "imgProPanel";
-            imgProPanel.Size = new Size(244, 224);
-            imgProPanel.TabIndex = 41;
-            // 
-            // taxProfLbl
-            // 
-            taxProfLbl.AutoSize = true;
-            taxProfLbl.Location = new Point(31, 475);
-            taxProfLbl.Margin = new Padding(4, 0, 4, 0);
-            taxProfLbl.Name = "taxProfLbl";
-            taxProfLbl.Size = new Size(30, 20);
-            taxProfLbl.TabIndex = 34;
-            taxProfLbl.Text = "Tax";
-            // 
-            // salaryProfLbl
-            // 
-            salaryProfLbl.AutoSize = true;
-            salaryProfLbl.Location = new Point(27, 432);
-            salaryProfLbl.Margin = new Padding(4, 0, 4, 0);
-            salaryProfLbl.Name = "salaryProfLbl";
-            salaryProfLbl.Size = new Size(77, 20);
-            salaryProfLbl.TabIndex = 33;
-            salaryProfLbl.Text = "Net Salary";
-            // 
-            // catgProfLbl
-            // 
-            catgProfLbl.AutoSize = true;
-            catgProfLbl.Location = new Point(27, 331);
-            catgProfLbl.Margin = new Padding(4, 0, 4, 0);
-            catgProfLbl.Name = "catgProfLbl";
-            catgProfLbl.Size = new Size(69, 20);
-            catgProfLbl.TabIndex = 32;
-            catgProfLbl.Text = "Catagory";
-            // 
-            // posProfLbl
-            // 
-            posProfLbl.AutoSize = true;
-            posProfLbl.Location = new Point(27, 286);
-            posProfLbl.Margin = new Padding(4, 0, 4, 0);
-            posProfLbl.Name = "posProfLbl";
-            posProfLbl.Size = new Size(61, 20);
-            posProfLbl.TabIndex = 31;
-            posProfLbl.Text = "Position";
-            // 
-            // genderProfLbl
-            // 
-            genderProfLbl.AutoSize = true;
-            genderProfLbl.Location = new Point(27, 234);
-            genderProfLbl.Margin = new Padding(4, 0, 4, 0);
-            genderProfLbl.Name = "genderProfLbl";
-            genderProfLbl.Size = new Size(57, 20);
-            genderProfLbl.TabIndex = 30;
-            genderProfLbl.Text = "Gender";
-            // 
-            // empIdProfLbl
-            // 
-            empIdProfLbl.AutoSize = true;
-            empIdProfLbl.Location = new Point(27, 49);
-            empIdProfLbl.Margin = new Padding(4, 0, 4, 0);
-            empIdProfLbl.Name = "empIdProfLbl";
-            empIdProfLbl.Size = new Size(94, 20);
-            empIdProfLbl.TabIndex = 29;
-            empIdProfLbl.Text = "Employee ID";
-            // 
-            // ageProfLbl
-            // 
-            ageProfLbl.AutoSize = true;
-            ageProfLbl.Location = new Point(27, 188);
-            ageProfLbl.Margin = new Padding(4, 0, 4, 0);
-            ageProfLbl.Name = "ageProfLbl";
-            ageProfLbl.Size = new Size(36, 20);
-            ageProfLbl.TabIndex = 28;
-            ageProfLbl.Text = "Age";
-            // 
-            // lNameProfLbl
-            // 
-            lNameProfLbl.AutoSize = true;
-            lNameProfLbl.Location = new Point(27, 141);
-            lNameProfLbl.Margin = new Padding(4, 0, 4, 0);
-            lNameProfLbl.Name = "lNameProfLbl";
-            lNameProfLbl.Size = new Size(79, 20);
-            lNameProfLbl.TabIndex = 27;
-            lNameProfLbl.Text = "Last Name";
-            // 
-            // fNameProfLbl
-            // 
-            fNameProfLbl.AutoSize = true;
-            fNameProfLbl.Location = new Point(27, 92);
-            fNameProfLbl.Margin = new Padding(4, 0, 4, 0);
-            fNameProfLbl.Name = "fNameProfLbl";
-            fNameProfLbl.Size = new Size(80, 20);
-            fNameProfLbl.TabIndex = 26;
-            fNameProfLbl.Text = "First Name";
-            // 
-            // employeeTaskTab
-            // 
-            employeeTaskTab.Controls.Add(devLogoutLbl2);
-            employeeTaskTab.Controls.Add(emptaskListBox);
-            employeeTaskTab.Controls.Add(submitTaskBtn);
-            employeeTaskTab.Controls.Add(doTaskRcTxtBx);
-            employeeTaskTab.Controls.Add(empTaskLbl);
-            employeeTaskTab.Location = new Point(4, 29);
-            employeeTaskTab.Name = "employeeTaskTab";
-            employeeTaskTab.Padding = new Padding(3);
-            employeeTaskTab.Size = new Size(778, 522);
-            employeeTaskTab.TabIndex = 1;
-            employeeTaskTab.Text = "Tasks";
-            employeeTaskTab.UseVisualStyleBackColor = true;
-            // 
-            // devLogoutLbl2
-            // 
-            devLogoutLbl2.AutoSize = true;
-            devLogoutLbl2.Location = new Point(716, 5);
-            devLogoutLbl2.Name = "devLogoutLbl2";
-            devLogoutLbl2.Size = new Size(56, 20);
-            devLogoutLbl2.TabIndex = 46;
-            devLogoutLbl2.TabStop = true;
-            devLogoutLbl2.Text = "Logout";
-            devLogoutLbl2.LinkClicked += devLogoutLbl2_LinkClicked;
-            // 
-            // emptaskListBox
-            // 
-            emptaskListBox.BorderStyle = BorderStyle.FixedSingle;
-            emptaskListBox.FormattingEnabled = true;
-            emptaskListBox.Location = new Point(17, 51);
-            emptaskListBox.Name = "emptaskListBox";
-            emptaskListBox.Size = new Size(279, 162);
-            emptaskListBox.TabIndex = 5;
-            // 
-            // submitTaskBtn
-            // 
-            submitTaskBtn.Location = new Point(327, 467);
-            submitTaskBtn.Name = "submitTaskBtn";
-            submitTaskBtn.Size = new Size(94, 29);
-            submitTaskBtn.TabIndex = 3;
-            submitTaskBtn.Text = "Submit";
-            submitTaskBtn.UseVisualStyleBackColor = true;
-            submitTaskBtn.Click += submitTaskBtn_Click;
-            // 
-            // doTaskRcTxtBx
-            // 
-            doTaskRcTxtBx.BorderStyle = BorderStyle.FixedSingle;
-            doTaskRcTxtBx.Location = new Point(17, 220);
-            doTaskRcTxtBx.Name = "doTaskRcTxtBx";
-            doTaskRcTxtBx.Size = new Size(741, 241);
-            doTaskRcTxtBx.TabIndex = 2;
-            doTaskRcTxtBx.Text = "";
-            doTaskRcTxtBx.TextChanged += doTaskRcTxtBx_TextChanged;
-            // 
-            // empTaskLbl
-            // 
-            empTaskLbl.AutoSize = true;
-            empTaskLbl.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            empTaskLbl.Location = new Point(20, 23);
-            empTaskLbl.Name = "empTaskLbl";
-            empTaskLbl.Size = new Size(62, 28);
-            empTaskLbl.TabIndex = 1;
-            empTaskLbl.Text = "Tasks";
             // 
             // uID
             // 
@@ -1257,15 +517,790 @@
             cngStBtn.Name = "cngStBtn";
             cngStBtn.UseColumnTextForButtonValue = true;
             // 
+            // newEmpLink
+            // 
+            newEmpLink.AutoSize = true;
+            newEmpLink.Location = new Point(17, 17);
+            newEmpLink.Name = "newEmpLink";
+            newEmpLink.Size = new Size(111, 15);
+            newEmpLink.TabIndex = 2;
+            newEmpLink.TabStop = true;
+            newEmpLink.Text = "Add New Employee";
+            newEmpLink.LinkClicked += newEmpLink_LinkClicked;
+            // 
+            // AddNewTabPage
+            // 
+            AddNewTabPage.Controls.Add(adminLogoutLbl2);
+            AddNewTabPage.Controls.Add(clearBtn);
+            AddNewTabPage.Controls.Add(saveBtn);
+            AddNewTabPage.Controls.Add(empImgPanel);
+            AddNewTabPage.Controls.Add(regPanel);
+            AddNewTabPage.Location = new Point(4, 24);
+            AddNewTabPage.Margin = new Padding(3, 2, 3, 2);
+            AddNewTabPage.Name = "AddNewTabPage";
+            AddNewTabPage.Padding = new Padding(3, 2, 3, 2);
+            AddNewTabPage.Size = new Size(683, 380);
+            AddNewTabPage.TabIndex = 1;
+            AddNewTabPage.Text = "Add New Employee";
+            AddNewTabPage.UseVisualStyleBackColor = true;
+            // 
+            // adminLogoutLbl2
+            // 
+            adminLogoutLbl2.AutoSize = true;
+            adminLogoutLbl2.Location = new Point(629, 2);
+            adminLogoutLbl2.Name = "adminLogoutLbl2";
+            adminLogoutLbl2.Size = new Size(45, 15);
+            adminLogoutLbl2.TabIndex = 47;
+            adminLogoutLbl2.TabStop = true;
+            adminLogoutLbl2.Text = "Logout";
+            adminLogoutLbl2.LinkClicked += adminLogoutLbl2_LinkClicked;
+            // 
+            // clearBtn
+            // 
+            clearBtn.Location = new Point(221, 356);
+            clearBtn.Margin = new Padding(3, 2, 3, 2);
+            clearBtn.Name = "clearBtn";
+            clearBtn.Size = new Size(82, 22);
+            clearBtn.TabIndex = 19;
+            clearBtn.Text = "Clear";
+            clearBtn.UseVisualStyleBackColor = true;
+            // 
+            // saveBtn
+            // 
+            saveBtn.Location = new Point(134, 356);
+            saveBtn.Margin = new Padding(3, 2, 3, 2);
+            saveBtn.Name = "saveBtn";
+            saveBtn.Size = new Size(82, 22);
+            saveBtn.TabIndex = 18;
+            saveBtn.Text = "Save";
+            saveBtn.UseVisualStyleBackColor = true;
+            saveBtn.Click += saveBtn_Click;
+            // 
+            // empImgPanel
+            // 
+            empImgPanel.BorderStyle = BorderStyle.FixedSingle;
+            empImgPanel.Location = new Point(434, 23);
+            empImgPanel.Margin = new Padding(4, 3, 4, 3);
+            empImgPanel.Name = "empImgPanel";
+            empImgPanel.Size = new Size(246, 187);
+            empImgPanel.TabIndex = 17;
+            // 
+            // regPanel
+            // 
+            regPanel.BorderStyle = BorderStyle.FixedSingle;
+            regPanel.Controls.Add(contrRdBtn);
+            regPanel.Controls.Add(partimeRdBtn);
+            regPanel.Controls.Add(fullTimeRadBtn);
+            regPanel.Controls.Add(positionSelect);
+            regPanel.Controls.Add(genderSelect);
+            regPanel.Controls.Add(ageTxtBx);
+            regPanel.Controls.Add(dobSelector);
+            regPanel.Controls.Add(taxTxtBx);
+            regPanel.Controls.Add(salaryTxtBx);
+            regPanel.Controls.Add(lastNameTxtBx);
+            regPanel.Controls.Add(fNameTxtBx);
+            regPanel.Controls.Add(empIdTxtBx);
+            regPanel.Controls.Add(taxLbl);
+            regPanel.Controls.Add(salaryLbl);
+            regPanel.Controls.Add(catagoryLbl);
+            regPanel.Controls.Add(positionLbl);
+            regPanel.Controls.Add(genderLbl);
+            regPanel.Controls.Add(empIdLbl);
+            regPanel.Controls.Add(ageLbl);
+            regPanel.Controls.Add(lastNameLbl);
+            regPanel.Controls.Add(firstNameLbl);
+            regPanel.Location = new Point(9, 14);
+            regPanel.Margin = new Padding(4, 3, 4, 3);
+            regPanel.Name = "regPanel";
+            regPanel.Size = new Size(419, 336);
+            regPanel.TabIndex = 16;
+            // 
+            // contrRdBtn
+            // 
+            contrRdBtn.AutoSize = true;
+            contrRdBtn.Location = new Point(301, 197);
+            contrRdBtn.Margin = new Padding(3, 2, 3, 2);
+            contrRdBtn.Name = "contrRdBtn";
+            contrRdBtn.Size = new Size(71, 19);
+            contrRdBtn.TabIndex = 30;
+            contrRdBtn.TabStop = true;
+            contrRdBtn.Text = "Contract";
+            contrRdBtn.UseVisualStyleBackColor = true;
+            // 
+            // partimeRdBtn
+            // 
+            partimeRdBtn.AutoSize = true;
+            partimeRdBtn.Location = new Point(212, 197);
+            partimeRdBtn.Margin = new Padding(3, 2, 3, 2);
+            partimeRdBtn.Name = "partimeRdBtn";
+            partimeRdBtn.Size = new Size(66, 19);
+            partimeRdBtn.TabIndex = 29;
+            partimeRdBtn.TabStop = true;
+            partimeRdBtn.Text = "Partime";
+            partimeRdBtn.UseVisualStyleBackColor = true;
+            // 
+            // fullTimeRadBtn
+            // 
+            fullTimeRadBtn.AutoSize = true;
+            fullTimeRadBtn.Location = new Point(126, 197);
+            fullTimeRadBtn.Margin = new Padding(3, 2, 3, 2);
+            fullTimeRadBtn.Name = "fullTimeRadBtn";
+            fullTimeRadBtn.Size = new Size(71, 19);
+            fullTimeRadBtn.TabIndex = 28;
+            fullTimeRadBtn.TabStop = true;
+            fullTimeRadBtn.Text = "Full time";
+            fullTimeRadBtn.UseVisualStyleBackColor = true;
+            // 
+            // positionSelect
+            // 
+            positionSelect.DropDownStyle = ComboBoxStyle.DropDownList;
+            positionSelect.FormattingEnabled = true;
+            positionSelect.Items.AddRange(new object[] { "Developer", "Project Manager", "Support Staff" });
+            positionSelect.Location = new Point(128, 168);
+            positionSelect.Margin = new Padding(4, 3, 4, 3);
+            positionSelect.Name = "positionSelect";
+            positionSelect.Size = new Size(149, 23);
+            positionSelect.TabIndex = 27;
+            // 
+            // genderSelect
+            // 
+            genderSelect.DropDownStyle = ComboBoxStyle.DropDownList;
+            genderSelect.FormattingEnabled = true;
+            genderSelect.Items.AddRange(new object[] { "Male", "Female", "Other" });
+            genderSelect.Location = new Point(128, 134);
+            genderSelect.Margin = new Padding(4, 3, 4, 3);
+            genderSelect.Name = "genderSelect";
+            genderSelect.Size = new Size(149, 23);
+            genderSelect.TabIndex = 26;
+            // 
+            // ageTxtBx
+            // 
+            ageTxtBx.BorderStyle = BorderStyle.FixedSingle;
+            ageTxtBx.Enabled = false;
+            ageTxtBx.Location = new Point(128, 104);
+            ageTxtBx.Margin = new Padding(4, 3, 4, 3);
+            ageTxtBx.Name = "ageTxtBx";
+            ageTxtBx.Size = new Size(58, 23);
+            ageTxtBx.TabIndex = 25;
+            // 
+            // dobSelector
+            // 
+            dobSelector.Format = DateTimePickerFormat.Short;
+            dobSelector.Location = new Point(192, 104);
+            dobSelector.Margin = new Padding(4, 3, 4, 3);
+            dobSelector.Name = "dobSelector";
+            dobSelector.Size = new Size(139, 23);
+            dobSelector.TabIndex = 24;
+            dobSelector.ValueChanged += dobSelector_ValueChanged;
+            // 
+            // taxTxtBx
+            // 
+            taxTxtBx.BorderStyle = BorderStyle.FixedSingle;
+            taxTxtBx.Enabled = false;
+            taxTxtBx.Location = new Point(128, 291);
+            taxTxtBx.Margin = new Padding(4, 3, 4, 3);
+            taxTxtBx.Name = "taxTxtBx";
+            taxTxtBx.Size = new Size(189, 23);
+            taxTxtBx.TabIndex = 22;
+            // 
+            // salaryTxtBx
+            // 
+            salaryTxtBx.BorderStyle = BorderStyle.FixedSingle;
+            salaryTxtBx.Enabled = false;
+            salaryTxtBx.Location = new Point(128, 261);
+            salaryTxtBx.Margin = new Padding(4, 3, 4, 3);
+            salaryTxtBx.Name = "salaryTxtBx";
+            salaryTxtBx.Size = new Size(189, 23);
+            salaryTxtBx.TabIndex = 21;
+            // 
+            // lastNameTxtBx
+            // 
+            lastNameTxtBx.BorderStyle = BorderStyle.FixedSingle;
+            lastNameTxtBx.Location = new Point(128, 70);
+            lastNameTxtBx.Margin = new Padding(4, 3, 4, 3);
+            lastNameTxtBx.Name = "lastNameTxtBx";
+            lastNameTxtBx.Size = new Size(251, 23);
+            lastNameTxtBx.TabIndex = 20;
+            // 
+            // fNameTxtBx
+            // 
+            fNameTxtBx.BorderStyle = BorderStyle.FixedSingle;
+            fNameTxtBx.Location = new Point(128, 43);
+            fNameTxtBx.Margin = new Padding(4, 3, 4, 3);
+            fNameTxtBx.Name = "fNameTxtBx";
+            fNameTxtBx.Size = new Size(251, 23);
+            fNameTxtBx.TabIndex = 19;
+            // 
+            // empIdTxtBx
+            // 
+            empIdTxtBx.BorderStyle = BorderStyle.FixedSingle;
+            empIdTxtBx.Location = new Point(128, 14);
+            empIdTxtBx.Margin = new Padding(4, 3, 4, 3);
+            empIdTxtBx.Name = "empIdTxtBx";
+            empIdTxtBx.Size = new Size(251, 23);
+            empIdTxtBx.TabIndex = 18;
+            empIdTxtBx.Tag = "";
+            // 
+            // taxLbl
+            // 
+            taxLbl.AutoSize = true;
+            taxLbl.Location = new Point(16, 291);
+            taxLbl.Margin = new Padding(4, 0, 4, 0);
+            taxLbl.Name = "taxLbl";
+            taxLbl.Size = new Size(24, 15);
+            taxLbl.TabIndex = 17;
+            taxLbl.Text = "Tax";
+            // 
+            // salaryLbl
+            // 
+            salaryLbl.AutoSize = true;
+            salaryLbl.Location = new Point(12, 263);
+            salaryLbl.Margin = new Padding(4, 0, 4, 0);
+            salaryLbl.Name = "salaryLbl";
+            salaryLbl.Size = new Size(60, 15);
+            salaryLbl.TabIndex = 16;
+            salaryLbl.Text = "Net Salary";
+            // 
+            // catagoryLbl
+            // 
+            catagoryLbl.AutoSize = true;
+            catagoryLbl.Location = new Point(12, 197);
+            catagoryLbl.Margin = new Padding(4, 0, 4, 0);
+            catagoryLbl.Name = "catagoryLbl";
+            catagoryLbl.Size = new Size(55, 15);
+            catagoryLbl.TabIndex = 15;
+            catagoryLbl.Text = "Catagory";
+            // 
+            // positionLbl
+            // 
+            positionLbl.AutoSize = true;
+            positionLbl.Location = new Point(12, 168);
+            positionLbl.Margin = new Padding(4, 0, 4, 0);
+            positionLbl.Name = "positionLbl";
+            positionLbl.Size = new Size(50, 15);
+            positionLbl.TabIndex = 14;
+            positionLbl.Text = "Position";
+            // 
+            // genderLbl
+            // 
+            genderLbl.AutoSize = true;
+            genderLbl.Location = new Point(12, 134);
+            genderLbl.Margin = new Padding(4, 0, 4, 0);
+            genderLbl.Name = "genderLbl";
+            genderLbl.Size = new Size(45, 15);
+            genderLbl.TabIndex = 13;
+            genderLbl.Text = "Gender";
+            // 
+            // empIdLbl
+            // 
+            empIdLbl.AutoSize = true;
+            empIdLbl.Location = new Point(12, 14);
+            empIdLbl.Margin = new Padding(4, 0, 4, 0);
+            empIdLbl.Name = "empIdLbl";
+            empIdLbl.Size = new Size(73, 15);
+            empIdLbl.TabIndex = 12;
+            empIdLbl.Text = "Employee ID";
+            // 
+            // ageLbl
+            // 
+            ageLbl.AutoSize = true;
+            ageLbl.Location = new Point(12, 104);
+            ageLbl.Margin = new Padding(4, 0, 4, 0);
+            ageLbl.Name = "ageLbl";
+            ageLbl.Size = new Size(28, 15);
+            ageLbl.TabIndex = 11;
+            ageLbl.Text = "Age";
+            // 
+            // lastNameLbl
+            // 
+            lastNameLbl.AutoSize = true;
+            lastNameLbl.Location = new Point(12, 74);
+            lastNameLbl.Margin = new Padding(4, 0, 4, 0);
+            lastNameLbl.Name = "lastNameLbl";
+            lastNameLbl.Size = new Size(63, 15);
+            lastNameLbl.TabIndex = 10;
+            lastNameLbl.Text = "Last Name";
+            // 
+            // firstNameLbl
+            // 
+            firstNameLbl.AutoSize = true;
+            firstNameLbl.Location = new Point(12, 41);
+            firstNameLbl.Margin = new Padding(4, 0, 4, 0);
+            firstNameLbl.Name = "firstNameLbl";
+            firstNameLbl.Size = new Size(64, 15);
+            firstNameLbl.TabIndex = 9;
+            firstNameLbl.Text = "First Name";
+            // 
+            // devPanel
+            // 
+            devPanel.Controls.Add(employeeTabs);
+            devPanel.Location = new Point(0, 0);
+            devPanel.Margin = new Padding(3, 2, 3, 2);
+            devPanel.Name = "devPanel";
+            devPanel.Size = new Size(714, 427);
+            devPanel.TabIndex = 3;
+            // 
+            // employeeTabs
+            // 
+            employeeTabs.Controls.Add(employeeProfileTab);
+            employeeTabs.Controls.Add(employeeTaskTab);
+            employeeTabs.Location = new Point(13, 5);
+            employeeTabs.Margin = new Padding(3, 2, 3, 2);
+            employeeTabs.Name = "employeeTabs";
+            employeeTabs.SelectedIndex = 0;
+            employeeTabs.Size = new Size(688, 416);
+            employeeTabs.TabIndex = 1;
+            // 
+            // employeeProfileTab
+            // 
+            employeeProfileTab.Controls.Add(pwdChangePanel);
+            employeeProfileTab.Controls.Add(cngPwdLkLbl);
+            employeeProfileTab.Controls.Add(devLogoutLbl1);
+            employeeProfileTab.Controls.Add(catagProfTxtBx);
+            employeeProfileTab.Controls.Add(positionProfTxtBx);
+            employeeProfileTab.Controls.Add(genderProfTxtBx);
+            employeeProfileTab.Controls.Add(ageProfTxtBx);
+            employeeProfileTab.Controls.Add(taxProfTxtBx);
+            employeeProfileTab.Controls.Add(salaryProfTxtBx);
+            employeeProfileTab.Controls.Add(lNameProfTxtBx);
+            employeeProfileTab.Controls.Add(fNameProfTxtBx);
+            employeeProfileTab.Controls.Add(empIDProfTxtBx);
+            employeeProfileTab.Controls.Add(imgProPanel);
+            employeeProfileTab.Controls.Add(taxProfLbl);
+            employeeProfileTab.Controls.Add(salaryProfLbl);
+            employeeProfileTab.Controls.Add(catgProfLbl);
+            employeeProfileTab.Controls.Add(posProfLbl);
+            employeeProfileTab.Controls.Add(genderProfLbl);
+            employeeProfileTab.Controls.Add(empIdProfLbl);
+            employeeProfileTab.Controls.Add(ageProfLbl);
+            employeeProfileTab.Controls.Add(lNameProfLbl);
+            employeeProfileTab.Controls.Add(fNameProfLbl);
+            employeeProfileTab.Location = new Point(4, 24);
+            employeeProfileTab.Margin = new Padding(3, 2, 3, 2);
+            employeeProfileTab.Name = "employeeProfileTab";
+            employeeProfileTab.Padding = new Padding(3, 2, 3, 2);
+            employeeProfileTab.Size = new Size(680, 388);
+            employeeProfileTab.TabIndex = 0;
+            employeeProfileTab.Text = "Profile";
+            employeeProfileTab.UseVisualStyleBackColor = true;
+            // 
+            // pwdChangePanel
+            // 
+            pwdChangePanel.BorderStyle = BorderStyle.FixedSingle;
+            pwdChangePanel.Controls.Add(cngPwdBtn);
+            pwdChangePanel.Controls.Add(oldPwdTxtBx);
+            pwdChangePanel.Controls.Add(nwPwdTxtBx);
+            pwdChangePanel.Controls.Add(reNwPwdTxtBx);
+            pwdChangePanel.Controls.Add(reNwPwdLbl);
+            pwdChangePanel.Controls.Add(clsPwdCngLbl);
+            pwdChangePanel.Controls.Add(pwdCngLbl);
+            pwdChangePanel.Controls.Add(nwPwdLbl);
+            pwdChangePanel.Controls.Add(oldPwdLbl);
+            pwdChangePanel.Location = new Point(113, 50);
+            pwdChangePanel.Margin = new Padding(4);
+            pwdChangePanel.Name = "pwdChangePanel";
+            pwdChangePanel.Size = new Size(469, 276);
+            pwdChangePanel.TabIndex = 42;
+            pwdChangePanel.Visible = false;
+            // 
+            // cngPwdBtn
+            // 
+            cngPwdBtn.Location = new Point(173, 163);
+            cngPwdBtn.Margin = new Padding(3, 2, 3, 2);
+            cngPwdBtn.Name = "cngPwdBtn";
+            cngPwdBtn.Size = new Size(154, 22);
+            cngPwdBtn.TabIndex = 8;
+            cngPwdBtn.Text = "Change Password";
+            cngPwdBtn.UseVisualStyleBackColor = true;
+            cngPwdBtn.Click += cngPwdBtn_Click;
+            // 
+            // oldPwdTxtBx
+            // 
+            oldPwdTxtBx.Location = new Point(186, 52);
+            oldPwdTxtBx.Margin = new Padding(3, 2, 3, 2);
+            oldPwdTxtBx.Name = "oldPwdTxtBx";
+            oldPwdTxtBx.PasswordChar = '•';
+            oldPwdTxtBx.Size = new Size(248, 23);
+            oldPwdTxtBx.TabIndex = 7;
+            // 
+            // nwPwdTxtBx
+            // 
+            nwPwdTxtBx.Location = new Point(186, 87);
+            nwPwdTxtBx.Margin = new Padding(3, 2, 3, 2);
+            nwPwdTxtBx.Name = "nwPwdTxtBx";
+            nwPwdTxtBx.PasswordChar = '•';
+            nwPwdTxtBx.Size = new Size(248, 23);
+            nwPwdTxtBx.TabIndex = 6;
+            // 
+            // reNwPwdTxtBx
+            // 
+            reNwPwdTxtBx.Location = new Point(186, 118);
+            reNwPwdTxtBx.Margin = new Padding(3, 2, 3, 2);
+            reNwPwdTxtBx.Name = "reNwPwdTxtBx";
+            reNwPwdTxtBx.PasswordChar = '•';
+            reNwPwdTxtBx.Size = new Size(248, 23);
+            reNwPwdTxtBx.TabIndex = 5;
+            // 
+            // reNwPwdLbl
+            // 
+            reNwPwdLbl.AutoSize = true;
+            reNwPwdLbl.Location = new Point(31, 122);
+            reNwPwdLbl.Name = "reNwPwdLbl";
+            reNwPwdLbl.Size = new Size(127, 15);
+            reNwPwdLbl.TabIndex = 4;
+            reNwPwdLbl.Text = "Reenter New Password";
+            // 
+            // clsPwdCngLbl
+            // 
+            clsPwdCngLbl.AutoSize = true;
+            clsPwdCngLbl.Font = new Font("Segoe UI", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            clsPwdCngLbl.LinkColor = Color.Red;
+            clsPwdCngLbl.Location = new Point(431, 6);
+            clsPwdCngLbl.Name = "clsPwdCngLbl";
+            clsPwdCngLbl.Size = new Size(24, 25);
+            clsPwdCngLbl.TabIndex = 3;
+            clsPwdCngLbl.TabStop = true;
+            clsPwdCngLbl.Text = "X";
+            clsPwdCngLbl.LinkClicked += clsPwdCngLbl_LinkClicked;
+            // 
+            // pwdCngLbl
+            // 
+            pwdCngLbl.AutoSize = true;
+            pwdCngLbl.Font = new Font("Segoe UI Semibold", 10.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            pwdCngLbl.Location = new Point(158, 14);
+            pwdCngLbl.Name = "pwdCngLbl";
+            pwdCngLbl.Size = new Size(129, 20);
+            pwdCngLbl.TabIndex = 2;
+            pwdCngLbl.Text = "Change Password";
+            // 
+            // nwPwdLbl
+            // 
+            nwPwdLbl.AutoSize = true;
+            nwPwdLbl.Location = new Point(31, 89);
+            nwPwdLbl.Name = "nwPwdLbl";
+            nwPwdLbl.Size = new Size(84, 15);
+            nwPwdLbl.TabIndex = 1;
+            nwPwdLbl.Text = "New Password";
+            // 
+            // oldPwdLbl
+            // 
+            oldPwdLbl.AutoSize = true;
+            oldPwdLbl.Location = new Point(31, 57);
+            oldPwdLbl.Name = "oldPwdLbl";
+            oldPwdLbl.Size = new Size(79, 15);
+            oldPwdLbl.TabIndex = 0;
+            oldPwdLbl.Text = "Old Password";
+            // 
+            // cngPwdLkLbl
+            // 
+            cngPwdLkLbl.AutoSize = true;
+            cngPwdLkLbl.Location = new Point(546, 206);
+            cngPwdLkLbl.Name = "cngPwdLkLbl";
+            cngPwdLkLbl.Size = new Size(101, 15);
+            cngPwdLkLbl.TabIndex = 46;
+            cngPwdLkLbl.TabStop = true;
+            cngPwdLkLbl.Text = "Change Password";
+            cngPwdLkLbl.LinkClicked += cngPwdLkLbl_LinkClicked;
+            // 
+            // devLogoutLbl1
+            // 
+            devLogoutLbl1.AutoSize = true;
+            devLogoutLbl1.Location = new Point(626, 4);
+            devLogoutLbl1.Name = "devLogoutLbl1";
+            devLogoutLbl1.Size = new Size(45, 15);
+            devLogoutLbl1.TabIndex = 45;
+            devLogoutLbl1.TabStop = true;
+            devLogoutLbl1.Text = "Logout";
+            devLogoutLbl1.LinkClicked += devLogoutLbl1_LinkClicked;
+            // 
+            // catagProfTxtBx
+            // 
+            catagProfTxtBx.BackColor = SystemColors.Control;
+            catagProfTxtBx.BorderStyle = BorderStyle.None;
+            catagProfTxtBx.Enabled = false;
+            catagProfTxtBx.Font = new Font("Segoe UI", 10.8F, FontStyle.Bold);
+            catagProfTxtBx.Location = new Point(150, 246);
+            catagProfTxtBx.Margin = new Padding(4);
+            catagProfTxtBx.Name = "catagProfTxtBx";
+            catagProfTxtBx.Size = new Size(138, 20);
+            catagProfTxtBx.TabIndex = 44;
+            // 
+            // positionProfTxtBx
+            // 
+            positionProfTxtBx.BackColor = SystemColors.Control;
+            positionProfTxtBx.BorderStyle = BorderStyle.None;
+            positionProfTxtBx.Enabled = false;
+            positionProfTxtBx.Font = new Font("Segoe UI", 10.8F, FontStyle.Bold);
+            positionProfTxtBx.Location = new Point(150, 212);
+            positionProfTxtBx.Margin = new Padding(4);
+            positionProfTxtBx.Name = "positionProfTxtBx";
+            positionProfTxtBx.Size = new Size(138, 20);
+            positionProfTxtBx.TabIndex = 43;
+            // 
+            // genderProfTxtBx
+            // 
+            genderProfTxtBx.BackColor = SystemColors.Control;
+            genderProfTxtBx.BorderStyle = BorderStyle.None;
+            genderProfTxtBx.Enabled = false;
+            genderProfTxtBx.Font = new Font("Segoe UI", 10.8F, FontStyle.Bold);
+            genderProfTxtBx.Location = new Point(150, 173);
+            genderProfTxtBx.Margin = new Padding(4);
+            genderProfTxtBx.Name = "genderProfTxtBx";
+            genderProfTxtBx.Size = new Size(65, 20);
+            genderProfTxtBx.TabIndex = 42;
+            // 
+            // ageProfTxtBx
+            // 
+            ageProfTxtBx.BackColor = SystemColors.Control;
+            ageProfTxtBx.BorderStyle = BorderStyle.None;
+            ageProfTxtBx.Enabled = false;
+            ageProfTxtBx.Font = new Font("Segoe UI", 10.8F, FontStyle.Bold);
+            ageProfTxtBx.Location = new Point(150, 138);
+            ageProfTxtBx.Margin = new Padding(4);
+            ageProfTxtBx.Name = "ageProfTxtBx";
+            ageProfTxtBx.Size = new Size(65, 20);
+            ageProfTxtBx.TabIndex = 40;
+            // 
+            // taxProfTxtBx
+            // 
+            taxProfTxtBx.BackColor = SystemColors.Control;
+            taxProfTxtBx.BorderStyle = BorderStyle.None;
+            taxProfTxtBx.Enabled = false;
+            taxProfTxtBx.Font = new Font("Segoe UI", 10.8F, FontStyle.Bold);
+            taxProfTxtBx.Location = new Point(150, 354);
+            taxProfTxtBx.Margin = new Padding(4);
+            taxProfTxtBx.Name = "taxProfTxtBx";
+            taxProfTxtBx.Size = new Size(213, 20);
+            taxProfTxtBx.TabIndex = 39;
+            // 
+            // salaryProfTxtBx
+            // 
+            salaryProfTxtBx.BackColor = SystemColors.Control;
+            salaryProfTxtBx.BorderStyle = BorderStyle.None;
+            salaryProfTxtBx.Enabled = false;
+            salaryProfTxtBx.Font = new Font("Segoe UI", 10.8F, FontStyle.Bold);
+            salaryProfTxtBx.Location = new Point(150, 320);
+            salaryProfTxtBx.Margin = new Padding(4);
+            salaryProfTxtBx.Name = "salaryProfTxtBx";
+            salaryProfTxtBx.Size = new Size(213, 20);
+            salaryProfTxtBx.TabIndex = 38;
+            // 
+            // lNameProfTxtBx
+            // 
+            lNameProfTxtBx.BackColor = SystemColors.Control;
+            lNameProfTxtBx.BorderStyle = BorderStyle.None;
+            lNameProfTxtBx.Enabled = false;
+            lNameProfTxtBx.Font = new Font("Segoe UI", 10.8F, FontStyle.Bold);
+            lNameProfTxtBx.Location = new Point(150, 100);
+            lNameProfTxtBx.Margin = new Padding(4);
+            lNameProfTxtBx.Name = "lNameProfTxtBx";
+            lNameProfTxtBx.Size = new Size(283, 20);
+            lNameProfTxtBx.TabIndex = 37;
+            // 
+            // fNameProfTxtBx
+            // 
+            fNameProfTxtBx.BackColor = SystemColors.Control;
+            fNameProfTxtBx.BorderStyle = BorderStyle.None;
+            fNameProfTxtBx.Enabled = false;
+            fNameProfTxtBx.Font = new Font("Segoe UI", 10.8F, FontStyle.Bold);
+            fNameProfTxtBx.Location = new Point(150, 68);
+            fNameProfTxtBx.Margin = new Padding(4);
+            fNameProfTxtBx.Name = "fNameProfTxtBx";
+            fNameProfTxtBx.Size = new Size(283, 20);
+            fNameProfTxtBx.TabIndex = 36;
+            // 
+            // empIDProfTxtBx
+            // 
+            empIDProfTxtBx.BackColor = SystemColors.Control;
+            empIDProfTxtBx.BorderStyle = BorderStyle.None;
+            empIDProfTxtBx.Enabled = false;
+            empIDProfTxtBx.Font = new Font("Segoe UI", 10.8F, FontStyle.Bold);
+            empIDProfTxtBx.Location = new Point(150, 35);
+            empIDProfTxtBx.Margin = new Padding(4);
+            empIDProfTxtBx.Name = "empIDProfTxtBx";
+            empIDProfTxtBx.Size = new Size(283, 20);
+            empIDProfTxtBx.TabIndex = 35;
+            empIDProfTxtBx.Tag = "";
+            // 
+            // imgProPanel
+            // 
+            imgProPanel.BorderStyle = BorderStyle.FixedSingle;
+            imgProPanel.Location = new Point(441, 34);
+            imgProPanel.Margin = new Padding(4);
+            imgProPanel.Name = "imgProPanel";
+            imgProPanel.Size = new Size(214, 168);
+            imgProPanel.TabIndex = 41;
+            // 
+            // taxProfLbl
+            // 
+            taxProfLbl.AutoSize = true;
+            taxProfLbl.Location = new Point(27, 356);
+            taxProfLbl.Margin = new Padding(4, 0, 4, 0);
+            taxProfLbl.Name = "taxProfLbl";
+            taxProfLbl.Size = new Size(24, 15);
+            taxProfLbl.TabIndex = 34;
+            taxProfLbl.Text = "Tax";
+            // 
+            // salaryProfLbl
+            // 
+            salaryProfLbl.AutoSize = true;
+            salaryProfLbl.Location = new Point(24, 324);
+            salaryProfLbl.Margin = new Padding(4, 0, 4, 0);
+            salaryProfLbl.Name = "salaryProfLbl";
+            salaryProfLbl.Size = new Size(60, 15);
+            salaryProfLbl.TabIndex = 33;
+            salaryProfLbl.Text = "Net Salary";
+            // 
+            // catgProfLbl
+            // 
+            catgProfLbl.AutoSize = true;
+            catgProfLbl.Location = new Point(24, 248);
+            catgProfLbl.Margin = new Padding(4, 0, 4, 0);
+            catgProfLbl.Name = "catgProfLbl";
+            catgProfLbl.Size = new Size(55, 15);
+            catgProfLbl.TabIndex = 32;
+            catgProfLbl.Text = "Catagory";
+            // 
+            // posProfLbl
+            // 
+            posProfLbl.AutoSize = true;
+            posProfLbl.Location = new Point(24, 214);
+            posProfLbl.Margin = new Padding(4, 0, 4, 0);
+            posProfLbl.Name = "posProfLbl";
+            posProfLbl.Size = new Size(50, 15);
+            posProfLbl.TabIndex = 31;
+            posProfLbl.Text = "Position";
+            // 
+            // genderProfLbl
+            // 
+            genderProfLbl.AutoSize = true;
+            genderProfLbl.Location = new Point(24, 176);
+            genderProfLbl.Margin = new Padding(4, 0, 4, 0);
+            genderProfLbl.Name = "genderProfLbl";
+            genderProfLbl.Size = new Size(45, 15);
+            genderProfLbl.TabIndex = 30;
+            genderProfLbl.Text = "Gender";
+            // 
+            // empIdProfLbl
+            // 
+            empIdProfLbl.AutoSize = true;
+            empIdProfLbl.Location = new Point(24, 37);
+            empIdProfLbl.Margin = new Padding(4, 0, 4, 0);
+            empIdProfLbl.Name = "empIdProfLbl";
+            empIdProfLbl.Size = new Size(73, 15);
+            empIdProfLbl.TabIndex = 29;
+            empIdProfLbl.Text = "Employee ID";
+            // 
+            // ageProfLbl
+            // 
+            ageProfLbl.AutoSize = true;
+            ageProfLbl.Location = new Point(24, 141);
+            ageProfLbl.Margin = new Padding(4, 0, 4, 0);
+            ageProfLbl.Name = "ageProfLbl";
+            ageProfLbl.Size = new Size(28, 15);
+            ageProfLbl.TabIndex = 28;
+            ageProfLbl.Text = "Age";
+            // 
+            // lNameProfLbl
+            // 
+            lNameProfLbl.AutoSize = true;
+            lNameProfLbl.Location = new Point(24, 106);
+            lNameProfLbl.Margin = new Padding(4, 0, 4, 0);
+            lNameProfLbl.Name = "lNameProfLbl";
+            lNameProfLbl.Size = new Size(63, 15);
+            lNameProfLbl.TabIndex = 27;
+            lNameProfLbl.Text = "Last Name";
+            // 
+            // fNameProfLbl
+            // 
+            fNameProfLbl.AutoSize = true;
+            fNameProfLbl.Location = new Point(24, 69);
+            fNameProfLbl.Margin = new Padding(4, 0, 4, 0);
+            fNameProfLbl.Name = "fNameProfLbl";
+            fNameProfLbl.Size = new Size(64, 15);
+            fNameProfLbl.TabIndex = 26;
+            fNameProfLbl.Text = "First Name";
+            // 
+            // employeeTaskTab
+            // 
+            employeeTaskTab.Controls.Add(devLogoutLbl2);
+            employeeTaskTab.Controls.Add(emptaskListBox);
+            employeeTaskTab.Controls.Add(submitTaskBtn);
+            employeeTaskTab.Controls.Add(doTaskRcTxtBx);
+            employeeTaskTab.Controls.Add(empTaskLbl);
+            employeeTaskTab.Location = new Point(4, 24);
+            employeeTaskTab.Margin = new Padding(3, 2, 3, 2);
+            employeeTaskTab.Name = "employeeTaskTab";
+            employeeTaskTab.Padding = new Padding(3, 2, 3, 2);
+            employeeTaskTab.Size = new Size(680, 388);
+            employeeTaskTab.TabIndex = 1;
+            employeeTaskTab.Text = "Tasks";
+            employeeTaskTab.UseVisualStyleBackColor = true;
+            // 
+            // devLogoutLbl2
+            // 
+            devLogoutLbl2.AutoSize = true;
+            devLogoutLbl2.Location = new Point(626, 4);
+            devLogoutLbl2.Name = "devLogoutLbl2";
+            devLogoutLbl2.Size = new Size(45, 15);
+            devLogoutLbl2.TabIndex = 46;
+            devLogoutLbl2.TabStop = true;
+            devLogoutLbl2.Text = "Logout";
+            devLogoutLbl2.LinkClicked += devLogoutLbl2_LinkClicked;
+            // 
+            // emptaskListBox
+            // 
+            emptaskListBox.BorderStyle = BorderStyle.FixedSingle;
+            emptaskListBox.FormattingEnabled = true;
+            emptaskListBox.ItemHeight = 15;
+            emptaskListBox.Location = new Point(15, 38);
+            emptaskListBox.Margin = new Padding(3, 2, 3, 2);
+            emptaskListBox.Name = "emptaskListBox";
+            emptaskListBox.Size = new Size(244, 122);
+            emptaskListBox.TabIndex = 5;
+            // 
+            // submitTaskBtn
+            // 
+            submitTaskBtn.Location = new Point(286, 350);
+            submitTaskBtn.Margin = new Padding(3, 2, 3, 2);
+            submitTaskBtn.Name = "submitTaskBtn";
+            submitTaskBtn.Size = new Size(82, 22);
+            submitTaskBtn.TabIndex = 3;
+            submitTaskBtn.Text = "Submit";
+            submitTaskBtn.UseVisualStyleBackColor = true;
+            submitTaskBtn.Click += submitTaskBtn_Click;
+            // 
+            // doTaskRcTxtBx
+            // 
+            doTaskRcTxtBx.BorderStyle = BorderStyle.FixedSingle;
+            doTaskRcTxtBx.Location = new Point(15, 165);
+            doTaskRcTxtBx.Margin = new Padding(3, 2, 3, 2);
+            doTaskRcTxtBx.Name = "doTaskRcTxtBx";
+            doTaskRcTxtBx.Size = new Size(649, 182);
+            doTaskRcTxtBx.TabIndex = 2;
+            doTaskRcTxtBx.Text = "";
+            doTaskRcTxtBx.TextChanged += doTaskRcTxtBx_TextChanged;
+            // 
+            // empTaskLbl
+            // 
+            empTaskLbl.AutoSize = true;
+            empTaskLbl.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            empTaskLbl.Location = new Point(18, 17);
+            empTaskLbl.Name = "empTaskLbl";
+            empTaskLbl.Size = new Size(50, 21);
+            empTaskLbl.TabIndex = 1;
+            empTaskLbl.Text = "Tasks";
+            // 
             // CompleteForm
             // 
-            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(814, 568);
+            ClientSize = new Size(712, 426);
             Controls.Add(adminPanel);
-            Controls.Add(loginPanel);
             Controls.Add(devPanel);
             Controls.Add(managerPanel);
+            Controls.Add(loginPanel);
+            Margin = new Padding(3, 2, 3, 2);
             MaximizeBox = false;
             Name = "CompleteForm";
             Text = "Employee Full Portal";
