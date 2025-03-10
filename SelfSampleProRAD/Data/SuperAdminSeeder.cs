@@ -32,7 +32,7 @@ namespace SelfSampleProRAD_DB.Data
                     LastName = "Doe",
                     Gender = 'M',
                     Age = 35,
-                    Position = "Super Admin",
+                    Position = "Admin",
                     Catagory = "Permanent",
                     Salary = 50000,
                     Tax = 5000

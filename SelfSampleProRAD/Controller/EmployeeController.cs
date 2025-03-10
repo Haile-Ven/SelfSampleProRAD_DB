@@ -1,7 +1,5 @@
-﻿using Microsoft.VisualBasic.ApplicationServices;
+﻿using SelfSampleProRAD_DB.DTOs;
 using SelfSampleProRAD_DB.Model;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace SelfSampleProRAD_DB.Controller
 {
@@ -9,6 +7,8 @@ namespace SelfSampleProRAD_DB.Controller
     {
         private readonly AppDbContext _context;
 
+
+        public EmployeeController() : this(new AppDbContext()) { }
         public EmployeeController(AppDbContext context)
         {
             _context = context;
@@ -16,6 +16,9 @@ namespace SelfSampleProRAD_DB.Controller
 
         public string AddEmployee(string fName, string lName, char gen, byte age, string pos, string cat)
         {
+            float salary;
+            float tax;
+            calaculateTax(pos, out salary, out tax);
             using var transaction = _context.Database.BeginTransaction();
             try
             {
@@ -26,6 +29,8 @@ namespace SelfSampleProRAD_DB.Controller
                     Gender = gen,
                     Age = age,
                     Position = pos,
+                    Salary = salary,
+                    Tax = tax,
                     Catagory = cat
                 };
 
@@ -58,18 +63,67 @@ namespace SelfSampleProRAD_DB.Controller
             }
         }
 
-        //public void SelectEmployee(string usrName, string pwd)
-        //{
+        public Employee? SelectEmployee(Guid employeeId)
+        {
+            var employee = _context.Employee
+                .Where(e => e.EmployeeId == employeeId)
+                .Select(e => new Employee
+                {
+                    EmployeeId = e.EmployeeId,
+                    FirstName = e.FirstName,
+                    LastName = e.LastName,
+                    Gender = e.Gender,
+                    Age = e.Age,
+                    Position = e.Position,
+                    Salary = e.Salary,
+                    Tax = e.Tax,
+                    Catagory = e.Catagory
+                }).FirstOrDefault();
+            return employee;
+        }
 
-        //}
-        //public SqlDataReader ListAllEmployees()
-        //{
+        public List<EmployeeDTO>? ListAllEmployees()
+        {
+            var employees = _context.Employee
+                .Select(e => new EmployeeDTO
+                {
+                    EmployeeId = e.EmployeeId,
+                    FirstName = e.FirstName,
+                    LastName = e.LastName,
+                    Gender = e.Gender,
+                    Age = e.Age,
+                    Position = e.Position,
+                    Salary = e.Salary,
+                    Tax = e.Tax,
+                    Catagory = e.Catagory,
+                    accountdto = new AccountDTO
+                    {
+                        UserId = e.Account.UserId,
+                        UserName = e.Account.UserName,
+                        Status = e.Account.Status
+                    }
+                }).ToList();
+            return employees;
+        }
 
-        //}
-        //public void calaculateTax()
-        //{
-
-        //}
+        public void calaculateTax(string Position,out float Salary,out float Tax)
+        {
+            if (Position == "Developer")
+            {
+                Salary = 20000f;
+                Tax = Salary * (25F / 100);
+            }
+            else if (Position == "Manager")
+            {
+                Salary = 30000f;
+                Tax = Salary * (35f / 100);
+            }
+            else 
+            {
+                Salary = 10000f;
+                Tax = Salary * (15f / 100);
+            }
+        }
         private string GenerateRandomPassword(int length = 12)
         {
             const string upperCase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
