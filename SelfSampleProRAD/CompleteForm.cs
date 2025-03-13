@@ -60,25 +60,23 @@ namespace SelfSampleProRAD
         public void LoadEmployeeData()
         {
             employeeDataGrid.Rows.Clear();
-            employeeDataGrid.Columns.Clear();
-            employeeDataGrid.RowTemplate.Height = 40;
+            employeeDataGrid.CellContentClick -= EmployeeDataGrid_CellContentClick;
             employeeDataGrid.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
-            employeeDataGrid.DataSource = new AccountController().ListAllAccounts();
-
-            // Only add the button column and event handlers if they don't exist
-            if (!employeeDataGrid.Columns.Contains("ChangeStatusBtn"))
+            employeeDataGrid.ColumnHeadersHeight = 40;
+            employeeDataGrid.CellBorderStyle = DataGridViewCellBorderStyle.Single;
+            var accounts = new AccountController().ListAllAccounts();
+            foreach(var account in accounts)
             {
-                DataGridViewButtonColumn btnColumn = new DataGridViewButtonColumn();
-                btnColumn.Name = "ChangeStatusBtn";
-                btnColumn.HeaderText = "Action";
-                btnColumn.FlatStyle = FlatStyle.Popup;
-                btnColumn.UseColumnTextForButtonValue = false;
-                employeeDataGrid.Columns.Add(btnColumn);
-
-                // Add event handlers only once
-                employeeDataGrid.CellContentClick += EmployeeDataGrid_CellContentClick;
-                employeeDataGrid.CellFormatting += EmployeeDataGrid_CellFormatting;
+                int rowIndex = employeeDataGrid.Rows.Add(account.UserId, account.UserName, account.Status);
+                // Style the action button
+                var actionCell = employeeDataGrid.Rows[rowIndex].Cells["ActionBtnClm"];
+                bool isActive = account.Status == 'A';
+                actionCell.Value = isActive ? "Deactivate" : "Activate";
+                Color buttonColor = isActive ? Color.IndianRed : Color.ForestGreen;
+                actionCell.Style.ForeColor = Color.White;
+                actionCell.Style.BackColor = buttonColor; 
             }
+            employeeDataGrid.CellContentClick += EmployeeDataGrid_CellContentClick;
         }
         //Event handlers
         private void loginBtb_Click(object sender, EventArgs e)
@@ -153,11 +151,6 @@ namespace SelfSampleProRAD
             Logout();
         }
 
-        private void newEmpLink_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-
-        }
-
         private void addTaskLkLbl_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             this.addTaskPanel.Visible = true;
@@ -223,37 +216,15 @@ namespace SelfSampleProRAD
         }
         private void EmployeeDataGrid_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.RowIndex >= 0 && employeeDataGrid.Columns[e.ColumnIndex].Name == "ChangeStatusBtn")
+            var msg = employeeDataGrid.Rows[e.RowIndex].Cells["StatusClm"].Value.ToString() == "A"?"Deactivate":"Activate";
+            if (MessageBox.Show($"Are You Sure You Want To {msg}", "Account Change", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning) == DialogResult.OK)
             {
-                var account = (AccountDTO)employeeDataGrid.Rows[e.RowIndex].DataBoundItem;
-                var response = new AccountController().ChangeAccountStatus(account.UserId);
-                MessageBox.Show(response);
-                LoadEmployeeData();
-            }
-        }
-
-        private void EmployeeDataGrid_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
-        {
-            if (employeeDataGrid.Columns[e.ColumnIndex].Name == "ChangeStatusBtn" && e.RowIndex >= 0)
-            {
-                try
+                if (e.RowIndex >= 0 && employeeDataGrid.Columns[e.ColumnIndex].Name == "ActionBtnClm")
                 {
-                    var account = (AccountDTO)employeeDataGrid.Rows[e.RowIndex].DataBoundItem;
-                    var cell = employeeDataGrid.Rows[e.RowIndex].Cells[e.ColumnIndex];
-                    
-                    if (account.Status == 'A')
-                    {
-                        cell.Style.BackColor = Color.LightCoral;
-                        e.Value = "Deactivate";
-                    }
-                    else
-                    {
-                        cell.Style.BackColor = Color.LimeGreen;
-                        e.Value = "Activate";
-                    }
-                    e.FormattingApplied = true;
+                    var userid = Guid.Parse(employeeDataGrid.Rows[e.RowIndex].Cells["UserIdClm"].Value.ToString());
+                    var response = new AccountController().ChangeAccountStatus(userid);
+                    LoadEmployeeData();
                 }
-                catch { }
             }
         }
     }

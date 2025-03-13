@@ -1,4 +1,4 @@
-﻿namespace SelfSampleProRAD
+namespace SelfSampleProRAD
 {
     partial class CompleteForm
     {
@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
             loginPanel = new Panel();
             loginInfoLbl = new Label();
             loginBtb = new Button();
@@ -38,6 +37,9 @@
             passwordTxt = new TextBox();
             userNameTxt = new TextBox();
             mainTab = new TabControl();
+            viewTabPage = new TabPage();
+            adminLogoutLbl1 = new LinkLabel();
+            employeeDataGrid = new DataGridView();
             employeeProfileTab = new TabPage();
             pwdChangePanel = new Panel();
             cngPwdBtn = new Button();
@@ -70,9 +72,6 @@
             ageProfLbl = new Label();
             lNameProfLbl = new Label();
             fNameProfLbl = new Label();
-            viewTabPage = new TabPage();
-            adminLogoutLbl1 = new LinkLabel();
-            employeeDataGrid = new DataGridView();
             AddNewTabPage = new TabPage();
             adminLogoutLbl2 = new LinkLabel();
             clearBtn = new Button();
@@ -124,12 +123,16 @@
             mgrLbl = new Label();
             linkLabel4 = new LinkLabel();
             addTaskLkLbl = new LinkLabel();
+            UserIdClm = new DataGridViewTextBoxColumn();
+            UsernameClm = new DataGridViewTextBoxColumn();
+            StatusClm = new DataGridViewTextBoxColumn();
+            ActionBtnClm = new DataGridViewButtonColumn();
             loginPanel.SuspendLayout();
             mainTab.SuspendLayout();
-            employeeProfileTab.SuspendLayout();
-            pwdChangePanel.SuspendLayout();
             viewTabPage.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)employeeDataGrid).BeginInit();
+            employeeProfileTab.SuspendLayout();
+            pwdChangePanel.SuspendLayout();
             AddNewTabPage.SuspendLayout();
             regPanel.SuspendLayout();
             employeeTaskTab.SuspendLayout();
@@ -204,12 +207,11 @@
             userNameTxt.Name = "userNameTxt";
             userNameTxt.Size = new Size(314, 27);
             userNameTxt.TabIndex = 5;
-            userNameTxt.TextChanged += userNameTxt_TextChanged;
             // 
             // mainTab
             // 
-            mainTab.Controls.Add(employeeProfileTab);
             mainTab.Controls.Add(viewTabPage);
+            mainTab.Controls.Add(employeeProfileTab);
             mainTab.Controls.Add(AddNewTabPage);
             mainTab.Controls.Add(employeeTaskTab);
             mainTab.Controls.Add(taskManTab);
@@ -218,7 +220,51 @@
             mainTab.SelectedIndex = 0;
             mainTab.Size = new Size(816, 569);
             mainTab.TabIndex = 47;
-            mainTab.SelectedIndexChanged += mainTab_SelectedIndexChanged;
+            // 
+            // viewTabPage
+            // 
+            viewTabPage.Controls.Add(adminLogoutLbl1);
+            viewTabPage.Controls.Add(employeeDataGrid);
+            viewTabPage.Location = new Point(4, 29);
+            viewTabPage.Name = "viewTabPage";
+            viewTabPage.Padding = new Padding(3);
+            viewTabPage.Size = new Size(808, 536);
+            viewTabPage.TabIndex = 5;
+            viewTabPage.Text = "View Employees";
+            viewTabPage.UseVisualStyleBackColor = true;
+            // 
+            // adminLogoutLbl1
+            // 
+            adminLogoutLbl1.AutoSize = true;
+            adminLogoutLbl1.Location = new Point(722, 6);
+            adminLogoutLbl1.Name = "adminLogoutLbl1";
+            adminLogoutLbl1.Size = new Size(56, 20);
+            adminLogoutLbl1.TabIndex = 46;
+            adminLogoutLbl1.TabStop = true;
+            adminLogoutLbl1.Text = "Logout";
+            // 
+            // employeeDataGrid
+            // 
+            employeeDataGrid.AllowUserToAddRows = false;
+            employeeDataGrid.AllowUserToDeleteRows = false;
+            employeeDataGrid.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            employeeDataGrid.BackgroundColor = SystemColors.ControlLightLight;
+            employeeDataGrid.BorderStyle = BorderStyle.None;
+            employeeDataGrid.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Single;
+            employeeDataGrid.ColumnHeadersHeight = 29;
+            employeeDataGrid.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+            employeeDataGrid.Columns.AddRange(new DataGridViewColumn[] { UserIdClm, UsernameClm, StatusClm, ActionBtnClm });
+            employeeDataGrid.EditMode = DataGridViewEditMode.EditProgrammatically;
+            employeeDataGrid.Location = new Point(18, 34);
+            employeeDataGrid.Name = "employeeDataGrid";
+            employeeDataGrid.RowHeadersVisible = false;
+            employeeDataGrid.RowHeadersWidth = 51;
+            employeeDataGrid.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.DisableResizing;
+            employeeDataGrid.RowTemplate.Height = 40;
+            employeeDataGrid.Size = new Size(760, 463);
+            employeeDataGrid.StandardTab = true;
+            employeeDataGrid.TabIndex = 3;
+            employeeDataGrid.CellContentClick += EmployeeDataGrid_CellContentClick;
             // 
             // employeeProfileTab
             // 
@@ -580,51 +626,6 @@
             fNameProfLbl.Size = new Size(80, 20);
             fNameProfLbl.TabIndex = 26;
             fNameProfLbl.Text = "First Name";
-            // 
-            // viewTabPage
-            // 
-            viewTabPage.Controls.Add(adminLogoutLbl1);
-            viewTabPage.Controls.Add(employeeDataGrid);
-            viewTabPage.Location = new Point(4, 29);
-            viewTabPage.Name = "viewTabPage";
-            viewTabPage.Padding = new Padding(3);
-            viewTabPage.Size = new Size(808, 536);
-            viewTabPage.TabIndex = 5;
-            viewTabPage.Text = "View Employees";
-            viewTabPage.UseVisualStyleBackColor = true;
-            // 
-            // adminLogoutLbl1
-            // 
-            adminLogoutLbl1.AutoSize = true;
-            adminLogoutLbl1.Location = new Point(722, 6);
-            adminLogoutLbl1.Name = "adminLogoutLbl1";
-            adminLogoutLbl1.Size = new Size(56, 20);
-            adminLogoutLbl1.TabIndex = 46;
-            adminLogoutLbl1.TabStop = true;
-            adminLogoutLbl1.Text = "Logout";
-            // 
-            // employeeDataGrid
-            // 
-            employeeDataGrid.AllowUserToAddRows = false;
-            employeeDataGrid.AllowUserToDeleteRows = false;
-            employeeDataGrid.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            employeeDataGrid.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.DisplayedHeaders;
-            employeeDataGrid.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = SystemColors.Window;
-            dataGridViewCellStyle1.Font = new Font("Segoe UI", 9F);
-            dataGridViewCellStyle1.ForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle1.SelectionBackColor = Color.Transparent;
-            dataGridViewCellStyle1.SelectionForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.False;
-            employeeDataGrid.DefaultCellStyle = dataGridViewCellStyle1;
-            employeeDataGrid.EditMode = DataGridViewEditMode.EditProgrammatically;
-            employeeDataGrid.Location = new Point(18, 34);
-            employeeDataGrid.Name = "employeeDataGrid";
-            employeeDataGrid.RowHeadersWidth = 51;
-            employeeDataGrid.Size = new Size(760, 463);
-            employeeDataGrid.StandardTab = true;
-            employeeDataGrid.TabIndex = 3;
             // 
             // AddNewTabPage
             // 
@@ -1091,14 +1092,6 @@
             taskAsgTbl.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             taskAsgTbl.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             taskAsgTbl.Columns.AddRange(new DataGridViewColumn[] { taskIdClm, taskName, assignedToClm, taskStatusClm });
-            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = SystemColors.Window;
-            dataGridViewCellStyle2.Font = new Font("Segoe UI", 9F);
-            dataGridViewCellStyle2.ForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle2.SelectionBackColor = Color.Transparent;
-            dataGridViewCellStyle2.SelectionForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.False;
-            taskAsgTbl.DefaultCellStyle = dataGridViewCellStyle2;
             taskAsgTbl.EditMode = DataGridViewEditMode.EditProgrammatically;
             taskAsgTbl.Location = new Point(13, 115);
             taskAsgTbl.MultiSelect = false;
@@ -1165,6 +1158,40 @@
             addTaskLkLbl.TabStop = true;
             addTaskLkLbl.Text = "Add Tasks";
             // 
+            // UserIdClm
+            // 
+            UserIdClm.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            UserIdClm.FillWeight = 25F;
+            UserIdClm.HeaderText = "User ID";
+            UserIdClm.MinimumWidth = 100;
+            UserIdClm.Name = "UserIdClm";
+            // 
+            // UsernameClm
+            // 
+            UsernameClm.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            UsernameClm.FillWeight = 35F;
+            UsernameClm.HeaderText = "Username";
+            UsernameClm.MinimumWidth = 150;
+            UsernameClm.Name = "UsernameClm";
+            // 
+            // StatusClm
+            // 
+            StatusClm.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            StatusClm.FillWeight = 15F;
+            StatusClm.HeaderText = "Status";
+            StatusClm.MinimumWidth = 80;
+            StatusClm.Name = "StatusClm";
+            // 
+            // ActionBtnClm
+            // 
+            ActionBtnClm.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            ActionBtnClm.DefaultCellStyle = dataGridViewCellStyle1;
+            ActionBtnClm.FillWeight = 25F;
+            ActionBtnClm.FlatStyle = FlatStyle.Flat;
+            ActionBtnClm.HeaderText = "Action";
+            ActionBtnClm.MinimumWidth = 120;
+            ActionBtnClm.Name = "ActionBtnClm";
+            // 
             // CompleteForm
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -1178,13 +1205,13 @@
             loginPanel.ResumeLayout(false);
             loginPanel.PerformLayout();
             mainTab.ResumeLayout(false);
+            viewTabPage.ResumeLayout(false);
+            viewTabPage.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)employeeDataGrid).EndInit();
             employeeProfileTab.ResumeLayout(false);
             employeeProfileTab.PerformLayout();
             pwdChangePanel.ResumeLayout(false);
             pwdChangePanel.PerformLayout();
-            viewTabPage.ResumeLayout(false);
-            viewTabPage.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)employeeDataGrid).EndInit();
             AddNewTabPage.ResumeLayout(false);
             AddNewTabPage.PerformLayout();
             regPanel.ResumeLayout(false);
@@ -1295,5 +1322,9 @@
         private TabPage viewTabPage;
         private LinkLabel adminLogoutLbl1;
         private DataGridView employeeDataGrid;
+        private DataGridViewTextBoxColumn UserIdClm;
+        private DataGridViewTextBoxColumn UsernameClm;
+        private DataGridViewTextBoxColumn StatusClm;
+        private DataGridViewButtonColumn ActionBtnClm;
     }
 }
