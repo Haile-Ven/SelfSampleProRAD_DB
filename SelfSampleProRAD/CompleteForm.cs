@@ -18,6 +18,7 @@ namespace SelfSampleProRAD
         {
             mainTab.Visible = false;
             loginPanel.Visible = true;
+            LogoutBtn.Visible = false;
             loginInfoLbl.Text = string.Empty;
         }
 
@@ -36,6 +37,8 @@ namespace SelfSampleProRAD
             mainTab.TabPages.Clear();
             loginPanel.Visible = true;
             loginInfoLbl.Text = string.Empty;
+            LogoutBtn.Visible = false;
+            Text = "Employee Full Portal";
         }
 
         private string CatagorySelector()
@@ -113,7 +116,7 @@ namespace SelfSampleProRAD
                 .ToList();
 
             asgToCmbBx.DataSource = employees
-                .Select(usr => new 
+                .Select(usr => new
                 {
                     Display = $"{usr.FirstName} {usr.LastName} ({usr.Account.UserName})",
                     Value = usr.EmployeeId
@@ -125,7 +128,7 @@ namespace SelfSampleProRAD
         }
 
         //Event handlers
-        private void loginBtb_Click(object sender, EventArgs e)
+        private void LoginBtb_Click(object sender, EventArgs e)
         {
             var response = new AccountController().Login(userNameTxt.Text, passwordTxt.Text);
 
@@ -134,7 +137,7 @@ namespace SelfSampleProRAD
                 loginInfoLbl.Text = response.Item2;
                 return;
             }
-
+            LogoutBtn.Visible = true;
             loginPanel.Visible = false;
             mainTab.Visible = true;
 
@@ -168,30 +171,29 @@ namespace SelfSampleProRAD
                     loginInfoLbl.Text = "Invalid User Position.";
                     return;
             }
-            mainTab.TabPages.Add(logoutBtn);
             mainTab.SelectedTab = employeeProfileTab;
             LoadProfile(response.Item1);
             LogAccess(1);
         }
 
-        private void addTaskLkLbl_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        private void AddTaskLkLbl_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             this.addTaskPanel.Visible = true;
         }
 
-        private void manClsLbl_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        private void ManClsLbl_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             this.addTaskPanel.Visible = false;
             asgToCmbBx.SelectedItem = null;
             tskNmTxtBx.Text = null;
         }
 
-        private void userNameTxt_TextChanged(object sender, EventArgs e)
+        private void UserNameTxt_TextChanged(object sender, EventArgs e)
         {
             this.loginInfoLbl.Text = string.Empty;
         }
 
-        private void saveBtn_Click(object sender, EventArgs e)
+        private void SaveBtn_Click(object sender, EventArgs e)
         {
             char gender = 'O';
             gender = genderSelect.Text == "Male" ? 'M' : 'F';
@@ -205,22 +207,22 @@ namespace SelfSampleProRAD
             MessageBox.Show(response, "Account", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
-        private void dobSelector_ValueChanged(object sender, EventArgs e)
+        private void DobSelector_ValueChanged(object sender, EventArgs e)
         {
             ageTxtBx.Text = (DateTime.Now.Year - dobSelector.Value.Year).ToString();
         }
 
-        private void cngPwdLkLbl_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        private void CngPwdLkLbl_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             pwdChangePanel.Visible = true;
         }
 
-        private void clsPwdCngLbl_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        private void ClsPwdCngLbl_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             pwdChangePanel.Visible = false;
         }
 
-        private void cngPwdBtn_Click(object sender, EventArgs e)
+        private void CngPwdBtn_Click(object sender, EventArgs e)
         {
             if (oldPwdTxtBx.Text == nwPwdTxtBx.Text)
             {
@@ -237,17 +239,17 @@ namespace SelfSampleProRAD
             pwdChangePanel.Visible = false;
         }
 
-        private void submitTaskBtn_Click(object sender, EventArgs e)
+        private void SubmitTaskBtn_Click(object sender, EventArgs e)
         {
-            if(emptaskListBox.SelectedItem == null)
+            if (emptaskListBox.SelectedItem == null)
             {
-                MessageBox.Show("Please select a task to start working on.", "Error",MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Please select a task to start working on.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
-            if(string.IsNullOrEmpty(doTaskRcTxtBx.Text))
+            if (string.IsNullOrEmpty(doTaskRcTxtBx.Text))
             {
-                MessageBox.Show("Please fill in the task details.","Error",MessageBoxButtons.OK,MessageBoxIcon.Error);
+                MessageBox.Show("Please fill in the task details.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
@@ -257,7 +259,7 @@ namespace SelfSampleProRAD
             MessageBox.Show(response, "Task", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
-        private void asgnTaskBtn_Click(object sender, EventArgs e)
+        private void AsgnTaskBtn_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrEmpty(tskNmTxtBx.Text) || asgToCmbBx.SelectedItem == null)
             {
@@ -265,24 +267,24 @@ namespace SelfSampleProRAD
                 return;
             }
             asgToCmbBx.SelectedValue.ToString();
-           var response = new TasksController().AssignTask(tskNmTxtBx.Text, Guid.Parse(asgToCmbBx.SelectedValue.ToString()), Guid.Parse(empIDProfTxtBx.Text));
+            var response = new TasksController().AssignTask(tskNmTxtBx.Text, Guid.Parse(asgToCmbBx.SelectedValue.ToString()), Guid.Parse(empIDProfTxtBx.Text));
             MessageBox.Show(response.Item2);
             addTaskPanel.Visible = false;
             LoadTasksBy(Guid.Parse(empIDProfTxtBx.Text));
         }
 
-        private void doTaskRcTxtBx_TextChanged(object sender, EventArgs e)
+        private void DoTaskRcTxtBx_TextChanged(object sender, EventArgs e)
         {
-            if(emptaskListBox.SelectedItem == null)
+            if (emptaskListBox.SelectedItem == null)
             {
                 MessageBox.Show("Please select a task to start working on.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
             _ = new TasksController().startWorking(Guid.Parse(emptaskListBox.SelectedValue.ToString()));
-            if(!emptaskListBox.Text.Contains("Started")) LoadTasksFor(Guid.Parse(empIDProfTxtBx.Text));
+            if (!emptaskListBox.Text.Contains("Started")) LoadTasksFor(Guid.Parse(empIDProfTxtBx.Text));
         }
 
-        private void mainTab_SelectedIndexChanged(object sender, EventArgs e)
+        private void MainTab_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (mainTab.SelectedTab == viewTabPage)
             {
@@ -295,15 +297,12 @@ namespace SelfSampleProRAD
                 LoadTasksBy(Guid.Parse(empIDProfTxtBx.Text));
             }
 
-            if (mainTab.SelectedTab == logoutBtn)
-            {
-                Logout();
-            }
-
-            if(mainTab.SelectedTab == employeeTaskTab)
+            if (mainTab.SelectedTab == employeeTaskTab)
             {
                 LoadTasksFor(Guid.Parse(empIDProfTxtBx.Text));
             }
+
+
         }
         private void EmployeeDataGrid_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
@@ -316,6 +315,11 @@ namespace SelfSampleProRAD
                 var response = new AccountController().ChangeAccountStatus(userid);
                 LoadEmployeeData();
             }
+        }
+
+        private void LogoutBtn_Click(object sender, EventArgs e)
+        {
+            Logout();
         }
     }
 
