@@ -321,6 +321,11 @@ namespace SelfSampleProRAD
         {
             Logout();
         }
+
+        private void EditProfileLkLbl_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            
+        }
     }
 
 }

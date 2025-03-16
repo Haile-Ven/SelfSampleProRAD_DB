@@ -28,7 +28,7 @@ namespace SelfSampleProRAD
         /// </summary>
         private void InitializeComponent()
         {
-            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
             loginPanel = new Panel();
             loginInfoLbl = new Label();
             loginBtb = new Button();
@@ -38,6 +38,7 @@ namespace SelfSampleProRAD
             userNameTxt = new TextBox();
             mainTab = new TabControl();
             employeeProfileTab = new TabPage();
+            EditProfileLkLbl = new LinkLabel();
             pwdChangePanel = new Panel();
             cngPwdBtn = new Button();
             oldPwdTxtBx = new TextBox();
@@ -134,23 +135,23 @@ namespace SelfSampleProRAD
             loginPanel.Controls.Add(userNameLbl);
             loginPanel.Controls.Add(passwordTxt);
             loginPanel.Controls.Add(userNameTxt);
-            loginPanel.Location = new Point(0, -1);
+            loginPanel.Location = new Point(3, -1);
             loginPanel.Name = "loginPanel";
-            loginPanel.Size = new Size(816, 569);
+            loginPanel.Size = new Size(831, 613);
             loginPanel.TabIndex = 0;
             // 
             // loginInfoLbl
             // 
             loginInfoLbl.AutoSize = true;
             loginInfoLbl.ForeColor = Color.Red;
-            loginInfoLbl.Location = new Point(272, 145);
+            loginInfoLbl.Location = new Point(279, 196);
             loginInfoLbl.Name = "loginInfoLbl";
             loginInfoLbl.Size = new Size(0, 20);
             loginInfoLbl.TabIndex = 10;
             // 
             // loginBtb
             // 
-            loginBtb.Location = new Point(366, 283);
+            loginBtb.Location = new Point(373, 334);
             loginBtb.Name = "loginBtb";
             loginBtb.Size = new Size(109, 37);
             loginBtb.TabIndex = 9;
@@ -161,7 +162,7 @@ namespace SelfSampleProRAD
             // passwordLbl
             // 
             passwordLbl.AutoSize = true;
-            passwordLbl.Location = new Point(162, 229);
+            passwordLbl.Location = new Point(169, 280);
             passwordLbl.Name = "passwordLbl";
             passwordLbl.Size = new Size(70, 20);
             passwordLbl.TabIndex = 8;
@@ -170,7 +171,7 @@ namespace SelfSampleProRAD
             // userNameLbl
             // 
             userNameLbl.AutoSize = true;
-            userNameLbl.Location = new Point(162, 189);
+            userNameLbl.Location = new Point(169, 240);
             userNameLbl.Name = "userNameLbl";
             userNameLbl.Size = new Size(79, 20);
             userNameLbl.TabIndex = 7;
@@ -179,7 +180,7 @@ namespace SelfSampleProRAD
             // passwordTxt
             // 
             passwordTxt.BorderStyle = BorderStyle.FixedSingle;
-            passwordTxt.Location = new Point(272, 229);
+            passwordTxt.Location = new Point(279, 280);
             passwordTxt.Name = "passwordTxt";
             passwordTxt.PasswordChar = '•';
             passwordTxt.Size = new Size(314, 27);
@@ -188,7 +189,7 @@ namespace SelfSampleProRAD
             // userNameTxt
             // 
             userNameTxt.BorderStyle = BorderStyle.FixedSingle;
-            userNameTxt.Location = new Point(272, 189);
+            userNameTxt.Location = new Point(279, 240);
             userNameTxt.Name = "userNameTxt";
             userNameTxt.Size = new Size(314, 27);
             userNameTxt.TabIndex = 5;
@@ -200,11 +201,11 @@ namespace SelfSampleProRAD
             mainTab.Controls.Add(AddNewTabPage);
             mainTab.Controls.Add(employeeTaskTab);
             mainTab.Controls.Add(taskManTab);
-            mainTab.Location = new Point(15, 13);
+            mainTab.Location = new Point(6, 2);
             mainTab.Name = "mainTab";
             mainTab.Padding = new Point(10, 15);
             mainTab.SelectedIndex = 0;
-            mainTab.Size = new Size(816, 580);
+            mainTab.Size = new Size(833, 607);
             mainTab.SizeMode = TabSizeMode.FillToRight;
             mainTab.TabIndex = 47;
             mainTab.SelectedIndexChanged += MainTab_SelectedIndexChanged;
@@ -212,6 +213,7 @@ namespace SelfSampleProRAD
             // employeeProfileTab
             // 
             employeeProfileTab.BackColor = SystemColors.Control;
+            employeeProfileTab.Controls.Add(EditProfileLkLbl);
             employeeProfileTab.Controls.Add(pwdChangePanel);
             employeeProfileTab.Controls.Add(cngPwdLkLbl);
             employeeProfileTab.Controls.Add(catagProfTxtBx);
@@ -235,9 +237,21 @@ namespace SelfSampleProRAD
             employeeProfileTab.Location = new Point(4, 53);
             employeeProfileTab.Name = "employeeProfileTab";
             employeeProfileTab.Padding = new Padding(3);
-            employeeProfileTab.Size = new Size(808, 523);
+            employeeProfileTab.Size = new Size(825, 550);
             employeeProfileTab.TabIndex = 1;
             employeeProfileTab.Text = "👤Profile";
+            // 
+            // EditProfileLkLbl
+            // 
+            EditProfileLkLbl.AutoSize = true;
+            EditProfileLkLbl.LinkBehavior = LinkBehavior.NeverUnderline;
+            EditProfileLkLbl.Location = new Point(11, 17);
+            EditProfileLkLbl.Name = "EditProfileLkLbl";
+            EditProfileLkLbl.Size = new Size(77, 20);
+            EditProfileLkLbl.TabIndex = 47;
+            EditProfileLkLbl.TabStop = true;
+            EditProfileLkLbl.Text = "✏️👤Edit";
+            EditProfileLkLbl.LinkClicked += EditProfileLkLbl_LinkClicked;
             // 
             // pwdChangePanel
             // 
@@ -346,12 +360,13 @@ namespace SelfSampleProRAD
             // cngPwdLkLbl
             // 
             cngPwdLkLbl.AutoSize = true;
-            cngPwdLkLbl.Location = new Point(611, 47);
+            cngPwdLkLbl.LinkBehavior = LinkBehavior.NeverUnderline;
+            cngPwdLkLbl.Location = new Point(590, 51);
             cngPwdLkLbl.Name = "cngPwdLkLbl";
-            cngPwdLkLbl.Size = new Size(124, 20);
+            cngPwdLkLbl.Size = new Size(170, 20);
             cngPwdLkLbl.TabIndex = 46;
             cngPwdLkLbl.TabStop = true;
-            cngPwdLkLbl.Text = "Change Password";
+            cngPwdLkLbl.Text = "🔒✏️ Change Password";
             cngPwdLkLbl.LinkClicked += CngPwdLkLbl_LinkClicked;
             // 
             // catagProfTxtBx
@@ -559,7 +574,7 @@ namespace SelfSampleProRAD
             viewTabPage.Location = new Point(4, 53);
             viewTabPage.Name = "viewTabPage";
             viewTabPage.Padding = new Padding(3);
-            viewTabPage.Size = new Size(808, 523);
+            viewTabPage.Size = new Size(827, 552);
             viewTabPage.TabIndex = 5;
             viewTabPage.Text = "👥✅ View Accounts";
             viewTabPage.UseVisualStyleBackColor = true;
@@ -614,7 +629,7 @@ namespace SelfSampleProRAD
             // ActionBtnClm
             // 
             ActionBtnClm.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            ActionBtnClm.DefaultCellStyle = dataGridViewCellStyle2;
+            ActionBtnClm.DefaultCellStyle = dataGridViewCellStyle3;
             ActionBtnClm.FillWeight = 25F;
             ActionBtnClm.FlatStyle = FlatStyle.Flat;
             ActionBtnClm.HeaderText = "Action";
@@ -629,7 +644,7 @@ namespace SelfSampleProRAD
             AddNewTabPage.Location = new Point(4, 53);
             AddNewTabPage.Name = "AddNewTabPage";
             AddNewTabPage.Padding = new Padding(3);
-            AddNewTabPage.Size = new Size(808, 523);
+            AddNewTabPage.Size = new Size(827, 552);
             AddNewTabPage.TabIndex = 3;
             AddNewTabPage.Text = "➕👤Add New Employee";
             AddNewTabPage.UseVisualStyleBackColor = true;
@@ -883,7 +898,7 @@ namespace SelfSampleProRAD
             employeeTaskTab.Location = new Point(4, 53);
             employeeTaskTab.Name = "employeeTaskTab";
             employeeTaskTab.Padding = new Padding(3);
-            employeeTaskTab.Size = new Size(808, 523);
+            employeeTaskTab.Size = new Size(827, 552);
             employeeTaskTab.TabIndex = 2;
             employeeTaskTab.Text = "📝 Tasks";
             employeeTaskTab.UseVisualStyleBackColor = true;
@@ -936,7 +951,7 @@ namespace SelfSampleProRAD
             taskManTab.Location = new Point(4, 53);
             taskManTab.Name = "taskManTab";
             taskManTab.Padding = new Padding(3);
-            taskManTab.Size = new Size(808, 523);
+            taskManTab.Size = new Size(827, 552);
             taskManTab.TabIndex = 4;
             taskManTab.Text = "📋 Task Management";
             taskManTab.UseVisualStyleBackColor = true;
@@ -1048,7 +1063,7 @@ namespace SelfSampleProRAD
             LogoutBtn.FlatStyle = FlatStyle.Flat;
             LogoutBtn.Font = new Font("Segoe UI", 9F);
             LogoutBtn.ForeColor = SystemColors.ControlLightLight;
-            LogoutBtn.Location = new Point(733, 17);
+            LogoutBtn.Location = new Point(737, 7);
             LogoutBtn.Name = "LogoutBtn";
             LogoutBtn.Size = new Size(94, 49);
             LogoutBtn.TabIndex = 47;
@@ -1176,5 +1191,6 @@ namespace SelfSampleProRAD
         private DataGridViewButtonColumn ActionBtnClm;
         private TabPage logoutBtn;
         private Button LogoutBtn;
+        private LinkLabel EditProfileLkLbl;
     }
 }

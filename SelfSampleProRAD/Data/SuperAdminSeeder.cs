@@ -28,7 +28,7 @@ namespace SelfSampleProRAD_DB.Data
             {
                 var employee = new Employee
                 {
-                    FirstName = "Jhon",
+                    FirstName = "John",
                     LastName = "Doe",
                     Gender = 'M',
                     Age = 35,
