@@ -8,17 +8,25 @@ namespace SelfSampleProRAD_DB.Model
         [Key]
         [Required]
         public Guid ETID { get; set; }
+
         [Required]
-        [ForeignKey("EmployeeId")]
-        public Guid EmployeeId { get; set; }
-        [Required]
-        [ForeignKey("TaskId")]
         public Guid TaskId { get; set; }
 
-        // Navigation property
-        public virtual Employee Employees { get; set; }
+        [Required]
+        public Guid AssignedToId { get; set; }
+
+        [Required]
+        public Guid AssignedById { get; set; }
+
+        // Navigation properties
+        public virtual Employee AssignedTo { get; set; }
+        public virtual Employee AssignedBy { get; set; }
         public virtual Tasks Tasks { get; set; }
-        //Constructors
-        public EmployeeTasks() { ETID = new Guid(); }
+
+        public EmployeeTasks()
+        {
+            ETID = Guid.NewGuid();
+        }
     }
+
 }

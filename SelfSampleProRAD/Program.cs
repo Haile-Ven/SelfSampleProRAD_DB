@@ -1,5 +1,6 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.EntityFrameworkCore;
 using SelfSampleProRAD;
 using SelfSampleProRAD_DB.Data;
 
@@ -13,16 +14,16 @@ namespace SelfSampleProRAD_DB
         [STAThread]
         static void Main()
         {
-            // Setup configuration
+            if (IsRunningUnderEfCoreTooling())
+                return;
+
             Configuration = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
                 .AddJsonFile("appsettings.json")
                 .Build();
 
-            // Setup services
             var services = new ServiceCollection();
 
-            // Register DbContext
             services.AddDbContext<AppDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
@@ -36,10 +37,8 @@ namespace SelfSampleProRAD_DB
 
                 try
                 {
-                    // Ensure DB is created
                     context.Database.EnsureCreated();
 
-                    // Run seeder
                     var seeder = new SuperAdminSeeder(context);
                     seeder.SeedSuperAdmin();
                 }
@@ -52,6 +51,13 @@ namespace SelfSampleProRAD_DB
             }
 
             Application.Run(new CompleteForm());
+        }
+
+        private static bool IsRunningUnderEfCoreTooling()
+        {
+            return AppDomain.CurrentDomain
+                .GetAssemblies()
+                .Any(a => a.FullName.StartsWith("Microsoft.EntityFrameworkCore.Design"));
         }
     }
 }

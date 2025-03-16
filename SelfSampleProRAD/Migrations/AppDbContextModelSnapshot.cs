@@ -98,13 +98,23 @@ namespace SelfSampleProRAD_DB.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("EmployeeId")
+                    b.Property<Guid>("AssignedById")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("AssignedToId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("EmployeeId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("TaskId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("ETID");
+
+                    b.HasIndex("AssignedById");
+
+                    b.HasIndex("AssignedToId");
 
                     b.HasIndex("EmployeeId");
 
@@ -118,14 +128,6 @@ namespace SelfSampleProRAD_DB.Migrations
                     b.Property<Guid>("TaskId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("AssignedBy")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("AssignedTo")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Status")
                         .IsRequired()
@@ -151,11 +153,21 @@ namespace SelfSampleProRAD_DB.Migrations
 
             modelBuilder.Entity("SelfSampleProRAD_DB.Model.EmployeeTasks", b =>
                 {
-                    b.HasOne("SelfSampleProRAD_DB.Model.Employee", "Employees")
-                        .WithMany("EmployeeTasks")
-                        .HasForeignKey("EmployeeId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                    b.HasOne("SelfSampleProRAD_DB.Model.Employee", "AssignedBy")
+                        .WithMany()
+                        .HasForeignKey("AssignedById")
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+
+                    b.HasOne("SelfSampleProRAD_DB.Model.Employee", "AssignedTo")
+                        .WithMany()
+                        .HasForeignKey("AssignedToId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("SelfSampleProRAD_DB.Model.Employee", null)
+                        .WithMany("EmployeeTasks")
+                        .HasForeignKey("EmployeeId");
 
                     b.HasOne("SelfSampleProRAD_DB.Model.Tasks", "Tasks")
                         .WithMany("EmployeeTasks")
@@ -163,7 +175,9 @@ namespace SelfSampleProRAD_DB.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Employees");
+                    b.Navigation("AssignedBy");
+
+                    b.Navigation("AssignedTo");
 
                     b.Navigation("Tasks");
                 });

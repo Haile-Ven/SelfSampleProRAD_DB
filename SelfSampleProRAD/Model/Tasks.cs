@@ -10,10 +10,6 @@ namespace SelfSampleProRAD_DB.Model
         [Required]
         public string TaskName { get; set; }
         [Required]
-        public string AssignedTo { get; set; }
-        [Required]
-        public string AssignedBy { get; set; }
-        [Required]
         public char Status { get; set; }
 
         public virtual ICollection<EmployeeTasks> EmployeeTasks { get; set; }

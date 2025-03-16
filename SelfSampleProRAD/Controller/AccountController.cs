@@ -1,4 +1,4 @@
-﻿using SelfSampleProRAD_DB.DTOs;
+using SelfSampleProRAD_DB.DTOs;
 using SelfSampleProRAD_DB.Model;
 namespace SelfSampleProRAD_DB.Controller
 {
@@ -48,13 +48,15 @@ namespace SelfSampleProRAD_DB.Controller
         // implement this method here
 
         //Change password
-        public string changePassword(Guid accountId, string oldPass, string newPass)
+        public string ChangePassword(Guid employeeId, string oldPass, string newPass)
         {
             try
             {
-                var account = _context.Account.Where(a => a.UserId == accountId).FirstOrDefault();
+                var employee = _context.Employee.Where(e => e.EmployeeId == employeeId).FirstOrDefault();
+                var account = _context.Account.Where(a => a.UserId == employee.UserId).FirstOrDefault();
                 if (account == null) return "Account not found.";
                 if(account.Password != oldPass) return "Old Password is incorrect.";
+                account.Password = newPass;
                 _context.Update(account);
                 _context.SaveChanges();
             }
@@ -92,6 +94,20 @@ namespace SelfSampleProRAD_DB.Controller
                 })
                 .ToList();
             return devs;
+        }
+
+        public Account FindAccountByID(Guid? id)
+        {
+            var account = _context.Account
+                .Where(a => a.UserId == id)
+                .Select(a => new Account()
+                {
+                    UserId = a.UserId,
+                    UserName = a.UserName,
+                    Status = a.Status,
+                })
+                .FirstOrDefault();
+            return account;
         }
 
         //Change account status (Activate/Deactivate)

@@ -21,6 +21,7 @@ namespace SelfSampleProRAD_DB
                 .Build();
 
             _connectionString = configuration.GetConnectionString("DefaultConnection");
+
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -64,10 +65,16 @@ namespace SelfSampleProRAD_DB
                 .HasKey(et => et.ETID);
 
             modelBuilder.Entity<EmployeeTasks>()
-                .HasOne(e => e.Employees)
-                .WithMany(et => et.EmployeeTasks)
-                .HasForeignKey(et => et.EmployeeId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .HasOne(et => et.AssignedTo)
+                .WithMany() 
+                .HasForeignKey(et => et.AssignedToId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<EmployeeTasks>()
+                .HasOne(et => et.AssignedBy)
+                .WithMany() 
+                .HasForeignKey(et => et.AssignedById)
+                .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<EmployeeTasks>()
                 .HasOne(t => t.Tasks)

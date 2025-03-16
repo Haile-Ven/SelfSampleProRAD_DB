@@ -31,8 +31,6 @@ namespace SelfSampleProRAD_DB.Migrations
                 {
                     TaskId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     TaskName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    AssignedTo = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    AssignedBy = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Status = table.Column<string>(type: "nvarchar(1)", nullable: false)
                 },
                 constraints: table =>
@@ -70,18 +68,31 @@ namespace SelfSampleProRAD_DB.Migrations
                 columns: table => new
                 {
                     ETID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    EmployeeId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    TaskId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    TaskId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    AssignedToId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    AssignedById = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    EmployeeId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_EmployeeTasks", x => x.ETID);
                     table.ForeignKey(
+                        name: "FK_EmployeeTasks_Employee_AssignedById",
+                        column: x => x.AssignedById,
+                        principalTable: "Employee",
+                        principalColumn: "EmployeeId",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_EmployeeTasks_Employee_AssignedToId",
+                        column: x => x.AssignedToId,
+                        principalTable: "Employee",
+                        principalColumn: "EmployeeId",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
                         name: "FK_EmployeeTasks_Employee_EmployeeId",
                         column: x => x.EmployeeId,
                         principalTable: "Employee",
-                        principalColumn: "EmployeeId",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "EmployeeId");
                     table.ForeignKey(
                         name: "FK_EmployeeTasks_Tasks_TaskId",
                         column: x => x.TaskId,
@@ -96,6 +107,16 @@ namespace SelfSampleProRAD_DB.Migrations
                 column: "UserId",
                 unique: true,
                 filter: "[UserId] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_EmployeeTasks_AssignedById",
+                table: "EmployeeTasks",
+                column: "AssignedById");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_EmployeeTasks_AssignedToId",
+                table: "EmployeeTasks",
+                column: "AssignedToId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_EmployeeTasks_EmployeeId",

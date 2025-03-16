@@ -38,8 +38,11 @@ namespace SelfSampleProRAD
             userNameTxt = new TextBox();
             mainTab = new TabControl();
             viewTabPage = new TabPage();
-            adminLogoutLbl1 = new LinkLabel();
             employeeDataGrid = new DataGridView();
+            UserIdClm = new DataGridViewTextBoxColumn();
+            UsernameClm = new DataGridViewTextBoxColumn();
+            StatusClm = new DataGridViewTextBoxColumn();
+            ActionBtnClm = new DataGridViewButtonColumn();
             employeeProfileTab = new TabPage();
             pwdChangePanel = new Panel();
             cngPwdBtn = new Button();
@@ -52,7 +55,6 @@ namespace SelfSampleProRAD
             nwPwdLbl = new Label();
             oldPwdLbl = new Label();
             cngPwdLkLbl = new LinkLabel();
-            devLogoutLbl1 = new LinkLabel();
             catagProfTxtBx = new TextBox();
             positionProfTxtBx = new TextBox();
             genderProfTxtBx = new TextBox();
@@ -62,7 +64,6 @@ namespace SelfSampleProRAD
             lNameProfTxtBx = new TextBox();
             fNameProfTxtBx = new TextBox();
             empIDProfTxtBx = new TextBox();
-            imgProPanel = new Panel();
             taxProfLbl = new Label();
             salaryProfLbl = new Label();
             catgProfLbl = new Label();
@@ -73,7 +74,6 @@ namespace SelfSampleProRAD
             lNameProfLbl = new Label();
             fNameProfLbl = new Label();
             AddNewTabPage = new TabPage();
-            adminLogoutLbl2 = new LinkLabel();
             clearBtn = new Button();
             saveBtn = new Button();
             empImgPanel = new Panel();
@@ -88,19 +88,16 @@ namespace SelfSampleProRAD
             taxTxtBx = new TextBox();
             salaryTxtBx = new TextBox();
             lastNameTxtBx = new TextBox();
-            fNameTxtBx = new TextBox();
-            empIdTxtBx = new TextBox();
+            firstNameTxtBx = new TextBox();
             taxLbl = new Label();
             salaryLbl = new Label();
             catagoryLbl = new Label();
             positionLbl = new Label();
             genderLbl = new Label();
-            empIdLbl = new Label();
             ageLbl = new Label();
             lastNameLbl = new Label();
             firstNameLbl = new Label();
             employeeTaskTab = new TabPage();
-            devLogoutLbl2 = new LinkLabel();
             emptaskListBox = new ListBox();
             submitTaskBtn = new Button();
             doTaskRcTxtBx = new RichTextBox();
@@ -111,22 +108,11 @@ namespace SelfSampleProRAD
             asgnTaskBtn = new Button();
             asgToCmbBx = new ComboBox();
             tskNmTxtBx = new TextBox();
-            tskIdTxtBx = new TextBox();
             assgToLbl = new Label();
             taskNameLbl = new Label();
-            taskIdLbl = new Label();
             taskAsgTbl = new DataGridView();
-            taskIdClm = new DataGridViewTextBoxColumn();
-            taskName = new DataGridViewTextBoxColumn();
-            assignedToClm = new DataGridViewTextBoxColumn();
-            taskStatusClm = new DataGridViewTextBoxColumn();
-            mgrLbl = new Label();
-            linkLabel4 = new LinkLabel();
             addTaskLkLbl = new LinkLabel();
-            UserIdClm = new DataGridViewTextBoxColumn();
-            UsernameClm = new DataGridViewTextBoxColumn();
-            StatusClm = new DataGridViewTextBoxColumn();
-            ActionBtnClm = new DataGridViewButtonColumn();
+            logoutBtn = new TabPage();
             loginPanel.SuspendLayout();
             mainTab.SuspendLayout();
             viewTabPage.SuspendLayout();
@@ -215,15 +201,16 @@ namespace SelfSampleProRAD
             mainTab.Controls.Add(AddNewTabPage);
             mainTab.Controls.Add(employeeTaskTab);
             mainTab.Controls.Add(taskManTab);
+            mainTab.Controls.Add(logoutBtn);
             mainTab.Location = new Point(0, 0);
             mainTab.Name = "mainTab";
             mainTab.SelectedIndex = 0;
             mainTab.Size = new Size(816, 569);
             mainTab.TabIndex = 47;
+            mainTab.SelectedIndexChanged += mainTab_SelectedIndexChanged;
             // 
             // viewTabPage
             // 
-            viewTabPage.Controls.Add(adminLogoutLbl1);
             viewTabPage.Controls.Add(employeeDataGrid);
             viewTabPage.Location = new Point(4, 29);
             viewTabPage.Name = "viewTabPage";
@@ -232,16 +219,6 @@ namespace SelfSampleProRAD
             viewTabPage.TabIndex = 5;
             viewTabPage.Text = "View Employees";
             viewTabPage.UseVisualStyleBackColor = true;
-            // 
-            // adminLogoutLbl1
-            // 
-            adminLogoutLbl1.AutoSize = true;
-            adminLogoutLbl1.Location = new Point(722, 6);
-            adminLogoutLbl1.Name = "adminLogoutLbl1";
-            adminLogoutLbl1.Size = new Size(56, 20);
-            adminLogoutLbl1.TabIndex = 46;
-            adminLogoutLbl1.TabStop = true;
-            adminLogoutLbl1.Text = "Logout";
             // 
             // employeeDataGrid
             // 
@@ -266,11 +243,44 @@ namespace SelfSampleProRAD
             employeeDataGrid.TabIndex = 3;
             employeeDataGrid.CellContentClick += EmployeeDataGrid_CellContentClick;
             // 
+            // UserIdClm
+            // 
+            UserIdClm.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            UserIdClm.FillWeight = 25F;
+            UserIdClm.HeaderText = "User ID";
+            UserIdClm.MinimumWidth = 100;
+            UserIdClm.Name = "UserIdClm";
+            // 
+            // UsernameClm
+            // 
+            UsernameClm.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            UsernameClm.FillWeight = 35F;
+            UsernameClm.HeaderText = "Username";
+            UsernameClm.MinimumWidth = 150;
+            UsernameClm.Name = "UsernameClm";
+            // 
+            // StatusClm
+            // 
+            StatusClm.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            StatusClm.FillWeight = 15F;
+            StatusClm.HeaderText = "Status";
+            StatusClm.MinimumWidth = 80;
+            StatusClm.Name = "StatusClm";
+            // 
+            // ActionBtnClm
+            // 
+            ActionBtnClm.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            ActionBtnClm.DefaultCellStyle = dataGridViewCellStyle1;
+            ActionBtnClm.FillWeight = 25F;
+            ActionBtnClm.FlatStyle = FlatStyle.Flat;
+            ActionBtnClm.HeaderText = "Action";
+            ActionBtnClm.MinimumWidth = 120;
+            ActionBtnClm.Name = "ActionBtnClm";
+            // 
             // employeeProfileTab
             // 
             employeeProfileTab.Controls.Add(pwdChangePanel);
             employeeProfileTab.Controls.Add(cngPwdLkLbl);
-            employeeProfileTab.Controls.Add(devLogoutLbl1);
             employeeProfileTab.Controls.Add(catagProfTxtBx);
             employeeProfileTab.Controls.Add(positionProfTxtBx);
             employeeProfileTab.Controls.Add(genderProfTxtBx);
@@ -280,7 +290,6 @@ namespace SelfSampleProRAD
             employeeProfileTab.Controls.Add(lNameProfTxtBx);
             employeeProfileTab.Controls.Add(fNameProfTxtBx);
             employeeProfileTab.Controls.Add(empIDProfTxtBx);
-            employeeProfileTab.Controls.Add(imgProPanel);
             employeeProfileTab.Controls.Add(taxProfLbl);
             employeeProfileTab.Controls.Add(salaryProfLbl);
             employeeProfileTab.Controls.Add(catgProfLbl);
@@ -325,6 +334,7 @@ namespace SelfSampleProRAD
             cngPwdBtn.TabIndex = 8;
             cngPwdBtn.Text = "Change Password";
             cngPwdBtn.UseVisualStyleBackColor = true;
+            cngPwdBtn.Click += cngPwdBtn_Click;
             // 
             // oldPwdTxtBx
             // 
@@ -370,6 +380,7 @@ namespace SelfSampleProRAD
             clsPwdCngLbl.TabIndex = 3;
             clsPwdCngLbl.TabStop = true;
             clsPwdCngLbl.Text = "X";
+            clsPwdCngLbl.LinkClicked += clsPwdCngLbl_LinkClicked;
             // 
             // pwdCngLbl
             // 
@@ -402,22 +413,13 @@ namespace SelfSampleProRAD
             // cngPwdLkLbl
             // 
             cngPwdLkLbl.AutoSize = true;
-            cngPwdLkLbl.Location = new Point(627, 278);
+            cngPwdLkLbl.Location = new Point(611, 47);
             cngPwdLkLbl.Name = "cngPwdLkLbl";
             cngPwdLkLbl.Size = new Size(124, 20);
             cngPwdLkLbl.TabIndex = 46;
             cngPwdLkLbl.TabStop = true;
             cngPwdLkLbl.Text = "Change Password";
-            // 
-            // devLogoutLbl1
-            // 
-            devLogoutLbl1.AutoSize = true;
-            devLogoutLbl1.Location = new Point(718, 8);
-            devLogoutLbl1.Name = "devLogoutLbl1";
-            devLogoutLbl1.Size = new Size(56, 20);
-            devLogoutLbl1.TabIndex = 45;
-            devLogoutLbl1.TabStop = true;
-            devLogoutLbl1.Text = "Logout";
+            cngPwdLkLbl.LinkClicked += cngPwdLkLbl_LinkClicked;
             // 
             // catagProfTxtBx
             // 
@@ -528,15 +530,6 @@ namespace SelfSampleProRAD
             empIDProfTxtBx.TabIndex = 35;
             empIDProfTxtBx.Tag = "";
             // 
-            // imgProPanel
-            // 
-            imgProPanel.BorderStyle = BorderStyle.FixedSingle;
-            imgProPanel.Location = new Point(504, 45);
-            imgProPanel.Margin = new Padding(5);
-            imgProPanel.Name = "imgProPanel";
-            imgProPanel.Size = new Size(244, 223);
-            imgProPanel.TabIndex = 41;
-            // 
             // taxProfLbl
             // 
             taxProfLbl.AutoSize = true;
@@ -629,7 +622,6 @@ namespace SelfSampleProRAD
             // 
             // AddNewTabPage
             // 
-            AddNewTabPage.Controls.Add(adminLogoutLbl2);
             AddNewTabPage.Controls.Add(clearBtn);
             AddNewTabPage.Controls.Add(saveBtn);
             AddNewTabPage.Controls.Add(empImgPanel);
@@ -642,19 +634,9 @@ namespace SelfSampleProRAD
             AddNewTabPage.Text = "Add New Employee";
             AddNewTabPage.UseVisualStyleBackColor = true;
             // 
-            // adminLogoutLbl2
-            // 
-            adminLogoutLbl2.AutoSize = true;
-            adminLogoutLbl2.Location = new Point(722, 6);
-            adminLogoutLbl2.Name = "adminLogoutLbl2";
-            adminLogoutLbl2.Size = new Size(56, 20);
-            adminLogoutLbl2.TabIndex = 47;
-            adminLogoutLbl2.TabStop = true;
-            adminLogoutLbl2.Text = "Logout";
-            // 
             // clearBtn
             // 
-            clearBtn.Location = new Point(253, 475);
+            clearBtn.Location = new Point(253, 462);
             clearBtn.Name = "clearBtn";
             clearBtn.Size = new Size(94, 29);
             clearBtn.TabIndex = 19;
@@ -663,12 +645,13 @@ namespace SelfSampleProRAD
             // 
             // saveBtn
             // 
-            saveBtn.Location = new Point(153, 475);
+            saveBtn.Location = new Point(148, 462);
             saveBtn.Name = "saveBtn";
             saveBtn.Size = new Size(94, 29);
             saveBtn.TabIndex = 18;
             saveBtn.Text = "Save";
             saveBtn.UseVisualStyleBackColor = true;
+            saveBtn.Click += saveBtn_Click;
             // 
             // empImgPanel
             // 
@@ -692,27 +675,25 @@ namespace SelfSampleProRAD
             regPanel.Controls.Add(taxTxtBx);
             regPanel.Controls.Add(salaryTxtBx);
             regPanel.Controls.Add(lastNameTxtBx);
-            regPanel.Controls.Add(fNameTxtBx);
-            regPanel.Controls.Add(empIdTxtBx);
+            regPanel.Controls.Add(firstNameTxtBx);
             regPanel.Controls.Add(taxLbl);
             regPanel.Controls.Add(salaryLbl);
             regPanel.Controls.Add(catagoryLbl);
             regPanel.Controls.Add(positionLbl);
             regPanel.Controls.Add(genderLbl);
-            regPanel.Controls.Add(empIdLbl);
             regPanel.Controls.Add(ageLbl);
             regPanel.Controls.Add(lastNameLbl);
             regPanel.Controls.Add(firstNameLbl);
             regPanel.Location = new Point(10, 19);
             regPanel.Margin = new Padding(5, 4, 5, 4);
             regPanel.Name = "regPanel";
-            regPanel.Size = new Size(479, 447);
+            regPanel.Size = new Size(479, 426);
             regPanel.TabIndex = 16;
             // 
             // contrRdBtn
             // 
             contrRdBtn.AutoSize = true;
-            contrRdBtn.Location = new Point(344, 263);
+            contrRdBtn.Location = new Point(344, 237);
             contrRdBtn.Name = "contrRdBtn";
             contrRdBtn.Size = new Size(86, 24);
             contrRdBtn.TabIndex = 30;
@@ -723,7 +704,7 @@ namespace SelfSampleProRAD
             // partimeRdBtn
             // 
             partimeRdBtn.AutoSize = true;
-            partimeRdBtn.Location = new Point(242, 263);
+            partimeRdBtn.Location = new Point(242, 237);
             partimeRdBtn.Name = "partimeRdBtn";
             partimeRdBtn.Size = new Size(80, 24);
             partimeRdBtn.TabIndex = 29;
@@ -734,7 +715,7 @@ namespace SelfSampleProRAD
             // fullTimeRadBtn
             // 
             fullTimeRadBtn.AutoSize = true;
-            fullTimeRadBtn.Location = new Point(144, 263);
+            fullTimeRadBtn.Location = new Point(144, 237);
             fullTimeRadBtn.Name = "fullTimeRadBtn";
             fullTimeRadBtn.Size = new Size(87, 24);
             fullTimeRadBtn.TabIndex = 28;
@@ -747,7 +728,7 @@ namespace SelfSampleProRAD
             positionSelect.DropDownStyle = ComboBoxStyle.DropDownList;
             positionSelect.FormattingEnabled = true;
             positionSelect.Items.AddRange(new object[] { "Developer", "Project Manager", "Support Staff" });
-            positionSelect.Location = new Point(146, 224);
+            positionSelect.Location = new Point(146, 198);
             positionSelect.Margin = new Padding(5, 4, 5, 4);
             positionSelect.Name = "positionSelect";
             positionSelect.Size = new Size(170, 28);
@@ -758,7 +739,7 @@ namespace SelfSampleProRAD
             genderSelect.DropDownStyle = ComboBoxStyle.DropDownList;
             genderSelect.FormattingEnabled = true;
             genderSelect.Items.AddRange(new object[] { "Male", "Female", "Other" });
-            genderSelect.Location = new Point(146, 179);
+            genderSelect.Location = new Point(146, 153);
             genderSelect.Margin = new Padding(5, 4, 5, 4);
             genderSelect.Name = "genderSelect";
             genderSelect.Size = new Size(170, 28);
@@ -768,7 +749,7 @@ namespace SelfSampleProRAD
             // 
             ageTxtBx.BorderStyle = BorderStyle.FixedSingle;
             ageTxtBx.Enabled = false;
-            ageTxtBx.Location = new Point(146, 139);
+            ageTxtBx.Location = new Point(146, 113);
             ageTxtBx.Margin = new Padding(5, 4, 5, 4);
             ageTxtBx.Name = "ageTxtBx";
             ageTxtBx.Size = new Size(66, 27);
@@ -777,17 +758,18 @@ namespace SelfSampleProRAD
             // dobSelector
             // 
             dobSelector.Format = DateTimePickerFormat.Short;
-            dobSelector.Location = new Point(219, 139);
+            dobSelector.Location = new Point(219, 113);
             dobSelector.Margin = new Padding(5, 4, 5, 4);
             dobSelector.Name = "dobSelector";
             dobSelector.Size = new Size(158, 27);
             dobSelector.TabIndex = 24;
+            dobSelector.ValueChanged += dobSelector_ValueChanged;
             // 
             // taxTxtBx
             // 
             taxTxtBx.BorderStyle = BorderStyle.FixedSingle;
             taxTxtBx.Enabled = false;
-            taxTxtBx.Location = new Point(146, 388);
+            taxTxtBx.Location = new Point(146, 362);
             taxTxtBx.Margin = new Padding(5, 4, 5, 4);
             taxTxtBx.Name = "taxTxtBx";
             taxTxtBx.Size = new Size(216, 27);
@@ -797,7 +779,7 @@ namespace SelfSampleProRAD
             // 
             salaryTxtBx.BorderStyle = BorderStyle.FixedSingle;
             salaryTxtBx.Enabled = false;
-            salaryTxtBx.Location = new Point(146, 348);
+            salaryTxtBx.Location = new Point(146, 322);
             salaryTxtBx.Margin = new Padding(5, 4, 5, 4);
             salaryTxtBx.Name = "salaryTxtBx";
             salaryTxtBx.Size = new Size(216, 27);
@@ -806,35 +788,25 @@ namespace SelfSampleProRAD
             // lastNameTxtBx
             // 
             lastNameTxtBx.BorderStyle = BorderStyle.FixedSingle;
-            lastNameTxtBx.Location = new Point(146, 93);
+            lastNameTxtBx.Location = new Point(146, 67);
             lastNameTxtBx.Margin = new Padding(5, 4, 5, 4);
             lastNameTxtBx.Name = "lastNameTxtBx";
             lastNameTxtBx.Size = new Size(287, 27);
             lastNameTxtBx.TabIndex = 20;
             // 
-            // fNameTxtBx
+            // firstNameTxtBx
             // 
-            fNameTxtBx.BorderStyle = BorderStyle.FixedSingle;
-            fNameTxtBx.Location = new Point(146, 57);
-            fNameTxtBx.Margin = new Padding(5, 4, 5, 4);
-            fNameTxtBx.Name = "fNameTxtBx";
-            fNameTxtBx.Size = new Size(287, 27);
-            fNameTxtBx.TabIndex = 19;
-            // 
-            // empIdTxtBx
-            // 
-            empIdTxtBx.BorderStyle = BorderStyle.FixedSingle;
-            empIdTxtBx.Location = new Point(146, 19);
-            empIdTxtBx.Margin = new Padding(5, 4, 5, 4);
-            empIdTxtBx.Name = "empIdTxtBx";
-            empIdTxtBx.Size = new Size(287, 27);
-            empIdTxtBx.TabIndex = 18;
-            empIdTxtBx.Tag = "";
+            firstNameTxtBx.BorderStyle = BorderStyle.FixedSingle;
+            firstNameTxtBx.Location = new Point(146, 31);
+            firstNameTxtBx.Margin = new Padding(5, 4, 5, 4);
+            firstNameTxtBx.Name = "firstNameTxtBx";
+            firstNameTxtBx.Size = new Size(287, 27);
+            firstNameTxtBx.TabIndex = 19;
             // 
             // taxLbl
             // 
             taxLbl.AutoSize = true;
-            taxLbl.Location = new Point(18, 388);
+            taxLbl.Location = new Point(18, 362);
             taxLbl.Margin = new Padding(5, 0, 5, 0);
             taxLbl.Name = "taxLbl";
             taxLbl.Size = new Size(30, 20);
@@ -844,7 +816,7 @@ namespace SelfSampleProRAD
             // salaryLbl
             // 
             salaryLbl.AutoSize = true;
-            salaryLbl.Location = new Point(14, 351);
+            salaryLbl.Location = new Point(14, 325);
             salaryLbl.Margin = new Padding(5, 0, 5, 0);
             salaryLbl.Name = "salaryLbl";
             salaryLbl.Size = new Size(77, 20);
@@ -854,7 +826,7 @@ namespace SelfSampleProRAD
             // catagoryLbl
             // 
             catagoryLbl.AutoSize = true;
-            catagoryLbl.Location = new Point(14, 263);
+            catagoryLbl.Location = new Point(14, 237);
             catagoryLbl.Margin = new Padding(5, 0, 5, 0);
             catagoryLbl.Name = "catagoryLbl";
             catagoryLbl.Size = new Size(69, 20);
@@ -864,7 +836,7 @@ namespace SelfSampleProRAD
             // positionLbl
             // 
             positionLbl.AutoSize = true;
-            positionLbl.Location = new Point(14, 224);
+            positionLbl.Location = new Point(14, 198);
             positionLbl.Margin = new Padding(5, 0, 5, 0);
             positionLbl.Name = "positionLbl";
             positionLbl.Size = new Size(61, 20);
@@ -874,27 +846,17 @@ namespace SelfSampleProRAD
             // genderLbl
             // 
             genderLbl.AutoSize = true;
-            genderLbl.Location = new Point(14, 179);
+            genderLbl.Location = new Point(14, 153);
             genderLbl.Margin = new Padding(5, 0, 5, 0);
             genderLbl.Name = "genderLbl";
             genderLbl.Size = new Size(57, 20);
             genderLbl.TabIndex = 13;
             genderLbl.Text = "Gender";
             // 
-            // empIdLbl
-            // 
-            empIdLbl.AutoSize = true;
-            empIdLbl.Location = new Point(14, 19);
-            empIdLbl.Margin = new Padding(5, 0, 5, 0);
-            empIdLbl.Name = "empIdLbl";
-            empIdLbl.Size = new Size(94, 20);
-            empIdLbl.TabIndex = 12;
-            empIdLbl.Text = "Employee ID";
-            // 
             // ageLbl
             // 
             ageLbl.AutoSize = true;
-            ageLbl.Location = new Point(14, 139);
+            ageLbl.Location = new Point(14, 113);
             ageLbl.Margin = new Padding(5, 0, 5, 0);
             ageLbl.Name = "ageLbl";
             ageLbl.Size = new Size(36, 20);
@@ -904,7 +866,7 @@ namespace SelfSampleProRAD
             // lastNameLbl
             // 
             lastNameLbl.AutoSize = true;
-            lastNameLbl.Location = new Point(14, 99);
+            lastNameLbl.Location = new Point(14, 73);
             lastNameLbl.Margin = new Padding(5, 0, 5, 0);
             lastNameLbl.Name = "lastNameLbl";
             lastNameLbl.Size = new Size(79, 20);
@@ -914,7 +876,7 @@ namespace SelfSampleProRAD
             // firstNameLbl
             // 
             firstNameLbl.AutoSize = true;
-            firstNameLbl.Location = new Point(14, 55);
+            firstNameLbl.Location = new Point(14, 29);
             firstNameLbl.Margin = new Padding(5, 0, 5, 0);
             firstNameLbl.Name = "firstNameLbl";
             firstNameLbl.Size = new Size(80, 20);
@@ -923,7 +885,6 @@ namespace SelfSampleProRAD
             // 
             // employeeTaskTab
             // 
-            employeeTaskTab.Controls.Add(devLogoutLbl2);
             employeeTaskTab.Controls.Add(emptaskListBox);
             employeeTaskTab.Controls.Add(submitTaskBtn);
             employeeTaskTab.Controls.Add(doTaskRcTxtBx);
@@ -936,23 +897,14 @@ namespace SelfSampleProRAD
             employeeTaskTab.Text = "Tasks";
             employeeTaskTab.UseVisualStyleBackColor = true;
             // 
-            // devLogoutLbl2
-            // 
-            devLogoutLbl2.AutoSize = true;
-            devLogoutLbl2.Location = new Point(718, 8);
-            devLogoutLbl2.Name = "devLogoutLbl2";
-            devLogoutLbl2.Size = new Size(56, 20);
-            devLogoutLbl2.TabIndex = 46;
-            devLogoutLbl2.TabStop = true;
-            devLogoutLbl2.Text = "Logout";
-            // 
             // emptaskListBox
             // 
+            emptaskListBox.BackColor = SystemColors.Control;
             emptaskListBox.BorderStyle = BorderStyle.FixedSingle;
             emptaskListBox.FormattingEnabled = true;
             emptaskListBox.Location = new Point(17, 51);
             emptaskListBox.Name = "emptaskListBox";
-            emptaskListBox.Size = new Size(279, 162);
+            emptaskListBox.Size = new Size(418, 162);
             emptaskListBox.TabIndex = 5;
             // 
             // submitTaskBtn
@@ -963,6 +915,7 @@ namespace SelfSampleProRAD
             submitTaskBtn.TabIndex = 3;
             submitTaskBtn.Text = "Submit";
             submitTaskBtn.UseVisualStyleBackColor = true;
+            submitTaskBtn.Click += submitTaskBtn_Click;
             // 
             // doTaskRcTxtBx
             // 
@@ -972,6 +925,7 @@ namespace SelfSampleProRAD
             doTaskRcTxtBx.Size = new Size(741, 241);
             doTaskRcTxtBx.TabIndex = 2;
             doTaskRcTxtBx.Text = "";
+            doTaskRcTxtBx.TextChanged += doTaskRcTxtBx_TextChanged;
             // 
             // empTaskLbl
             // 
@@ -987,8 +941,6 @@ namespace SelfSampleProRAD
             // 
             taskManTab.Controls.Add(addTaskPanel);
             taskManTab.Controls.Add(taskAsgTbl);
-            taskManTab.Controls.Add(mgrLbl);
-            taskManTab.Controls.Add(linkLabel4);
             taskManTab.Controls.Add(addTaskLkLbl);
             taskManTab.Location = new Point(4, 29);
             taskManTab.Name = "taskManTab";
@@ -1005,13 +957,11 @@ namespace SelfSampleProRAD
             addTaskPanel.Controls.Add(asgnTaskBtn);
             addTaskPanel.Controls.Add(asgToCmbBx);
             addTaskPanel.Controls.Add(tskNmTxtBx);
-            addTaskPanel.Controls.Add(tskIdTxtBx);
             addTaskPanel.Controls.Add(assgToLbl);
             addTaskPanel.Controls.Add(taskNameLbl);
-            addTaskPanel.Controls.Add(taskIdLbl);
-            addTaskPanel.Location = new Point(268, 169);
+            addTaskPanel.Location = new Point(410, 115);
             addTaskPanel.Name = "addTaskPanel";
-            addTaskPanel.Size = new Size(382, 235);
+            addTaskPanel.Size = new Size(382, 225);
             addTaskPanel.TabIndex = 5;
             addTaskPanel.Visible = false;
             // 
@@ -1019,49 +969,44 @@ namespace SelfSampleProRAD
             // 
             manClsLbl.AutoSize = true;
             manClsLbl.LinkColor = Color.Red;
-            manClsLbl.Location = new Point(333, 0);
+            manClsLbl.Location = new Point(349, 11);
             manClsLbl.Name = "manClsLbl";
             manClsLbl.Size = new Size(18, 20);
             manClsLbl.TabIndex = 14;
             manClsLbl.TabStop = true;
             manClsLbl.Text = "X";
+            manClsLbl.LinkClicked += manClsLbl_LinkClicked;
             // 
             // asgnTaskBtn
             // 
-            asgnTaskBtn.Location = new Point(145, 171);
+            asgnTaskBtn.Location = new Point(142, 155);
             asgnTaskBtn.Name = "asgnTaskBtn";
             asgnTaskBtn.Size = new Size(119, 29);
             asgnTaskBtn.TabIndex = 13;
             asgnTaskBtn.Text = "Assign Tasks";
             asgnTaskBtn.UseVisualStyleBackColor = true;
+            asgnTaskBtn.Click += asgnTaskBtn_Click;
             // 
             // asgToCmbBx
             // 
             asgToCmbBx.DropDownStyle = ComboBoxStyle.DropDownList;
             asgToCmbBx.FormattingEnabled = true;
-            asgToCmbBx.Location = new Point(107, 121);
+            asgToCmbBx.Location = new Point(120, 91);
             asgToCmbBx.Name = "asgToCmbBx";
             asgToCmbBx.Size = new Size(237, 28);
             asgToCmbBx.TabIndex = 12;
             // 
             // tskNmTxtBx
             // 
-            tskNmTxtBx.Location = new Point(107, 80);
+            tskNmTxtBx.Location = new Point(120, 50);
             tskNmTxtBx.Name = "tskNmTxtBx";
             tskNmTxtBx.Size = new Size(237, 27);
             tskNmTxtBx.TabIndex = 11;
             // 
-            // tskIdTxtBx
-            // 
-            tskIdTxtBx.Location = new Point(107, 40);
-            tskIdTxtBx.Name = "tskIdTxtBx";
-            tskIdTxtBx.Size = new Size(237, 27);
-            tskIdTxtBx.TabIndex = 10;
-            // 
             // assgToLbl
             // 
             assgToLbl.AutoSize = true;
-            assgToLbl.Location = new Point(3, 119);
+            assgToLbl.Location = new Point(16, 89);
             assgToLbl.Name = "assgToLbl";
             assgToLbl.Size = new Size(89, 20);
             assgToLbl.TabIndex = 9;
@@ -1070,135 +1015,59 @@ namespace SelfSampleProRAD
             // taskNameLbl
             // 
             taskNameLbl.AutoSize = true;
-            taskNameLbl.Location = new Point(3, 80);
+            taskNameLbl.Location = new Point(16, 50);
             taskNameLbl.Name = "taskNameLbl";
             taskNameLbl.Size = new Size(79, 20);
             taskNameLbl.TabIndex = 8;
             taskNameLbl.Text = "task Name";
-            // 
-            // taskIdLbl
-            // 
-            taskIdLbl.AutoSize = true;
-            taskIdLbl.Location = new Point(3, 43);
-            taskIdLbl.Name = "taskIdLbl";
-            taskIdLbl.Size = new Size(59, 20);
-            taskIdLbl.TabIndex = 7;
-            taskIdLbl.Text = "Tasks Id";
             // 
             // taskAsgTbl
             // 
             taskAsgTbl.AllowUserToAddRows = false;
             taskAsgTbl.AllowUserToDeleteRows = false;
             taskAsgTbl.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            taskAsgTbl.BackgroundColor = SystemColors.ControlLightLight;
             taskAsgTbl.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            taskAsgTbl.Columns.AddRange(new DataGridViewColumn[] { taskIdClm, taskName, assignedToClm, taskStatusClm });
             taskAsgTbl.EditMode = DataGridViewEditMode.EditProgrammatically;
-            taskAsgTbl.Location = new Point(13, 115);
+            taskAsgTbl.Location = new Point(34, 64);
             taskAsgTbl.MultiSelect = false;
             taskAsgTbl.Name = "taskAsgTbl";
             taskAsgTbl.RowHeadersWidth = 51;
             taskAsgTbl.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.DisableResizing;
-            taskAsgTbl.Size = new Size(427, 349);
+            taskAsgTbl.Size = new Size(662, 349);
             taskAsgTbl.TabIndex = 4;
-            // 
-            // taskIdClm
-            // 
-            taskIdClm.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
-            taskIdClm.FillWeight = 2F;
-            taskIdClm.HeaderText = "ID";
-            taskIdClm.MinimumWidth = 6;
-            taskIdClm.Name = "taskIdClm";
-            taskIdClm.Width = 30;
-            // 
-            // taskName
-            // 
-            taskName.HeaderText = "Task Name";
-            taskName.MinimumWidth = 6;
-            taskName.Name = "taskName";
-            // 
-            // assignedToClm
-            // 
-            assignedToClm.HeaderText = "Assigned to";
-            assignedToClm.MinimumWidth = 6;
-            assignedToClm.Name = "assignedToClm";
-            // 
-            // taskStatusClm
-            // 
-            taskStatusClm.HeaderText = "Tasks Status";
-            taskStatusClm.MinimumWidth = 6;
-            taskStatusClm.Name = "taskStatusClm";
-            // 
-            // mgrLbl
-            // 
-            mgrLbl.AutoSize = true;
-            mgrLbl.Font = new Font("Segoe UI", 24F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            mgrLbl.Location = new Point(207, 20);
-            mgrLbl.Name = "mgrLbl";
-            mgrLbl.Size = new Size(317, 54);
-            mgrLbl.TabIndex = 6;
-            mgrLbl.Text = "Manager Portal";
-            // 
-            // linkLabel4
-            // 
-            linkLabel4.AutoSize = true;
-            linkLabel4.Location = new Point(725, 9);
-            linkLabel4.Name = "linkLabel4";
-            linkLabel4.Size = new Size(56, 20);
-            linkLabel4.TabIndex = 46;
-            linkLabel4.TabStop = true;
-            linkLabel4.Text = "Logout";
             // 
             // addTaskLkLbl
             // 
             addTaskLkLbl.AutoSize = true;
-            addTaskLkLbl.Location = new Point(16, 94);
+            addTaskLkLbl.Location = new Point(13, 23);
             addTaskLkLbl.Name = "addTaskLkLbl";
             addTaskLkLbl.Size = new Size(74, 20);
             addTaskLkLbl.TabIndex = 7;
             addTaskLkLbl.TabStop = true;
             addTaskLkLbl.Text = "Add Tasks";
+            addTaskLkLbl.LinkClicked += addTaskLkLbl_LinkClicked;
             // 
-            // UserIdClm
+            // logoutBtn
             // 
-            UserIdClm.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            UserIdClm.FillWeight = 25F;
-            UserIdClm.HeaderText = "User ID";
-            UserIdClm.MinimumWidth = 100;
-            UserIdClm.Name = "UserIdClm";
-            // 
-            // UsernameClm
-            // 
-            UsernameClm.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            UsernameClm.FillWeight = 35F;
-            UsernameClm.HeaderText = "Username";
-            UsernameClm.MinimumWidth = 150;
-            UsernameClm.Name = "UsernameClm";
-            // 
-            // StatusClm
-            // 
-            StatusClm.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            StatusClm.FillWeight = 15F;
-            StatusClm.HeaderText = "Status";
-            StatusClm.MinimumWidth = 80;
-            StatusClm.Name = "StatusClm";
-            // 
-            // ActionBtnClm
-            // 
-            ActionBtnClm.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            ActionBtnClm.DefaultCellStyle = dataGridViewCellStyle1;
-            ActionBtnClm.FillWeight = 25F;
-            ActionBtnClm.FlatStyle = FlatStyle.Flat;
-            ActionBtnClm.HeaderText = "Action";
-            ActionBtnClm.MinimumWidth = 120;
-            ActionBtnClm.Name = "ActionBtnClm";
+            logoutBtn.BackColor = Color.Transparent;
+            logoutBtn.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            logoutBtn.ForeColor = Color.Red;
+            logoutBtn.Location = new Point(4, 29);
+            logoutBtn.Name = "logoutBtn";
+            logoutBtn.Padding = new Padding(3);
+            logoutBtn.Size = new Size(808, 536);
+            logoutBtn.TabIndex = 6;
+            logoutBtn.Text = "Logout";
             // 
             // CompleteForm
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(814, 568);
+            ClientSize = new Size(843, 592);
             Controls.Add(mainTab);
             Controls.Add(loginPanel);
+            FormBorderStyle = FormBorderStyle.FixedSingle;
             MaximizeBox = false;
             Name = "CompleteForm";
             Text = "Employee Full Portal";
@@ -1206,14 +1075,12 @@ namespace SelfSampleProRAD
             loginPanel.PerformLayout();
             mainTab.ResumeLayout(false);
             viewTabPage.ResumeLayout(false);
-            viewTabPage.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)employeeDataGrid).EndInit();
             employeeProfileTab.ResumeLayout(false);
             employeeProfileTab.PerformLayout();
             pwdChangePanel.ResumeLayout(false);
             pwdChangePanel.PerformLayout();
             AddNewTabPage.ResumeLayout(false);
-            AddNewTabPage.PerformLayout();
             regPanel.ResumeLayout(false);
             regPanel.PerformLayout();
             employeeTaskTab.ResumeLayout(false);
@@ -1248,7 +1115,6 @@ namespace SelfSampleProRAD
         private Label nwPwdLbl;
         private Label oldPwdLbl;
         private LinkLabel cngPwdLkLbl;
-        private LinkLabel devLogoutLbl1;
         private TextBox catagProfTxtBx;
         private TextBox positionProfTxtBx;
         private TextBox genderProfTxtBx;
@@ -1258,7 +1124,6 @@ namespace SelfSampleProRAD
         private TextBox lNameProfTxtBx;
         private TextBox fNameProfTxtBx;
         private TextBox empIDProfTxtBx;
-        private Panel imgProPanel;
         private Label taxProfLbl;
         private Label salaryProfLbl;
         private Label catgProfLbl;
@@ -1269,7 +1134,6 @@ namespace SelfSampleProRAD
         private Label lNameProfLbl;
         private Label fNameProfLbl;
         private TabPage AddNewTabPage;
-        private LinkLabel adminLogoutLbl2;
         private Button clearBtn;
         private Button saveBtn;
         private Panel empImgPanel;
@@ -1284,19 +1148,16 @@ namespace SelfSampleProRAD
         private TextBox taxTxtBx;
         private TextBox salaryTxtBx;
         private TextBox lastNameTxtBx;
-        private TextBox fNameTxtBx;
-        private TextBox empIdTxtBx;
+        private TextBox firstNameTxtBx;
         private Label taxLbl;
         private Label salaryLbl;
         private Label catagoryLbl;
         private Label positionLbl;
         private Label genderLbl;
-        private Label empIdLbl;
         private Label ageLbl;
         private Label lastNameLbl;
         private Label firstNameLbl;
         private TabPage employeeTaskTab;
-        private LinkLabel devLogoutLbl2;
         private ListBox emptaskListBox;
         private Button submitTaskBtn;
         private RichTextBox doTaskRcTxtBx;
@@ -1307,24 +1168,16 @@ namespace SelfSampleProRAD
         private Button asgnTaskBtn;
         private ComboBox asgToCmbBx;
         private TextBox tskNmTxtBx;
-        private TextBox tskIdTxtBx;
         private Label assgToLbl;
         private Label taskNameLbl;
-        private Label taskIdLbl;
         private DataGridView taskAsgTbl;
-        private DataGridViewTextBoxColumn taskIdClm;
-        private DataGridViewTextBoxColumn taskName;
-        private DataGridViewTextBoxColumn assignedToClm;
-        private DataGridViewTextBoxColumn taskStatusClm;
-        private Label mgrLbl;
-        private LinkLabel linkLabel4;
         private LinkLabel addTaskLkLbl;
         private TabPage viewTabPage;
-        private LinkLabel adminLogoutLbl1;
         private DataGridView employeeDataGrid;
         private DataGridViewTextBoxColumn UserIdClm;
         private DataGridViewTextBoxColumn UsernameClm;
         private DataGridViewTextBoxColumn StatusClm;
         private DataGridViewButtonColumn ActionBtnClm;
+        private TabPage logoutBtn;
     }
 }

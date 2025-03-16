@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -27,4 +27,21 @@ namespace SelfSampleProRAD_DB.DTOs
         public string Catagory { get; set; }
         public AccountDTO accountdto { get; set; }
     }
+
+    public class TaskViewByDTO
+    {
+        public string FullName { get; set; }
+        public string TaskName { get; set; }
+        public string Status { get; set; }
+    }
+
+    public class TaskViewToDTO
+    {
+        public Guid? TaskId { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string TaskName { get; set; }
+        public string Status { get; set; }
+    }
+
 }

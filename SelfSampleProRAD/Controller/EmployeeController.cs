@@ -1,4 +1,4 @@
-﻿using SelfSampleProRAD_DB.DTOs;
+using SelfSampleProRAD_DB.DTOs;
 using SelfSampleProRAD_DB.Model;
 
 namespace SelfSampleProRAD_DB.Controller
@@ -19,6 +19,10 @@ namespace SelfSampleProRAD_DB.Controller
             float salary;
             float tax;
             calaculateTax(pos, out salary, out tax);
+            var existingEmployee = _context.Employee
+                .Where(e => e.FirstName == fName && e.LastName == lName)
+                .FirstOrDefault();
+            if (existingEmployee != null) return $"Employee {existingEmployee.FirstName} {existingEmployee.LastName} Already Exisits";
             using var transaction = _context.Database.BeginTransaction();
             try
             {
@@ -77,7 +81,28 @@ namespace SelfSampleProRAD_DB.Controller
                     Position = e.Position,
                     Salary = e.Salary,
                     Tax = e.Tax,
-                    Catagory = e.Catagory
+                    Catagory = e.Catagory,
+                    Account = e.Account
+                }).FirstOrDefault();
+            return employee;
+        }
+
+        public Employee? SelectEmployeeByUserId(Guid UserId)
+        {
+            var employee = _context.Employee
+                .Where(e => e.UserId == UserId)
+                .Select(e => new Employee
+                {
+                    EmployeeId = e.EmployeeId,
+                    FirstName = e.FirstName,
+                    LastName = e.LastName,
+                    Gender = e.Gender,
+                    Age = e.Age,
+                    Position = e.Position,
+                    Salary = e.Salary,
+                    Tax = e.Tax,
+                    Catagory = e.Catagory,
+                    Account = e.Account
                 }).FirstOrDefault();
             return employee;
         }

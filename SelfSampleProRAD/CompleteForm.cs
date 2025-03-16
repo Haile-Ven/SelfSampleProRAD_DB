@@ -1,7 +1,8 @@
 using Azure;
 using SelfSampleProRAD_DB.Controller;
 using SelfSampleProRAD_DB.DTOs;
-using System.Drawing; 
+using SelfSampleProRAD_DB.Model;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 namespace SelfSampleProRAD
 {
     public partial class CompleteForm : Form
@@ -26,6 +27,7 @@ namespace SelfSampleProRAD
             string msg = String.Format($"{userNameTxt.Text} {" ",50:D} {status} at {DateTime.Now.ToString()}\n");
             File.AppendAllText("System Access log.txt", msg);
         }
+
         private void Logout()
         {
             userNameTxt.Text = String.Empty;
@@ -65,7 +67,7 @@ namespace SelfSampleProRAD
             employeeDataGrid.ColumnHeadersHeight = 40;
             employeeDataGrid.CellBorderStyle = DataGridViewCellBorderStyle.Single;
             var accounts = new AccountController().ListAllAccounts();
-            foreach(var account in accounts)
+            foreach (var account in accounts)
             {
                 int rowIndex = employeeDataGrid.Rows.Add(account.UserId, account.UserName, account.Status);
                 // Style the action button
@@ -74,10 +76,54 @@ namespace SelfSampleProRAD
                 actionCell.Value = isActive ? "Deactivate" : "Activate";
                 Color buttonColor = isActive ? Color.IndianRed : Color.ForestGreen;
                 actionCell.Style.ForeColor = Color.White;
-                actionCell.Style.BackColor = buttonColor; 
+                actionCell.Style.BackColor = buttonColor;
             }
             employeeDataGrid.CellContentClick += EmployeeDataGrid_CellContentClick;
         }
+
+        public void LoadTasksBy(Guid taskBy)
+        {
+            taskAsgTbl.DataSource = new TasksController().ViewTasksBy(taskBy).Item1;
+        }
+
+        public void LoadTasksFor(Guid taskBy)
+        {
+            var tasks = new TasksController().ViewTasksFor(taskBy).Item1;
+            var bindingSource = new BindingSource();
+            bindingSource.DataSource = tasks.Select(t => new
+            {
+                DisplayName = $"{t.FirstName} {t.LastName} - {t.TaskName} ({t.Status})",
+                TaskId = t.TaskId
+            }).ToList();
+
+            emptaskListBox.DataSource = bindingSource;
+            emptaskListBox.DisplayMember = "DisplayName";
+            emptaskListBox.ValueMember = "TaskId";
+        }
+
+        public void LoadUseComboBox(Guid empID)
+        {
+            taskAsgTbl.DataSource = new TasksController().ViewTasksFor(empID);
+            var userIds = new AccountController()
+                .ListAllDevs()
+                .Select(d => d.UserId);
+
+            var employees = userIds
+                .Select(id => new EmployeeController().SelectEmployeeByUserId(id))
+                .ToList();
+
+            asgToCmbBx.DataSource = employees
+                .Select(usr => new 
+                {
+                    Display = $"{usr.FirstName} {usr.LastName} ({usr.Account.UserName})",
+                    Value = usr.EmployeeId
+                })
+                .ToList();
+
+            asgToCmbBx.DisplayMember = "Display";
+            asgToCmbBx.ValueMember = "Value";
+        }
+
         //Event handlers
         private void loginBtb_Click(object sender, EventArgs e)
         {
@@ -99,16 +145,19 @@ namespace SelfSampleProRAD
             switch (response.Item1.Position)
             {
                 case "Developer":
+                    Text = "Developer Dashboard";
                     mainTab.TabPages.Add(employeeProfileTab);
                     mainTab.TabPages.Add(employeeTaskTab);
                     break;
 
-                case "Manager":
+                case "Project Manager":
+                    Text = "Manager Dashboard";
                     mainTab.TabPages.Add(employeeProfileTab);
                     mainTab.TabPages.Add(taskManTab);
                     break;
 
                 case "Admin":
+                    Text = "Admin Dashboard";
                     mainTab.TabPages.Add(employeeProfileTab);
                     mainTab.TabPages.Add(AddNewTabPage);
                     mainTab.TabPages.Add(viewTabPage);
@@ -119,36 +168,10 @@ namespace SelfSampleProRAD
                     loginInfoLbl.Text = "Invalid User Position.";
                     return;
             }
-
+            mainTab.TabPages.Add(logoutBtn);
             mainTab.SelectedTab = employeeProfileTab;
             LoadProfile(response.Item1);
             LogAccess(1);
-        }
-
-        private void devLogoutLbl1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            Logout();
-        }
-
-        private void devLogoutLbl2_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            Logout();
-        }
-
-
-        private void manLogoutLbl_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            Logout();
-        }
-
-        private void adminLogoutLbl2_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            Logout();
-        }
-
-        private void adminLogoutLbl1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            Logout();
         }
 
         private void addTaskLkLbl_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -160,9 +183,7 @@ namespace SelfSampleProRAD
         {
             this.addTaskPanel.Visible = false;
             asgToCmbBx.SelectedItem = null;
-            tskIdTxtBx.Text = null;
             tskNmTxtBx.Text = null;
-
         }
 
         private void userNameTxt_TextChanged(object sender, EventArgs e)
@@ -172,7 +193,16 @@ namespace SelfSampleProRAD
 
         private void saveBtn_Click(object sender, EventArgs e)
         {
-
+            char gender = 'O';
+            gender = genderSelect.Text == "Male" ? 'M' : 'F';
+            var response = new EmployeeController()
+                .AddEmployee(firstNameTxtBx.Text,
+                lastNameTxtBx.Text,
+                gender,
+                Convert.ToByte(ageTxtBx.Text),
+                positionSelect.Text,
+                CatagorySelector());
+            MessageBox.Show(response, "Account", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private void dobSelector_ValueChanged(object sender, EventArgs e)
@@ -192,39 +222,99 @@ namespace SelfSampleProRAD
 
         private void cngPwdBtn_Click(object sender, EventArgs e)
         {
-
+            if (oldPwdTxtBx.Text == nwPwdTxtBx.Text)
+            {
+                MessageBox.Show("Old and New Passwords cannot be the same.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            else if (reNwPwdTxtBx.Text != nwPwdTxtBx.Text)
+            {
+                MessageBox.Show("New Passwords do not match.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            var response = new AccountController().ChangePassword(Guid.Parse(empIDProfTxtBx.Text), oldPwdTxtBx.Text, nwPwdTxtBx.Text);
+            MessageBox.Show(response, "Account", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            pwdChangePanel.Visible = false;
         }
 
         private void submitTaskBtn_Click(object sender, EventArgs e)
         {
+            if(emptaskListBox.SelectedItem == null)
+            {
+                MessageBox.Show("Please select a task to start working on.", "Error",MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
 
+            if(string.IsNullOrEmpty(doTaskRcTxtBx.Text))
+            {
+                MessageBox.Show("Please fill in the task details.","Error",MessageBoxButtons.OK,MessageBoxIcon.Error);
+                return;
+            }
+
+            var response = new TasksController().submitWork(Guid.Parse(emptaskListBox.SelectedValue.ToString()));
+            doTaskRcTxtBx.Text = string.Empty;
+            LoadTasksFor(Guid.Parse(empIDProfTxtBx.Text));
+            MessageBox.Show(response, "Task", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private void asgnTaskBtn_Click(object sender, EventArgs e)
         {
-
+            if (string.IsNullOrEmpty(tskNmTxtBx.Text) || asgToCmbBx.SelectedItem == null)
+            {
+                MessageBox.Show("Please fill in all fields.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            asgToCmbBx.SelectedValue.ToString();
+           var response = new TasksController().AssignTask(tskNmTxtBx.Text, Guid.Parse(asgToCmbBx.SelectedValue.ToString()), Guid.Parse(empIDProfTxtBx.Text));
+            MessageBox.Show(response.Item2);
+            addTaskPanel.Visible = false;
+            LoadTasksBy(Guid.Parse(empIDProfTxtBx.Text));
         }
 
         private void doTaskRcTxtBx_TextChanged(object sender, EventArgs e)
         {
-
+            if(emptaskListBox.SelectedItem == null)
+            {
+                MessageBox.Show("Please select a task to start working on.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            _ = new TasksController().startWorking(Guid.Parse(emptaskListBox.SelectedValue.ToString()));
+            if(!emptaskListBox.Text.Contains("Started")) LoadTasksFor(Guid.Parse(empIDProfTxtBx.Text));
         }
 
         private void mainTab_SelectedIndexChanged(object sender, EventArgs e)
         {
-            
+            if (mainTab.SelectedTab == viewTabPage)
+            {
+                LoadEmployeeData();
+            }
+
+            if (mainTab.SelectedTab == taskManTab)
+            {
+                LoadUseComboBox(Guid.Parse(empIDProfTxtBx.Text));
+                LoadTasksBy(Guid.Parse(empIDProfTxtBx.Text));
+            }
+
+            if (mainTab.SelectedTab == logoutBtn)
+            {
+                Logout();
+            }
+
+            if(mainTab.SelectedTab == employeeTaskTab)
+            {
+                LoadTasksFor(Guid.Parse(empIDProfTxtBx.Text));
+            }
         }
         private void EmployeeDataGrid_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            var msg = employeeDataGrid.Rows[e.RowIndex].Cells["StatusClm"].Value.ToString() == "A"?"Deactivate":"Activate";
-            if (MessageBox.Show($"Are You Sure You Want To {msg}", "Account Change", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning) == DialogResult.OK)
+            var msg = employeeDataGrid.Rows[e.RowIndex].Cells["StatusClm"].Value.ToString() == "A" ? "Deactivate" : "Activate";
+            if (e.RowIndex >= 0 && employeeDataGrid.Columns[e.ColumnIndex].Name == "ActionBtnClm"
+                && MessageBox.Show($"Are You Sure You Want To {msg}", "Account Change", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning)
+                == DialogResult.OK)
             {
-                if (e.RowIndex >= 0 && employeeDataGrid.Columns[e.ColumnIndex].Name == "ActionBtnClm")
-                {
-                    var userid = Guid.Parse(employeeDataGrid.Rows[e.RowIndex].Cells["UserIdClm"].Value.ToString());
-                    var response = new AccountController().ChangeAccountStatus(userid);
-                    LoadEmployeeData();
-                }
+                var userid = Guid.Parse(employeeDataGrid.Rows[e.RowIndex].Cells["UserIdClm"].Value.ToString());
+                var response = new AccountController().ChangeAccountStatus(userid);
+                LoadEmployeeData();
             }
         }
     }
