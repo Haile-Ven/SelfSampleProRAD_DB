@@ -574,7 +574,7 @@ namespace SelfSampleProRAD
             viewTabPage.Location = new Point(4, 53);
             viewTabPage.Name = "viewTabPage";
             viewTabPage.Padding = new Padding(3);
-            viewTabPage.Size = new Size(827, 552);
+            viewTabPage.Size = new Size(825, 550);
             viewTabPage.TabIndex = 5;
             viewTabPage.Text = "👥✅ View Accounts";
             viewTabPage.UseVisualStyleBackColor = true;
@@ -597,7 +597,7 @@ namespace SelfSampleProRAD
             employeeDataGrid.RowHeadersWidth = 51;
             employeeDataGrid.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             employeeDataGrid.RowTemplate.Height = 40;
-            employeeDataGrid.Size = new Size(760, 463);
+            employeeDataGrid.Size = new Size(760, 492);
             employeeDataGrid.StandardTab = true;
             employeeDataGrid.TabIndex = 3;
             employeeDataGrid.CellContentClick += EmployeeDataGrid_CellContentClick;
@@ -644,7 +644,7 @@ namespace SelfSampleProRAD
             AddNewTabPage.Location = new Point(4, 53);
             AddNewTabPage.Name = "AddNewTabPage";
             AddNewTabPage.Padding = new Padding(3);
-            AddNewTabPage.Size = new Size(827, 552);
+            AddNewTabPage.Size = new Size(825, 550);
             AddNewTabPage.TabIndex = 3;
             AddNewTabPage.Text = "➕👤Add New Employee";
             AddNewTabPage.UseVisualStyleBackColor = true;
@@ -898,7 +898,7 @@ namespace SelfSampleProRAD
             employeeTaskTab.Location = new Point(4, 53);
             employeeTaskTab.Name = "employeeTaskTab";
             employeeTaskTab.Padding = new Padding(3);
-            employeeTaskTab.Size = new Size(827, 552);
+            employeeTaskTab.Size = new Size(825, 550);
             employeeTaskTab.TabIndex = 2;
             employeeTaskTab.Text = "📝 Tasks";
             employeeTaskTab.UseVisualStyleBackColor = true;
@@ -937,11 +937,11 @@ namespace SelfSampleProRAD
             // 
             empTaskLbl.AutoSize = true;
             empTaskLbl.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            empTaskLbl.Location = new Point(24, 26);
+            empTaskLbl.Location = new Point(22, 18);
             empTaskLbl.Name = "empTaskLbl";
-            empTaskLbl.Size = new Size(62, 28);
+            empTaskLbl.Size = new Size(96, 28);
             empTaskLbl.TabIndex = 1;
-            empTaskLbl.Text = "Tasks";
+            empTaskLbl.Text = "📋 Tasks";
             // 
             // taskManTab
             // 
@@ -951,7 +951,7 @@ namespace SelfSampleProRAD
             taskManTab.Location = new Point(4, 53);
             taskManTab.Name = "taskManTab";
             taskManTab.Padding = new Padding(3);
-            taskManTab.Size = new Size(827, 552);
+            taskManTab.Size = new Size(825, 550);
             taskManTab.TabIndex = 4;
             taskManTab.Text = "📋 Task Management";
             taskManTab.UseVisualStyleBackColor = true;
@@ -965,7 +965,7 @@ namespace SelfSampleProRAD
             addTaskPanel.Controls.Add(tskNmTxtBx);
             addTaskPanel.Controls.Add(assgToLbl);
             addTaskPanel.Controls.Add(taskNameLbl);
-            addTaskPanel.Location = new Point(410, 115);
+            addTaskPanel.Location = new Point(383, 117);
             addTaskPanel.Name = "addTaskPanel";
             addTaskPanel.Size = new Size(382, 225);
             addTaskPanel.TabIndex = 5;
@@ -998,6 +998,7 @@ namespace SelfSampleProRAD
             // asgToCmbBx
             // 
             asgToCmbBx.DropDownStyle = ComboBoxStyle.DropDownList;
+            asgToCmbBx.FlatStyle = FlatStyle.Popup;
             asgToCmbBx.FormattingEnabled = true;
             asgToCmbBx.Location = new Point(120, 91);
             asgToCmbBx.Name = "asgToCmbBx";
@@ -1048,12 +1049,13 @@ namespace SelfSampleProRAD
             // addTaskLkLbl
             // 
             addTaskLkLbl.AutoSize = true;
+            addTaskLkLbl.LinkBehavior = LinkBehavior.NeverUnderline;
             addTaskLkLbl.Location = new Point(13, 23);
             addTaskLkLbl.Name = "addTaskLkLbl";
-            addTaskLkLbl.Size = new Size(74, 20);
+            addTaskLkLbl.Size = new Size(120, 20);
             addTaskLkLbl.TabIndex = 7;
             addTaskLkLbl.TabStop = true;
-            addTaskLkLbl.Text = "Add Tasks";
+            addTaskLkLbl.Text = "➕📋 Add Tasks";
             addTaskLkLbl.LinkClicked += AddTaskLkLbl_LinkClicked;
             // 
             // LogoutBtn
