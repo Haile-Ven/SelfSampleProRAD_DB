@@ -14,12 +14,12 @@ namespace SelfSampleProRAD_DB.Controller
         }
 
         //Login
-        public (EmployeeDTO, string) Login(string userNm, string pass)
+        public (EmployeeResponseDTO, string) Login(string userNm, string pass)
         {
             var account = _context.Account
                 .Include(a => a.Employee)
                 .Where(a => a.UserName == userNm && a.Password == pass)
-                .Select(ac => new EmployeeDTO()
+                .Select(ac => new EmployeeResponseDTO()
                 {
                     EmployeeId = ac.Employee.EmployeeId,
                     FirstName = ac.Employee.FirstName,
@@ -30,7 +30,7 @@ namespace SelfSampleProRAD_DB.Controller
                     Salary = ac.Employee.Salary,
                     Tax = ac.Employee.Tax,
                     Catagory = ac.Employee.Catagory,
-                    accountdto = new AccountDTO()
+                    accountdto = new AccountResponseDTO()
                     {
                         UserId = ac.UserId,
                         UserName = ac.UserName,
@@ -39,7 +39,7 @@ namespace SelfSampleProRAD_DB.Controller
                 })
                 .FirstOrDefault();
             if (account == null) return (null, "Invalid Username or Password.");
-            if(account.accountdto.Status == 'D') return (null, "Account is deactivated.");
+            if (account.accountdto.Status == 'D') return (null, "Account is deactivated.");
 
             return (account, "Login Successful.");
         }
@@ -55,7 +55,7 @@ namespace SelfSampleProRAD_DB.Controller
                 var employee = _context.Employee.Where(e => e.EmployeeId == employeeId).FirstOrDefault();
                 var account = _context.Account.Where(a => a.UserId == employee.UserId).FirstOrDefault();
                 if (account == null) return "Account not found.";
-                if(account.Password != oldPass) return "Old Password is incorrect.";
+                if (account.Password != oldPass) return "Old Password is incorrect.";
                 account.Password = newPass;
                 _context.Update(account);
                 _context.SaveChanges();
@@ -69,10 +69,10 @@ namespace SelfSampleProRAD_DB.Controller
         }
 
         //List all accounts
-        public List<AccountDTO> ListAllAccounts()
+        public List<AccountResponseDTO> ListAllAccounts()
         {
             var accounts = _context.Account
-                .Select (a => new AccountDTO() 
+                .Select(a => new AccountResponseDTO()
                 {
                     UserId = a.UserId,
                     UserName = a.UserName,
@@ -82,11 +82,11 @@ namespace SelfSampleProRAD_DB.Controller
             return accounts;
         }
 
-        public List<AccountDTO> ListAllDevs()
+        public List<AccountResponseDTO> ListAllDevs()
         {
             var devs = _context.Account
                 .Where(a => a.Employee.Position == "Developer")
-                .Select(a => new AccountDTO()
+                .Select(a => new AccountResponseDTO()
                 {
                     UserId = a.UserId,
                     UserName = a.UserName,
@@ -118,14 +118,14 @@ namespace SelfSampleProRAD_DB.Controller
             if (account.Status == 'A') account.Status = 'D';
             else account.Status = 'A';
             try
-                {
-                    _context.Update(account);
-                    _context.SaveChanges();
-                }
-                catch (Exception ex)
-                {
-                    return "Unable to Change Account Status.\nError: " + ex.InnerException.Message;
-                }
+            {
+                _context.Update(account);
+                _context.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                return "Unable to Change Account Status.\nError: " + ex.InnerException.Message;
+            }
             var msg = account.Status == 'A' ? "Account Activated Successfully." : "Account Deactivated Successfully.";
             return msg;
         }

@@ -28,7 +28,7 @@ namespace SelfSampleProRAD
         /// </summary>
         private void InitializeComponent()
         {
-            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
             loginPanel = new Panel();
             loginInfoLbl = new Label();
             loginBtb = new Button();
@@ -164,23 +164,23 @@ namespace SelfSampleProRAD
             passwordLbl.AutoSize = true;
             passwordLbl.Location = new Point(169, 280);
             passwordLbl.Name = "passwordLbl";
-            passwordLbl.Size = new Size(70, 20);
+            passwordLbl.Size = new Size(95, 20);
             passwordLbl.TabIndex = 8;
-            passwordLbl.Text = "Password";
+            passwordLbl.Text = "🔒 Password";
             // 
             // userNameLbl
             // 
             userNameLbl.AutoSize = true;
             userNameLbl.Location = new Point(169, 240);
             userNameLbl.Name = "userNameLbl";
-            userNameLbl.Size = new Size(79, 20);
+            userNameLbl.Size = new Size(100, 20);
             userNameLbl.TabIndex = 7;
-            userNameLbl.Text = "User name";
+            userNameLbl.Text = "👤 Username";
             // 
             // passwordTxt
             // 
             passwordTxt.BorderStyle = BorderStyle.FixedSingle;
-            passwordTxt.Location = new Point(279, 280);
+            passwordTxt.Location = new Point(279, 278);
             passwordTxt.Name = "passwordTxt";
             passwordTxt.PasswordChar = '•';
             passwordTxt.Size = new Size(314, 27);
@@ -189,7 +189,7 @@ namespace SelfSampleProRAD
             // userNameTxt
             // 
             userNameTxt.BorderStyle = BorderStyle.FixedSingle;
-            userNameTxt.Location = new Point(279, 240);
+            userNameTxt.Location = new Point(279, 237);
             userNameTxt.Name = "userNameTxt";
             userNameTxt.Size = new Size(314, 27);
             userNameTxt.TabIndex = 5;
@@ -629,7 +629,7 @@ namespace SelfSampleProRAD
             // ActionBtnClm
             // 
             ActionBtnClm.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            ActionBtnClm.DefaultCellStyle = dataGridViewCellStyle3;
+            ActionBtnClm.DefaultCellStyle = dataGridViewCellStyle2;
             ActionBtnClm.FillWeight = 25F;
             ActionBtnClm.FlatStyle = FlatStyle.Flat;
             ActionBtnClm.HeaderText = "Action";

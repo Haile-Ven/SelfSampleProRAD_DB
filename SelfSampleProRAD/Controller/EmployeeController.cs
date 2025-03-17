@@ -67,6 +67,35 @@ namespace SelfSampleProRAD_DB.Controller
             }
         }
 
+        public string UpdateEmployee(EmployeeEditDTO employee)
+        {
+            bool IsNameChanged = false;
+            try
+            {
+                var emp = _context.Employee.Where(e => e.EmployeeId == employee.EmployeeId).FirstOrDefault();
+                if (emp == null) return "Employee not found.";
+                if (emp.FirstName == employee.FirstName || emp.LastName == employee.LastName) IsNameChanged = true;
+                emp.FirstName = employee.FirstName;
+                emp.LastName = employee.LastName;
+                emp.Age = employee.Age;
+                emp.Gender = employee.Gender;
+                _context.Employee.Update(emp);
+                _context.SaveChanges();
+                if (IsNameChanged)
+                {
+                    var account = _context.Account.Where(a => a.UserId == emp.UserId).FirstOrDefault();
+                    account.UserName = $"{emp.LastName}_{emp.FirstName}@{employee.EmployeeId.ToString().Substring(0, 3)}";
+                    _context.Account.Update(account);
+                    _context.SaveChanges();
+                }
+            }
+            catch (Exception ex)
+            {
+                return "Unable to Update Employee.\nError: " + ex.InnerException.Message;
+            }
+            return "Employee Updated Successfully.";
+        }
+
         public Employee? SelectEmployee(Guid employeeId)
         {
             var employee = _context.Employee
@@ -107,10 +136,10 @@ namespace SelfSampleProRAD_DB.Controller
             return employee;
         }
 
-        public List<EmployeeDTO>? ListAllEmployees()
+        public List<EmployeeResponseDTO>? ListAllEmployees()
         {
             var employees = _context.Employee
-                .Select(e => new EmployeeDTO
+                .Select(e => new EmployeeResponseDTO
                 {
                     EmployeeId = e.EmployeeId,
                     FirstName = e.FirstName,
@@ -121,7 +150,7 @@ namespace SelfSampleProRAD_DB.Controller
                     Salary = e.Salary,
                     Tax = e.Tax,
                     Catagory = e.Catagory,
-                    accountdto = new AccountDTO
+                    accountdto = new AccountResponseDTO
                     {
                         UserId = e.Account.UserId,
                         UserName = e.Account.UserName,

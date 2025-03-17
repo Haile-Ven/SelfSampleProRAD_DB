@@ -1,4 +1,5 @@
 using Azure;
+using SelfSampleProRAD_DB;
 using SelfSampleProRAD_DB.Controller;
 using SelfSampleProRAD_DB.DTOs;
 using SelfSampleProRAD_DB.Model;
@@ -25,7 +26,7 @@ namespace SelfSampleProRAD
         private void LogAccess(int logStat)
         {
             string status = logStat == 1 ? "Success" : "Failed";
-            string msg = String.Format($"{userNameTxt.Text} {" ",50:D} {status} at {DateTime.Now.ToString()}\n");
+            string msg = $"{userNameTxt.Text,-50} {status} at {DateTime.Now}\n";
             File.AppendAllText("System Access log.txt", msg);
         }
 
@@ -49,7 +50,7 @@ namespace SelfSampleProRAD
             else return string.Empty;
         }
 
-        public void LoadProfile(EmployeeDTO response)
+        public void LoadProfile(EmployeeResponseDTO response)
         {
             empIDProfTxtBx.Text = response.EmployeeId.ToString();
             fNameProfTxtBx.Text = response.FirstName;
@@ -135,6 +136,7 @@ namespace SelfSampleProRAD
             if (response.Item1 == null)
             {
                 loginInfoLbl.Text = response.Item2;
+                LogAccess(0);
                 return;
             }
             LogoutBtn.Visible = true;
@@ -324,8 +326,50 @@ namespace SelfSampleProRAD
 
         private void EditProfileLkLbl_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            
+            EditControl editControl = new EditControl
+                (
+                new EmployeeEditDTO
+                {
+                    EmployeeId = Guid.Parse(empIDProfTxtBx.Text),
+                    FirstName = fNameProfTxtBx.Text,
+                    LastName = lNameProfTxtBx.Text,
+                    Gender = genderProfTxtBx.Text[0],
+                    Age = Convert.ToByte(ageProfTxtBx.Text)
+                }
+                );
+            editControl.Location = new Point(50, 50);
+            Controls.Add(editControl);
+            editControl.BringToFront();
+            editControl.UpdateBtnClicked += UpdateBtn_Click;
+            editControl.clsEditControlLblClicked += (s, ev) => 
+            { 
+                Controls.Remove(editControl);
+                editControl.Dispose();
+            };
         }
-    }
 
+        private void UpdateBtn_Click(object sender, EventArgs e)
+        {
+            // Cast sender to Button and ensure it's not null
+            var edBtn = sender as Button;
+            
+            var edC = edBtn.Parent as EditControl;
+            var res = new EmployeeController().SelectEmployee(Guid.Parse(empIDProfTxtBx.Text));
+            LoadProfile(new EmployeeResponseDTO
+            {
+                EmployeeId = res.EmployeeId,
+                FirstName = res.FirstName,
+                LastName = res.LastName,
+                Gender = res.Gender,
+                Age = res.Age,
+                Position = res.Position,
+                Salary = res.Salary,
+                Tax = res.Tax,
+                Catagory = res.Catagory
+            });
+            Controls.Remove(edC);
+            edC.Dispose();
+        }
+
+    }
 }

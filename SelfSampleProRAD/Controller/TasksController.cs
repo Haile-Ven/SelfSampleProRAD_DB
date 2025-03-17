@@ -44,13 +44,13 @@ namespace SelfSampleProRAD_DB.Controller
             return "Unknown";
         }
 
-        public (List<TaskViewToDTO>, string) ViewTasksFor(Guid taskTo)
+        public (List<TaskViewToResponseDTO>, string) ViewTasksFor(Guid taskTo)
         {
             try
             {
                 var tasks = _context.EmployeeTasks
                     .Where(t => t.AssignedToId == taskTo && t.Tasks.Status !='C')
-                    .Select(t => new TaskViewToDTO
+                    .Select(t => new TaskViewToResponseDTO
                     {
                         TaskId = t.TaskId,
                         FirstName = t.AssignedBy.FirstName,
@@ -67,13 +67,13 @@ namespace SelfSampleProRAD_DB.Controller
             }
         }
 
-        public (List<TaskViewByDTO>, string) ViewTasksBy(Guid taskBy)
+        public (List<TaskViewByResponseDTO>, string) ViewTasksBy(Guid taskBy)
         {
             try
             {
                 var tasks = _context.EmployeeTasks
                     .Where(t => t.AssignedById == taskBy)
-                    .Select(t => new TaskViewByDTO
+                    .Select(t => new TaskViewByResponseDTO
                     {
                         FullName = $"{t.AssignedTo.FirstName} {t.AssignedTo.LastName}",
                         TaskName = t.Tasks.TaskName,
