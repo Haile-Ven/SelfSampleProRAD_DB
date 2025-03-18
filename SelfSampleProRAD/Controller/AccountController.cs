@@ -44,9 +44,6 @@ namespace SelfSampleProRAD_DB.Controller
             return (account, "Login Successful.");
         }
 
-        //Logout
-        // implement this method here
-
         //Change password
         public string ChangePassword(Guid employeeId, string oldPass, string newPass)
         {
@@ -62,7 +59,6 @@ namespace SelfSampleProRAD_DB.Controller
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Unable to Change Password.\nError: " + ex.InnerException.Message);
                 return "Unable to Change Password.\nError: " + ex.InnerException.Message;
             }
             return "Password Changed Successfully.";

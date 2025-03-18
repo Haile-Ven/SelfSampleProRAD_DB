@@ -48,6 +48,7 @@
             cngPwdBtn.TabIndex = 17;
             cngPwdBtn.Text = "🛠️ Update Password";
             cngPwdBtn.UseVisualStyleBackColor = true;
+            cngPwdBtn.Click += CngPwdBtn_Click;
             // 
             // oldPwdTxtBx
             // 
@@ -94,6 +95,7 @@
             clsPwdCngLbl.TabIndex = 12;
             clsPwdCngLbl.TabStop = true;
             clsPwdCngLbl.Text = "❌";
+            clsPwdCngLbl.LinkClicked += ClsPwdCngLbl_LinkClicked;
             // 
             // pwdCngLbl
             // 
@@ -127,6 +129,7 @@
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
+            BorderStyle = BorderStyle.FixedSingle;
             Controls.Add(cngPwdBtn);
             Controls.Add(oldPwdTxtBx);
             Controls.Add(nwPwdTxtBx);
@@ -137,7 +140,7 @@
             Controls.Add(nwPwdLbl);
             Controls.Add(oldPwdLbl);
             Name = "ChangePasswordControl";
-            Size = new Size(529, 354);
+            Size = new Size(527, 352);
             ResumeLayout(false);
             PerformLayout();
         }

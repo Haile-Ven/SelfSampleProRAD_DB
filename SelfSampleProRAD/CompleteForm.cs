@@ -1,9 +1,6 @@
-using Azure;
 using SelfSampleProRAD_DB;
 using SelfSampleProRAD_DB.Controller;
 using SelfSampleProRAD_DB.DTOs;
-using SelfSampleProRAD_DB.Model;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 namespace SelfSampleProRAD
 {
     public partial class CompleteForm : Form
@@ -36,6 +33,7 @@ namespace SelfSampleProRAD
             passwordTxt.Text = String.Empty;
             mainTab.Visible = false;
             mainTab.TabPages.Clear();
+            ClearAll(this);
             loginPanel.Visible = true;
             loginInfoLbl.Text = string.Empty;
             LogoutBtn.Visible = false;
@@ -105,27 +103,43 @@ namespace SelfSampleProRAD
             emptaskListBox.ValueMember = "TaskId";
         }
 
-        public void LoadUseComboBox(Guid empID)
+        private void ClearAll(Control parentControl)
         {
-            taskAsgTbl.DataSource = new TasksController().ViewTasksFor(empID);
-            var userIds = new AccountController()
-                .ListAllDevs()
-                .Select(d => d.UserId);
+            for (int i = parentControl.Controls.Count - 1; i >= 0; i--)
+            {
+                Control control = parentControl.Controls[i];
 
-            var employees = userIds
-                .Select(id => new EmployeeController().SelectEmployeeByUserId(id))
-                .ToList();
-
-            asgToCmbBx.DataSource = employees
-                .Select(usr => new
+                if (control is TextBox textBox)
                 {
-                    Display = $"{usr.FirstName} {usr.LastName} ({usr.Account.UserName})",
-                    Value = usr.EmployeeId
-                })
-                .ToList();
-
-            asgToCmbBx.DisplayMember = "Display";
-            asgToCmbBx.ValueMember = "Value";
+                    textBox.Clear(); 
+                }
+                else if (control is ComboBox comboBox)
+                {
+                    comboBox.SelectedIndex = -1; 
+                }
+                else if (control is ListBox listBox)
+                {
+                    listBox.ClearSelected(); 
+                }
+                else if (control is RadioButton radioButton)
+                {
+                    radioButton.Checked = false; 
+                }
+                else if (control is RichTextBox richTextBox)
+                {
+                    richTextBox.Clear(); 
+                }
+                else if (control is UserControl userControl)
+                {
+                    parentControl.Controls.Remove(control); 
+                    control.Dispose();
+                }
+                
+                if (control.HasChildren)
+                {
+                    ClearAll(control); 
+                }
+            }
         }
 
         //Event handlers
@@ -180,14 +194,21 @@ namespace SelfSampleProRAD
 
         private void AddTaskLkLbl_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            this.addTaskPanel.Visible = true;
-        }
-
-        private void ManClsLbl_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            this.addTaskPanel.Visible = false;
-            asgToCmbBx.SelectedItem = null;
-            tskNmTxtBx.Text = null;
+            var assignTaskControl = new AssignTaskControl(Guid.Parse(empIDProfTxtBx.Text));
+            Controls.Add(assignTaskControl);
+            assignTaskControl.Location = new Point(50, 50);
+            assignTaskControl.BringToFront();
+            assignTaskControl.Show();
+            assignTaskControl.ClsTaskControlLblClicked += (s, ev) =>
+            {
+                Controls.Remove(assignTaskControl);
+                assignTaskControl.Dispose();
+                LoadTasksBy(Guid.Parse(empIDProfTxtBx.Text));
+            };
+            assignTaskControl.AsgnTaskBtnClicked += (s, ev) =>
+            {
+                LoadTasksBy(Guid.Parse(empIDProfTxtBx.Text));
+            };
         }
 
         private void UserNameTxt_TextChanged(object sender, EventArgs e)
@@ -216,29 +237,21 @@ namespace SelfSampleProRAD
 
         private void CngPwdLkLbl_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            pwdChangePanel.Visible = true;
-        }
-
-        private void ClsPwdCngLbl_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            pwdChangePanel.Visible = false;
-        }
-
-        private void CngPwdBtn_Click(object sender, EventArgs e)
-        {
-            if (oldPwdTxtBx.Text == nwPwdTxtBx.Text)
+            var cngPwdControl = new ChangePasswordControl(Guid.Parse(empIDProfTxtBx.Text));
+            Controls.Add(cngPwdControl);
+            cngPwdControl.Location = new Point(50, 50);
+            cngPwdControl.BringToFront();
+            cngPwdControl.Show();
+            cngPwdControl.ClsPwdCngLblClicked += (s, ev) =>
             {
-                MessageBox.Show("Old and New Passwords cannot be the same.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-            else if (reNwPwdTxtBx.Text != nwPwdTxtBx.Text)
+                Controls.Remove(cngPwdControl);
+                cngPwdControl.Dispose();
+            };
+            cngPwdControl.CngPwdBtnClicked += (s, ev) =>
             {
-                MessageBox.Show("New Passwords do not match.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-            var response = new AccountController().ChangePassword(Guid.Parse(empIDProfTxtBx.Text), oldPwdTxtBx.Text, nwPwdTxtBx.Text);
-            MessageBox.Show(response, "Account", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            pwdChangePanel.Visible = false;
+                Controls.Remove(cngPwdControl);
+                cngPwdControl.Dispose();
+            };
         }
 
         private void SubmitTaskBtn_Click(object sender, EventArgs e)
@@ -261,20 +274,6 @@ namespace SelfSampleProRAD
             MessageBox.Show(response, "Task", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
-        private void AsgnTaskBtn_Click(object sender, EventArgs e)
-        {
-            if (string.IsNullOrEmpty(tskNmTxtBx.Text) || asgToCmbBx.SelectedItem == null)
-            {
-                MessageBox.Show("Please fill in all fields.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-            asgToCmbBx.SelectedValue.ToString();
-            var response = new TasksController().AssignTask(tskNmTxtBx.Text, Guid.Parse(asgToCmbBx.SelectedValue.ToString()), Guid.Parse(empIDProfTxtBx.Text));
-            MessageBox.Show(response.Item2);
-            addTaskPanel.Visible = false;
-            LoadTasksBy(Guid.Parse(empIDProfTxtBx.Text));
-        }
-
         private void DoTaskRcTxtBx_TextChanged(object sender, EventArgs e)
         {
             if (emptaskListBox.SelectedItem == null)
@@ -295,7 +294,6 @@ namespace SelfSampleProRAD
 
             if (mainTab.SelectedTab == taskManTab)
             {
-                LoadUseComboBox(Guid.Parse(empIDProfTxtBx.Text));
                 LoadTasksBy(Guid.Parse(empIDProfTxtBx.Text));
             }
 

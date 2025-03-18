@@ -1,13 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using SelfSampleProRAD_DB.DTOs;
+﻿using SelfSampleProRAD_DB.DTOs;
 using SelfSampleProRAD_DB.Controller;
 
 namespace SelfSampleProRAD_DB
@@ -80,6 +71,12 @@ namespace SelfSampleProRAD_DB
         public event EventHandler UpdateBtnClicked;
         private void UpdateBtn_Click(object sender, EventArgs e)
         {
+            if (string.IsNullOrEmpty(firstNameTxtBx.Text) || string.IsNullOrEmpty(lastNameTxtBx.Text) 
+                || string.IsNullOrEmpty(ageTxtBx.Text) || genderSelect.SelectedItem == null)
+            {
+                MessageBox.Show("Please Fill All Fields","Fields Required",MessageBoxButtons.OK,MessageBoxIcon.Error);
+                return;
+            }
             var response = new EmployeeController().UpdateEmployee
                 (
                 new EmployeeEditDTO
@@ -90,7 +87,7 @@ namespace SelfSampleProRAD_DB
                     Gender = genderSelect.SelectedItem.ToString()[0],
                     Age = byte.Parse(ageTxtBx.Text)
                 });
-            MessageBox.Show(response);
+            MessageBox.Show(response, "Password Change", MessageBoxButtons.OK, MessageBoxIcon.Information);
             firstNameTxtBx.Text = string.Empty;
             lastNameTxtBx.Text = string.Empty;
             genderSelect.SelectedIndex = 0;
