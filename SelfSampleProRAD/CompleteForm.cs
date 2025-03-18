@@ -111,33 +111,33 @@ namespace SelfSampleProRAD
 
                 if (control is TextBox textBox)
                 {
-                    textBox.Clear(); 
+                    textBox.Clear();
                 }
                 else if (control is ComboBox comboBox)
                 {
-                    comboBox.SelectedIndex = -1; 
+                    comboBox.SelectedIndex = -1;
                 }
                 else if (control is ListBox listBox)
                 {
-                    listBox.ClearSelected(); 
+                    listBox.ClearSelected();
                 }
                 else if (control is RadioButton radioButton)
                 {
-                    radioButton.Checked = false; 
+                    radioButton.Checked = false;
                 }
                 else if (control is RichTextBox richTextBox)
                 {
-                    richTextBox.Clear(); 
+                    richTextBox.Clear();
                 }
                 else if (control is UserControl userControl)
                 {
-                    parentControl.Controls.Remove(control); 
+                    parentControl.Controls.Remove(control);
                     control.Dispose();
                 }
-                
+
                 if (control.HasChildren)
                 {
-                    ClearAll(control); 
+                    ClearAll(control);
                 }
             }
         }
@@ -339,8 +339,8 @@ namespace SelfSampleProRAD
             Controls.Add(editControl);
             editControl.BringToFront();
             editControl.UpdateBtnClicked += UpdateBtn_Click;
-            editControl.clsEditControlLblClicked += (s, ev) => 
-            { 
+            editControl.clsEditControlLblClicked += (s, ev) =>
+            {
                 Controls.Remove(editControl);
                 editControl.Dispose();
             };
@@ -350,7 +350,7 @@ namespace SelfSampleProRAD
         {
             // Cast sender to Button and ensure it's not null
             var edBtn = sender as Button;
-            
+
             var edC = edBtn.Parent as EditControl;
             var res = new EmployeeController().SelectEmployee(Guid.Parse(empIDProfTxtBx.Text));
             LoadProfile(new EmployeeResponseDTO
@@ -369,5 +369,19 @@ namespace SelfSampleProRAD
             edC.Dispose();
         }
 
+        private void ClearBtn_Click(object sender, EventArgs e)
+        {
+            firstNameTxtBx.Text = string.Empty;
+            lastNameTxtBx.Text = string.Empty;
+            genderSelect.SelectedIndex = -1;
+            ageTxtBx.Text = string.Empty;
+            dobSelector.Value = DateTime.Now;
+            positionSelect.SelectedIndex = -1;
+            fullTimeRadBtn.Checked = false;
+            partimeRdBtn.Checked = false;
+            contrRdBtn.Checked = false;
+            salaryProfTxtBx.Text = string.Empty;
+            taxProfTxtBx.Text = string.Empty;
+        }
     }
 }

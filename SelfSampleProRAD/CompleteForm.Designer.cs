@@ -536,6 +536,7 @@ namespace SelfSampleProRAD
             clearBtn.TabIndex = 19;
             clearBtn.Text = "Clear";
             clearBtn.UseVisualStyleBackColor = true;
+            clearBtn.Click += ClearBtn_Click;
             // 
             // saveBtn
             // 
@@ -883,8 +884,8 @@ namespace SelfSampleProRAD
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(843, 611);
             Controls.Add(LogoutBtn);
-            Controls.Add(loginPanel);
             Controls.Add(mainTab);
+            Controls.Add(loginPanel);
             FormBorderStyle = FormBorderStyle.FixedSingle;
             MaximizeBox = false;
             Name = "CompleteForm";
