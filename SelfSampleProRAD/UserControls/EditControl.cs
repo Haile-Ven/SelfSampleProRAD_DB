@@ -1,4 +1,4 @@
-﻿using SelfSampleProRAD_DB.DTOs;
+using SelfSampleProRAD_DB.DTOs;
 using SelfSampleProRAD_DB.Controller;
 
 namespace SelfSampleProRAD_DB
@@ -6,6 +6,11 @@ namespace SelfSampleProRAD_DB
     public partial class EditControl : UserControl
     {
         EmployeeEditDTO employee;
+
+        // Event for toast notifications
+        public delegate void NotificationEventHandler(string message, string title, bool isSuccess);
+        public event NotificationEventHandler ShowNotification;
+
         public EditControl()
         {
             InitializeComponent();
@@ -74,7 +79,7 @@ namespace SelfSampleProRAD_DB
             if (string.IsNullOrEmpty(firstNameTxtBx.Text) || string.IsNullOrEmpty(lastNameTxtBx.Text) 
                 || string.IsNullOrEmpty(ageTxtBx.Text) || genderSelect.SelectedItem == null)
             {
-                MessageBox.Show("Please Fill All Fields","Fields Required",MessageBoxButtons.OK,MessageBoxIcon.Error);
+                ShowNotification?.Invoke("Please Fill All Fields","Error",false);
                 return;
             }
             var response = new EmployeeController().UpdateEmployee
@@ -87,7 +92,7 @@ namespace SelfSampleProRAD_DB
                     Gender = genderSelect.SelectedItem.ToString()[0],
                     Age = byte.Parse(ageTxtBx.Text)
                 });
-            MessageBox.Show(response, "Password Change", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            ShowNotification?.Invoke(response.Item1,response.Item2?"Success":"Failed",response.Item2);
             firstNameTxtBx.Text = string.Empty;
             lastNameTxtBx.Text = string.Empty;
             genderSelect.SelectedIndex = 0;

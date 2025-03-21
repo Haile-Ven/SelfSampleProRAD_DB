@@ -14,7 +14,7 @@ namespace SelfSampleProRAD_DB.Controller
             _context = context;
         }
 
-        public string AddEmployee(string fName, string lName, char gen, byte age, string pos, string cat)
+        public (string,bool) AddEmployee(string fName, string lName, char gen, byte age, string pos, string cat)
         {
             float salary;
             float tax;
@@ -22,7 +22,7 @@ namespace SelfSampleProRAD_DB.Controller
             var existingEmployee = _context.Employee
                 .Where(e => e.FirstName == fName && e.LastName == lName)
                 .FirstOrDefault();
-            if (existingEmployee != null) return $"Employee {existingEmployee.FirstName} {existingEmployee.LastName} Already Exisits";
+            if (existingEmployee != null) return ($"Employee {existingEmployee.FirstName} {existingEmployee.LastName} Already Exisits",false);
             using var transaction = _context.Database.BeginTransaction();
             try
             {
@@ -57,23 +57,22 @@ namespace SelfSampleProRAD_DB.Controller
                 _context.SaveChanges();
 
                 transaction.Commit();
-                return "Successfully added an Employee and created an Account";
+                return ("Successfully added an Employee and created an Account",true);
             }
             catch (Exception ex)
             {
                 transaction.Rollback();
-                MessageBox.Show("Error: " + ex.Message);
-                return "Something went wrong while adding the Employee and Account";
+                return (ex.Message, false);
             }
         }
 
-        public string UpdateEmployee(EmployeeEditDTO employee)
+        public (string,bool) UpdateEmployee(EmployeeEditDTO employee)
         {
             bool IsNameChanged = false;
             try
             {
                 var emp = _context.Employee.Where(e => e.EmployeeId == employee.EmployeeId).FirstOrDefault();
-                if (emp == null) return "Employee not found.";
+                if (emp == null) return ("Employee not found.",false);
                 if (emp.FirstName == employee.FirstName || emp.LastName == employee.LastName) IsNameChanged = true;
                 emp.FirstName = employee.FirstName;
                 emp.LastName = employee.LastName;
@@ -91,9 +90,9 @@ namespace SelfSampleProRAD_DB.Controller
             }
             catch (Exception ex)
             {
-                return "Unable to Update Employee.\nError: " + ex.InnerException.Message;
+                return ("Unable to Update Employee.\nError: " + ex.Message,false);
             }
-            return "Employee Updated Successfully.";
+            return ("Employee Updated Successfully.", true);
         }
 
         public Employee? SelectEmployee(Guid employeeId)

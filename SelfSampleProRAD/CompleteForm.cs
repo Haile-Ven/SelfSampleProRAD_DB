@@ -1,14 +1,19 @@
 using SelfSampleProRAD_DB;
 using SelfSampleProRAD_DB.Controller;
 using SelfSampleProRAD_DB.DTOs;
+using SelfSampleProRAD_DB.UserControls;
+
 namespace SelfSampleProRAD
 {
     public partial class CompleteForm : Form
     {
+        private ToastNotification toastNotification;
+
         public CompleteForm()
         {
             InitializeComponent();
             InitPanels();
+            InitializeToastNotification();
         }
 
         //Methods
@@ -17,7 +22,6 @@ namespace SelfSampleProRAD
             mainTab.Visible = false;
             loginPanel.Visible = true;
             LogoutBtn.Visible = false;
-            loginInfoLbl.Text = string.Empty;
         }
 
         private void LogAccess(int logStat)
@@ -35,9 +39,9 @@ namespace SelfSampleProRAD
             mainTab.TabPages.Clear();
             ClearAll(this);
             loginPanel.Visible = true;
-            loginInfoLbl.Text = string.Empty;
             LogoutBtn.Visible = false;
             Text = "Employee Full Portal";
+            InitializeToastNotification();
         }
 
         private string CatagorySelector()
@@ -142,6 +146,25 @@ namespace SelfSampleProRAD
             }
         }
 
+        // Ensure toast notification is properly initialized
+        private void InitializeToastNotification()
+        {
+            // Dispose of existing toast notification if it exists
+            if (toastNotification != null)
+            {
+                if (toastNotification.IsHandleCreated && !toastNotification.IsDisposed)
+                {
+                    toastNotification.Visible = false;
+                    toastNotification.Dispose();
+                }
+                toastNotification = null;
+            }
+            
+            // Create a new toast notification
+            toastNotification = new ToastNotification();
+            toastNotification.AttachToForm(this);
+        }
+
         //Event handlers
         private void LoginBtb_Click(object sender, EventArgs e)
         {
@@ -149,14 +172,15 @@ namespace SelfSampleProRAD
 
             if (response.Item1 == null)
             {
-                loginInfoLbl.Text = response.Item2;
+                InitializeToastNotification();
+                toastNotification.Show(response.Item2, "Login Failed", false);
                 LogAccess(0);
                 return;
             }
             LogoutBtn.Visible = true;
             loginPanel.Visible = false;
             mainTab.Visible = true;
-
+            InitializeToastNotification();
             // Clear all tab pages first
             mainTab.TabPages.Clear();
 
@@ -184,9 +208,10 @@ namespace SelfSampleProRAD
                     break;
 
                 default:
-                    loginInfoLbl.Text = "Invalid User Position.";
+                    toastNotification.Show("Invalid Position", "Error", false);
                     return;
             }
+            toastNotification.Show(response.Item2, "Login Successful", true);
             mainTab.SelectedTab = employeeProfileTab;
             LoadProfile(response.Item1);
             LogAccess(1);
@@ -209,11 +234,11 @@ namespace SelfSampleProRAD
             {
                 LoadTasksBy(Guid.Parse(empIDProfTxtBx.Text));
             };
-        }
-
-        private void UserNameTxt_TextChanged(object sender, EventArgs e)
-        {
-            this.loginInfoLbl.Text = string.Empty;
+            assignTaskControl.ShowNotification += (message, title, isSuccess) =>
+            {
+                InitializeToastNotification();
+                toastNotification.Show(message, title, isSuccess);
+            };
         }
 
         private void SaveBtn_Click(object sender, EventArgs e)
@@ -227,7 +252,9 @@ namespace SelfSampleProRAD
                 Convert.ToByte(ageTxtBx.Text),
                 positionSelect.Text,
                 CatagorySelector());
-            MessageBox.Show(response, "Account", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            InitializeToastNotification();
+            toastNotification.Show(response.Item1, response.Item2?"Success":"Faild",response.Item2);
+            mainTab.SelectedTab = viewTabPage;
         }
 
         private void DobSelector_ValueChanged(object sender, EventArgs e)
@@ -252,37 +279,46 @@ namespace SelfSampleProRAD
                 Controls.Remove(cngPwdControl);
                 cngPwdControl.Dispose();
             };
+            cngPwdControl.ShowNotification += (message, title, isSuccess) =>
+            {
+                InitializeToastNotification();
+                toastNotification.Show(message, title, isSuccess);
+            };
         }
 
         private void SubmitTaskBtn_Click(object sender, EventArgs e)
         {
             if (emptaskListBox.SelectedItem == null)
             {
-                MessageBox.Show("Please select a task to start working on.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                toastNotification.Show("Please select a task to start working on.", "Error", false);
                 return;
             }
 
             if (string.IsNullOrEmpty(doTaskRcTxtBx.Text))
             {
-                MessageBox.Show("Please fill in the task details.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                toastNotification.Show("Please fill in the task details.", "Error", false);
                 return;
             }
 
             var response = new TasksController().submitWork(Guid.Parse(emptaskListBox.SelectedValue.ToString()));
             doTaskRcTxtBx.Text = string.Empty;
             LoadTasksFor(Guid.Parse(empIDProfTxtBx.Text));
-            MessageBox.Show(response, "Task", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            toastNotification.Show(response.Item1, response.Item2?"Success":"Failed",response.Item2);
         }
 
         private void DoTaskRcTxtBx_TextChanged(object sender, EventArgs e)
         {
             if (emptaskListBox.SelectedItem == null)
             {
-                MessageBox.Show("Please select a task to start working on.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                toastNotification.Show("Please select a task to start working on.", "Error",false);
                 return;
             }
-            _ = new TasksController().startWorking(Guid.Parse(emptaskListBox.SelectedValue.ToString()));
-            if (!emptaskListBox.Text.Contains("Started")) LoadTasksFor(Guid.Parse(empIDProfTxtBx.Text));
+            if(!emptaskListBox.Text.Contains("Started"))
+            {
+                var response = new TasksController().startWorking(Guid.Parse(emptaskListBox.SelectedValue.ToString()));
+                toastNotification.Show(response.Item1, response.Item2 ? "Success" : "Failed", response.Item2);
+                LoadTasksFor(Guid.Parse(empIDProfTxtBx.Text));
+            }
         }
 
         private void MainTab_SelectedIndexChanged(object sender, EventArgs e)
@@ -301,9 +337,8 @@ namespace SelfSampleProRAD
             {
                 LoadTasksFor(Guid.Parse(empIDProfTxtBx.Text));
             }
-
-
         }
+
         private void EmployeeDataGrid_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             var msg = employeeDataGrid.Rows[e.RowIndex].Cells["StatusClm"].Value.ToString() == "A" ? "Deactivate" : "Activate";
@@ -313,6 +348,8 @@ namespace SelfSampleProRAD
             {
                 var userid = Guid.Parse(employeeDataGrid.Rows[e.RowIndex].Cells["UserIdClm"].Value.ToString());
                 var response = new AccountController().ChangeAccountStatus(userid);
+                InitializeToastNotification();
+                toastNotification.Show(response.Item1,response.Item2?"Success":"Failed", response.Item2);
                 LoadEmployeeData();
             }
         }
@@ -339,6 +376,10 @@ namespace SelfSampleProRAD
             Controls.Add(editControl);
             editControl.BringToFront();
             editControl.UpdateBtnClicked += UpdateBtn_Click;
+            editControl.ShowNotification += (message, title, isSuccess) => {
+                InitializeToastNotification();
+                toastNotification.Show(message, title, isSuccess);
+            };
             editControl.clsEditControlLblClicked += (s, ev) =>
             {
                 Controls.Remove(editControl);

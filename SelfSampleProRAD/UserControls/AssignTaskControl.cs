@@ -4,6 +4,10 @@ namespace SelfSampleProRAD_DB
 {
     public partial class AssignTaskControl : UserControl
     {
+        // Event for toast notifications
+        public delegate void NotificationEventHandler(string message, string title, bool isSuccess);
+        public event NotificationEventHandler ShowNotification;
+
         Guid employeeID;
         public AssignTaskControl()
         {
@@ -77,7 +81,7 @@ namespace SelfSampleProRAD_DB
         {
             if (string.IsNullOrEmpty(tskNmTxtBx.Text) || asgToCmbBx.SelectedItem == null)
             {
-                MessageBox.Show("Please fill in all fields.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                ShowNotification?.Invoke("Please fill in all fields.", "Error",false);
                 return;
             }
             asgToCmbBx.SelectedValue.ToString();
@@ -86,7 +90,7 @@ namespace SelfSampleProRAD_DB
                     tskNmTxtBx.Text,
                     Guid.Parse(asgToCmbBx.SelectedValue.ToString()),
                     employeeID);
-            MessageBox.Show(response.Item2, "Task Management", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            ShowNotification?.Invoke(response.Item2, response.Item3?"Success":"Faild",response.Item3);
             AsgnTaskBtnClicked?.Invoke(sender, e);
         }
 

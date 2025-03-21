@@ -30,7 +30,6 @@ namespace SelfSampleProRAD
         {
             DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
             loginPanel = new Panel();
-            loginInfoLbl = new Label();
             loginBtb = new Button();
             passwordLbl = new Label();
             userNameLbl = new Label();
@@ -110,7 +109,6 @@ namespace SelfSampleProRAD
             // 
             // loginPanel
             // 
-            loginPanel.Controls.Add(loginInfoLbl);
             loginPanel.Controls.Add(loginBtb);
             loginPanel.Controls.Add(passwordLbl);
             loginPanel.Controls.Add(userNameLbl);
@@ -120,15 +118,6 @@ namespace SelfSampleProRAD
             loginPanel.Name = "loginPanel";
             loginPanel.Size = new Size(831, 613);
             loginPanel.TabIndex = 0;
-            // 
-            // loginInfoLbl
-            // 
-            loginInfoLbl.AutoSize = true;
-            loginInfoLbl.ForeColor = Color.Red;
-            loginInfoLbl.Location = new Point(263, 163);
-            loginInfoLbl.Name = "loginInfoLbl";
-            loginInfoLbl.Size = new Size(0, 20);
-            loginInfoLbl.TabIndex = 10;
             // 
             // loginBtb
             // 
@@ -916,7 +905,6 @@ namespace SelfSampleProRAD
         private Label userNameLbl;
         private TextBox passwordTxt;
         private TextBox userNameTxt;
-        private Label loginInfoLbl;
         private TabControl mainTab;
         private TabPage employeeProfileTab;
         private LinkLabel cngPwdLkLbl;

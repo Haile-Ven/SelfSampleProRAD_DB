@@ -1,11 +1,4 @@
 using SelfSampleProRAD_DB.Model;
-using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace SelfSampleProRAD_DB.Data
 {
     public class SuperAdminSeeder
@@ -58,7 +51,7 @@ namespace SelfSampleProRAD_DB.Data
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.InnerException.Message);
+                MessageBox.Show(ex.Message);
             }
         }
     }

@@ -11,7 +11,7 @@ namespace SelfSampleProRAD_DB.Controller
         {
             _context = context;
         }
-        public (EmployeeTasks,string) AssignTask(string tskNm, Guid aTo, Guid aBy)
+        public (EmployeeTasks,string,bool) AssignTask(string tskNm, Guid aTo, Guid aBy)
         {
             using var transaction = _context.Database.BeginTransaction();
             try
@@ -32,8 +32,8 @@ namespace SelfSampleProRAD_DB.Controller
                 var employeeTaskResponse = _context.EmployeeTasks.Add(employeeTask);
                 _context.SaveChanges();
                 transaction.Commit();
-                return (employeeTask, "Task Successfully assigned");
-            } catch (Exception ex) { return (null,"Error: " + ex.InnerException.Message); }
+                return (employeeTask, "Task Successfully assigned",true);
+            } catch (Exception ex) { return (null,"Error: " + ex.Message,false); }
         }
 
         private static string GetStatusText(char status)
@@ -63,7 +63,7 @@ namespace SelfSampleProRAD_DB.Controller
             }
             catch (Exception ex)
             {
-                return (null, "Error: " + ex.InnerException?.Message ?? ex.Message);
+                return (null, "Error: " + ex.InnerException.Message ?? ex.Message);
             }
         }
 
@@ -88,12 +88,12 @@ namespace SelfSampleProRAD_DB.Controller
             }
         }
 
-        public string startWorking(Guid taskID)
+        public (string, bool) startWorking(Guid taskID)
         {
             var task = _context.Tasks
                 .Where(t => t.TaskId == taskID).FirstOrDefault();
-            if (task == null) return "Task not found.";
-            if (task.Status == 'C') return "Task is already completed.";
+            if (task == null) return ("Task not found.", false);
+            if (task.Status == 'C') return ("Task is already completed.", false);
             task.Status = 'S';
             try
             {
@@ -102,17 +102,17 @@ namespace SelfSampleProRAD_DB.Controller
             }
             catch (Exception ex)
             {
-                return "Error: " + ex.InnerException.Message;
+                return ("Error: " + ex.Message, false);
             }
-            return "Task started.";
+            return ("Task started.", true);
         }
 
-        public string submitWork(Guid taskID)
+        public (string,bool) submitWork(Guid taskID)
         {
             var task = _context.Tasks
                 .Where(t => t.TaskId == taskID).FirstOrDefault();
-            if (task == null) return "Task not found.";
-            if (task.Status == 'C') return "Task is already completed.";
+            if (task == null) return ("Task not found.",false);
+            if (task.Status == 'C') return ("Task is already completed.", false);
             task.Status = 'C';
             try
             {
@@ -121,9 +121,9 @@ namespace SelfSampleProRAD_DB.Controller
             }
             catch (Exception ex)
             {
-                return "Error: " + ex.InnerException.Message;
+                return ("Error: " + ex.Message,false);
             }
-            return "Task completed.";
+            return ("Task completed.", true);
         }
     }
 }

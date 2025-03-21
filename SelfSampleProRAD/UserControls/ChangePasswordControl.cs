@@ -1,10 +1,15 @@
 ﻿using Microsoft.Identity.Client;
 using SelfSampleProRAD_DB.Controller;
+using SelfSampleProRAD_DB.UserControls;
 
 namespace SelfSampleProRAD_DB
 {
     public partial class ChangePasswordControl : UserControl
     {
+        // Event for toast notifications
+        public delegate void NotificationEventHandler(string message, string title, bool isSuccess);
+        public event NotificationEventHandler ShowNotification;
+
         Guid EmployeeID;
         public ChangePasswordControl()
         {
@@ -28,20 +33,16 @@ namespace SelfSampleProRAD_DB
         {
             if(string.IsNullOrEmpty(oldPwdTxtBx.Text) || string.IsNullOrEmpty(nwPwdTxtBx.Text) || string.IsNullOrEmpty(reNwPwdTxtBx.Text))
             {
-                MessageBox.Show("Please Fill All Fields", "Fields Required", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                ShowNotification?.Invoke("Please Fill All Fields", "Error",false);
                 return;
             }
             if (nwPwdTxtBx.Text != reNwPwdTxtBx.Text)
             {
-                MessageBox.Show("New Password and Re-entered Password does not match.", "Password Change", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                ShowNotification?.Invoke("New Password and Re-entered Password does not match.", "Error", false);
                 return;
             }
-            MessageBox.Show(
-                new AccountController().ChangePassword(
-                EmployeeID,
-                oldPwdTxtBx.Text,
-                nwPwdTxtBx.Text
-            ), "Password Change", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            var response = new AccountController().ChangePassword(EmployeeID, oldPwdTxtBx.Text, nwPwdTxtBx.Text);
+            ShowNotification?.Invoke(response.Item1,response.Item2?"Success":"Failed",response.Item2);
             CngPwdBtnClicked?.Invoke(sender, e);
         }
 

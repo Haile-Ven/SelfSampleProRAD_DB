@@ -45,23 +45,23 @@ namespace SelfSampleProRAD_DB.Controller
         }
 
         //Change password
-        public string ChangePassword(Guid employeeId, string oldPass, string newPass)
+        public (string,bool) ChangePassword(Guid employeeId, string oldPass, string newPass)
         {
             try
             {
                 var employee = _context.Employee.Where(e => e.EmployeeId == employeeId).FirstOrDefault();
                 var account = _context.Account.Where(a => a.UserId == employee.UserId).FirstOrDefault();
-                if (account == null) return "Account not found.";
-                if (account.Password != oldPass) return "Old Password is incorrect.";
+                if (account == null) return ("Account not found.",false);
+                if (account.Password != oldPass) return ("Old Password is incorrect.", false);
                 account.Password = newPass;
                 _context.Update(account);
                 _context.SaveChanges();
             }
             catch (Exception ex)
             {
-                return "Unable to Change Password.\nError: " + ex.InnerException.Message;
+                return ("Unable to Change Password.\nError: " + ex.Message,false);
             }
-            return "Password Changed Successfully.";
+            return ("Password Changed Successfully.", true);
         }
 
         //List all accounts
@@ -107,10 +107,10 @@ namespace SelfSampleProRAD_DB.Controller
         }
 
         //Change account status (Activate/Deactivate)
-        public string ChangeAccountStatus(Guid accId)
+        public (string, bool) ChangeAccountStatus(Guid accId)
         {
             var account = _context.Account.Where(a => a.UserId == accId).FirstOrDefault();
-            if (account == null) return "Account not found.";
+            if (account == null) return ("Account not found.", false);
             if (account.Status == 'A') account.Status = 'D';
             else account.Status = 'A';
             try
@@ -120,10 +120,10 @@ namespace SelfSampleProRAD_DB.Controller
             }
             catch (Exception ex)
             {
-                return "Unable to Change Account Status.\nError: " + ex.InnerException.Message;
+                return ("Unable to Change Account Status.\nError: " + ex.Message, false);
             }
             var msg = account.Status == 'A' ? "Account Activated Successfully." : "Account Deactivated Successfully.";
-            return msg;
+            return (msg, true);
         }
 
     }
