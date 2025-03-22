@@ -38,21 +38,21 @@ namespace SelfSampleProRAD_DB.UserControls
             // titleLabel
             // 
             titleLabel.AutoSize = true;
-            titleLabel.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            titleLabel.Font = new Font("Microsoft Sans Serif", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
             titleLabel.ForeColor = Color.FromArgb(76, 175, 80);
             titleLabel.Location = new Point(55, 11);
             titleLabel.Name = "titleLabel";
-            titleLabel.Size = new Size(118, 25);
+            titleLabel.Size = new Size(96, 20);
             titleLabel.TabIndex = 0;
             titleLabel.Text = "SUCCESS";
             // 
             // messageLabel
             // 
-            messageLabel.Font = new Font("Microsoft Sans Serif", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            messageLabel.Font = new Font("Microsoft Sans Serif", 7.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
             messageLabel.ForeColor = Color.FromArgb(100, 100, 100);
-            messageLabel.Location = new Point(55, 48);
+            messageLabel.Location = new Point(55, 40);
             messageLabel.Name = "messageLabel";
-            messageLabel.Size = new Size(454, 53);
+            messageLabel.Size = new Size(585, 24);
             messageLabel.TabIndex = 1;
             messageLabel.Text = "Notification message";
             // 
@@ -73,7 +73,7 @@ namespace SelfSampleProRAD_DB.UserControls
             closeButton.FlatAppearance.BorderSize = 0;
             closeButton.FlatStyle = FlatStyle.Flat;
             closeButton.ForeColor = Color.Gray;
-            closeButton.Location = new Point(503, -1);
+            closeButton.Location = new Point(524, -6);
             closeButton.Margin = new Padding(3, 4, 3, 4);
             closeButton.Name = "closeButton";
             closeButton.Size = new Size(24, 30);
@@ -93,7 +93,7 @@ namespace SelfSampleProRAD_DB.UserControls
             Controls.Add(titleLabel);
             Margin = new Padding(3, 4, 3, 4);
             Name = "ToastNotification";
-            Size = new Size(531, 101);
+            Size = new Size(550, 64);
             ((System.ComponentModel.ISupportInitialize)iconPictureBox).EndInit();
             ResumeLayout(false);
             PerformLayout();

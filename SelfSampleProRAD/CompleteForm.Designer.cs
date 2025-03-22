@@ -155,9 +155,9 @@ namespace SelfSampleProRAD
             passwordTxt.BorderStyle = BorderStyle.FixedSingle;
             passwordTxt.Location = new Point(280, 250);
             passwordTxt.Name = "passwordTxt";
-            passwordTxt.PasswordChar = '•';
             passwordTxt.Size = new Size(314, 27);
             passwordTxt.TabIndex = 6;
+            passwordTxt.UseSystemPasswordChar = true;
             // 
             // userNameTxt
             // 

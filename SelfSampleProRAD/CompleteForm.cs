@@ -1,3 +1,4 @@
+using Azure;
 using SelfSampleProRAD_DB;
 using SelfSampleProRAD_DB.Controller;
 using SelfSampleProRAD_DB.DTOs;
@@ -106,7 +107,7 @@ namespace SelfSampleProRAD
             emptaskListBox.DisplayMember = "DisplayName";
             emptaskListBox.ValueMember = "TaskId";
         }
-
+        
         private void ClearAll(Control parentControl)
         {
             for (int i = parentControl.Controls.Count - 1; i >= 0; i--)
@@ -243,18 +244,26 @@ namespace SelfSampleProRAD
 
         private void SaveBtn_Click(object sender, EventArgs e)
         {
-            char gender = 'O';
-            gender = genderSelect.Text == "Male" ? 'M' : 'F';
-            var response = new EmployeeController()
-                .AddEmployee(firstNameTxtBx.Text,
-                lastNameTxtBx.Text,
-                gender,
-                Convert.ToByte(ageTxtBx.Text),
-                positionSelect.Text,
-                CatagorySelector());
-            InitializeToastNotification();
-            toastNotification.Show(response.Item1, response.Item2?"Success":"Faild",response.Item2);
-            mainTab.SelectedTab = viewTabPage;
+            try
+            {
+                char gender = 'O';
+                gender = genderSelect.Text == "Male" ? 'M' : 'F';
+                var response = new EmployeeController()
+                    .AddEmployee(firstNameTxtBx.Text,
+                    lastNameTxtBx.Text,
+                    gender,
+                    Convert.ToByte(ageTxtBx.Text),
+                    positionSelect.Text,
+                    CatagorySelector());
+                InitializeToastNotification();
+                toastNotification.Show(response.Item1, response.Item2 ? "Success" : "Faild", response.Item2);
+                mainTab.SelectedTab = viewTabPage;
+            }
+            catch (Exception ex)
+            {
+                InitializeToastNotification();
+                toastNotification.Show(ex.Message,"Error",false);
+            }
         }
 
         private void DobSelector_ValueChanged(object sender, EventArgs e)

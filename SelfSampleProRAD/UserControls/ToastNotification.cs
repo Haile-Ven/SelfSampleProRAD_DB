@@ -58,15 +58,16 @@ namespace SelfSampleProRAD_DB.UserControls
         }
 
         /// <summary>
-        /// Positions the notification at the bottom center of the form
+        /// Positions the notification at the bottom left corner of the form
         /// </summary>
         private void PositionNotification()
         {
             if (_parentForm != null)
             {
+                // Position in the bottom left corner with some padding
                 this.Location = new Point(
-                    (_parentForm.ClientSize.Width - this.Width) / 2,
-                    _parentForm.ClientSize.Height - this.Height - 20);
+                    20, // 20px from left
+                    _parentForm.ClientSize.Height - this.Height - 20); // 20px from bottom
             }
         }
 
