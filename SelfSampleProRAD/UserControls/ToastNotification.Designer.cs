@@ -52,7 +52,7 @@ namespace SelfSampleProRAD_DB.UserControls
             messageLabel.ForeColor = Color.FromArgb(100, 100, 100);
             messageLabel.Location = new Point(55, 40);
             messageLabel.Name = "messageLabel";
-            messageLabel.Size = new Size(585, 24);
+            messageLabel.Size = new Size(357, 24);
             messageLabel.TabIndex = 1;
             messageLabel.Text = "Notification message";
             // 
@@ -73,7 +73,7 @@ namespace SelfSampleProRAD_DB.UserControls
             closeButton.FlatAppearance.BorderSize = 0;
             closeButton.FlatStyle = FlatStyle.Flat;
             closeButton.ForeColor = Color.Gray;
-            closeButton.Location = new Point(524, -6);
+            closeButton.Location = new Point(383, -6);
             closeButton.Margin = new Padding(3, 4, 3, 4);
             closeButton.Name = "closeButton";
             closeButton.Size = new Size(24, 30);
@@ -93,7 +93,7 @@ namespace SelfSampleProRAD_DB.UserControls
             Controls.Add(titleLabel);
             Margin = new Padding(3, 4, 3, 4);
             Name = "ToastNotification";
-            Size = new Size(550, 64);
+            Size = new Size(415, 64);
             ((System.ComponentModel.ISupportInitialize)iconPictureBox).EndInit();
             ResumeLayout(false);
             PerformLayout();
