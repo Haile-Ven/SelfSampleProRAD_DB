@@ -41,13 +41,15 @@
             // 
             // cngPwdBtn
             // 
+            cngPwdBtn.BackColor = Color.MediumSeaGreen;
             cngPwdBtn.Font = new Font("Segoe UI", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            cngPwdBtn.ForeColor = SystemColors.ControlLightLight;
             cngPwdBtn.Location = new Point(186, 271);
             cngPwdBtn.Name = "cngPwdBtn";
             cngPwdBtn.Size = new Size(182, 45);
             cngPwdBtn.TabIndex = 17;
-            cngPwdBtn.Text = "🛠️ Update Password";
-            cngPwdBtn.UseVisualStyleBackColor = true;
+            cngPwdBtn.Text = "✏️ Update Password";
+            cngPwdBtn.UseVisualStyleBackColor = false;
             cngPwdBtn.Click += CngPwdBtn_Click;
             // 
             // oldPwdTxtBx

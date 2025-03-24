@@ -37,6 +37,7 @@ namespace SelfSampleProRAD
             userNameTxt = new TextBox();
             mainTab = new TabControl();
             employeeProfileTab = new TabPage();
+            ProfileRibon = new Panel();
             EditProfileLkLbl = new LinkLabel();
             cngPwdLkLbl = new LinkLabel();
             catagProfTxtBx = new TextBox();
@@ -98,6 +99,7 @@ namespace SelfSampleProRAD
             loginPanel.SuspendLayout();
             mainTab.SuspendLayout();
             employeeProfileTab.SuspendLayout();
+            ProfileRibon.SuspendLayout();
             viewTabPage.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)employeeDataGrid).BeginInit();
             AddNewTabPage.SuspendLayout();
@@ -121,13 +123,16 @@ namespace SelfSampleProRAD
             // 
             // loginBtb
             // 
+            loginBtb.BackColor = Color.FromArgb(38, 161, 54);
+            loginBtb.FlatStyle = FlatStyle.Flat;
             loginBtb.Font = new Font("Segoe UI", 10.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            loginBtb.Location = new Point(365, 315);
+            loginBtb.ForeColor = SystemColors.ControlLightLight;
+            loginBtb.Location = new Point(360, 318);
             loginBtb.Name = "loginBtb";
-            loginBtb.Size = new Size(109, 37);
+            loginBtb.Size = new Size(122, 43);
             loginBtb.TabIndex = 9;
             loginBtb.Text = "Login";
-            loginBtb.UseVisualStyleBackColor = true;
+            loginBtb.UseVisualStyleBackColor = false;
             loginBtb.Click += LoginBtb_Click;
             // 
             // passwordLbl
@@ -174,7 +179,7 @@ namespace SelfSampleProRAD
             mainTab.Controls.Add(AddNewTabPage);
             mainTab.Controls.Add(employeeTaskTab);
             mainTab.Controls.Add(taskManTab);
-            mainTab.Location = new Point(6, 2);
+            mainTab.Location = new Point(0, 0);
             mainTab.Name = "mainTab";
             mainTab.Padding = new Point(10, 15);
             mainTab.SelectedIndex = 0;
@@ -185,9 +190,8 @@ namespace SelfSampleProRAD
             // 
             // employeeProfileTab
             // 
-            employeeProfileTab.BackColor = SystemColors.Control;
-            employeeProfileTab.Controls.Add(EditProfileLkLbl);
-            employeeProfileTab.Controls.Add(cngPwdLkLbl);
+            employeeProfileTab.BackColor = SystemColors.ControlLightLight;
+            employeeProfileTab.Controls.Add(ProfileRibon);
             employeeProfileTab.Controls.Add(catagProfTxtBx);
             employeeProfileTab.Controls.Add(positionProfTxtBx);
             employeeProfileTab.Controls.Add(genderProfTxtBx);
@@ -213,13 +217,25 @@ namespace SelfSampleProRAD
             employeeProfileTab.TabIndex = 1;
             employeeProfileTab.Text = "👤Profile";
             // 
+            // ProfileRibon
+            // 
+            ProfileRibon.BackColor = Color.Blue;
+            ProfileRibon.Controls.Add(EditProfileLkLbl);
+            ProfileRibon.Controls.Add(cngPwdLkLbl);
+            ProfileRibon.Location = new Point(9, 10);
+            ProfileRibon.Name = "ProfileRibon";
+            ProfileRibon.Size = new Size(810, 57);
+            ProfileRibon.TabIndex = 48;
+            // 
             // EditProfileLkLbl
             // 
             EditProfileLkLbl.AutoSize = true;
+            EditProfileLkLbl.Font = new Font("Segoe UI", 10.2F);
             EditProfileLkLbl.LinkBehavior = LinkBehavior.NeverUnderline;
-            EditProfileLkLbl.Location = new Point(11, 17);
+            EditProfileLkLbl.LinkColor = Color.White;
+            EditProfileLkLbl.Location = new Point(6, 14);
             EditProfileLkLbl.Name = "EditProfileLkLbl";
-            EditProfileLkLbl.Size = new Size(77, 20);
+            EditProfileLkLbl.Size = new Size(85, 23);
             EditProfileLkLbl.TabIndex = 47;
             EditProfileLkLbl.TabStop = true;
             EditProfileLkLbl.Text = "✏️👤Edit";
@@ -228,10 +244,12 @@ namespace SelfSampleProRAD
             // cngPwdLkLbl
             // 
             cngPwdLkLbl.AutoSize = true;
+            cngPwdLkLbl.Font = new Font("Segoe UI", 10.2F);
             cngPwdLkLbl.LinkBehavior = LinkBehavior.NeverUnderline;
-            cngPwdLkLbl.Location = new Point(590, 51);
+            cngPwdLkLbl.LinkColor = Color.White;
+            cngPwdLkLbl.Location = new Point(605, 15);
             cngPwdLkLbl.Name = "cngPwdLkLbl";
-            cngPwdLkLbl.Size = new Size(170, 20);
+            cngPwdLkLbl.Size = new Size(195, 23);
             cngPwdLkLbl.TabIndex = 46;
             cngPwdLkLbl.TabStop = true;
             cngPwdLkLbl.Text = "🔒✏️ Change Password";
@@ -239,11 +257,11 @@ namespace SelfSampleProRAD
             // 
             // catagProfTxtBx
             // 
-            catagProfTxtBx.BackColor = SystemColors.Control;
+            catagProfTxtBx.BackColor = SystemColors.ControlLightLight;
             catagProfTxtBx.BorderStyle = BorderStyle.None;
             catagProfTxtBx.Enabled = false;
             catagProfTxtBx.Font = new Font("Segoe UI", 10.8F, FontStyle.Bold);
-            catagProfTxtBx.Location = new Point(171, 328);
+            catagProfTxtBx.Location = new Point(171, 376);
             catagProfTxtBx.Margin = new Padding(5);
             catagProfTxtBx.Name = "catagProfTxtBx";
             catagProfTxtBx.Size = new Size(158, 24);
@@ -251,11 +269,11 @@ namespace SelfSampleProRAD
             // 
             // positionProfTxtBx
             // 
-            positionProfTxtBx.BackColor = SystemColors.Control;
+            positionProfTxtBx.BackColor = SystemColors.ControlLightLight;
             positionProfTxtBx.BorderStyle = BorderStyle.None;
             positionProfTxtBx.Enabled = false;
             positionProfTxtBx.Font = new Font("Segoe UI", 10.8F, FontStyle.Bold);
-            positionProfTxtBx.Location = new Point(171, 283);
+            positionProfTxtBx.Location = new Point(171, 331);
             positionProfTxtBx.Margin = new Padding(5);
             positionProfTxtBx.Name = "positionProfTxtBx";
             positionProfTxtBx.Size = new Size(158, 24);
@@ -263,11 +281,11 @@ namespace SelfSampleProRAD
             // 
             // genderProfTxtBx
             // 
-            genderProfTxtBx.BackColor = SystemColors.Control;
+            genderProfTxtBx.BackColor = SystemColors.ControlLightLight;
             genderProfTxtBx.BorderStyle = BorderStyle.None;
             genderProfTxtBx.Enabled = false;
             genderProfTxtBx.Font = new Font("Segoe UI", 10.8F, FontStyle.Bold);
-            genderProfTxtBx.Location = new Point(171, 231);
+            genderProfTxtBx.Location = new Point(171, 279);
             genderProfTxtBx.Margin = new Padding(5);
             genderProfTxtBx.Name = "genderProfTxtBx";
             genderProfTxtBx.Size = new Size(74, 24);
@@ -275,11 +293,11 @@ namespace SelfSampleProRAD
             // 
             // ageProfTxtBx
             // 
-            ageProfTxtBx.BackColor = SystemColors.Control;
+            ageProfTxtBx.BackColor = SystemColors.ControlLightLight;
             ageProfTxtBx.BorderStyle = BorderStyle.None;
             ageProfTxtBx.Enabled = false;
             ageProfTxtBx.Font = new Font("Segoe UI", 10.8F, FontStyle.Bold);
-            ageProfTxtBx.Location = new Point(171, 184);
+            ageProfTxtBx.Location = new Point(171, 232);
             ageProfTxtBx.Margin = new Padding(5);
             ageProfTxtBx.Name = "ageProfTxtBx";
             ageProfTxtBx.Size = new Size(74, 24);
@@ -287,7 +305,7 @@ namespace SelfSampleProRAD
             // 
             // taxProfTxtBx
             // 
-            taxProfTxtBx.BackColor = SystemColors.Control;
+            taxProfTxtBx.BackColor = SystemColors.ControlLightLight;
             taxProfTxtBx.BorderStyle = BorderStyle.None;
             taxProfTxtBx.Enabled = false;
             taxProfTxtBx.Font = new Font("Segoe UI", 10.8F, FontStyle.Bold);
@@ -299,7 +317,7 @@ namespace SelfSampleProRAD
             // 
             // salaryProfTxtBx
             // 
-            salaryProfTxtBx.BackColor = SystemColors.Control;
+            salaryProfTxtBx.BackColor = SystemColors.ControlLightLight;
             salaryProfTxtBx.BorderStyle = BorderStyle.None;
             salaryProfTxtBx.Enabled = false;
             salaryProfTxtBx.Font = new Font("Segoe UI", 10.8F, FontStyle.Bold);
@@ -311,11 +329,11 @@ namespace SelfSampleProRAD
             // 
             // lNameProfTxtBx
             // 
-            lNameProfTxtBx.BackColor = SystemColors.Control;
+            lNameProfTxtBx.BackColor = SystemColors.ControlLightLight;
             lNameProfTxtBx.BorderStyle = BorderStyle.None;
             lNameProfTxtBx.Enabled = false;
             lNameProfTxtBx.Font = new Font("Segoe UI", 10.8F, FontStyle.Bold);
-            lNameProfTxtBx.Location = new Point(171, 133);
+            lNameProfTxtBx.Location = new Point(171, 181);
             lNameProfTxtBx.Margin = new Padding(5);
             lNameProfTxtBx.Name = "lNameProfTxtBx";
             lNameProfTxtBx.Size = new Size(323, 24);
@@ -323,11 +341,11 @@ namespace SelfSampleProRAD
             // 
             // fNameProfTxtBx
             // 
-            fNameProfTxtBx.BackColor = SystemColors.Control;
+            fNameProfTxtBx.BackColor = SystemColors.ControlLightLight;
             fNameProfTxtBx.BorderStyle = BorderStyle.None;
             fNameProfTxtBx.Enabled = false;
             fNameProfTxtBx.Font = new Font("Segoe UI", 10.8F, FontStyle.Bold);
-            fNameProfTxtBx.Location = new Point(171, 91);
+            fNameProfTxtBx.Location = new Point(171, 139);
             fNameProfTxtBx.Margin = new Padding(5);
             fNameProfTxtBx.Name = "fNameProfTxtBx";
             fNameProfTxtBx.Size = new Size(323, 24);
@@ -335,11 +353,11 @@ namespace SelfSampleProRAD
             // 
             // empIDProfTxtBx
             // 
-            empIDProfTxtBx.BackColor = SystemColors.Control;
+            empIDProfTxtBx.BackColor = SystemColors.ControlLightLight;
             empIDProfTxtBx.BorderStyle = BorderStyle.None;
             empIDProfTxtBx.Enabled = false;
             empIDProfTxtBx.Font = new Font("Segoe UI", 10.8F, FontStyle.Bold);
-            empIDProfTxtBx.Location = new Point(171, 47);
+            empIDProfTxtBx.Location = new Point(171, 98);
             empIDProfTxtBx.Margin = new Padding(5);
             empIDProfTxtBx.Name = "empIDProfTxtBx";
             empIDProfTxtBx.Size = new Size(411, 24);
@@ -369,7 +387,7 @@ namespace SelfSampleProRAD
             // catgProfLbl
             // 
             catgProfLbl.AutoSize = true;
-            catgProfLbl.Location = new Point(30, 334);
+            catgProfLbl.Location = new Point(30, 382);
             catgProfLbl.Margin = new Padding(5, 0, 5, 0);
             catgProfLbl.Name = "catgProfLbl";
             catgProfLbl.Size = new Size(69, 20);
@@ -379,7 +397,7 @@ namespace SelfSampleProRAD
             // posProfLbl
             // 
             posProfLbl.AutoSize = true;
-            posProfLbl.Location = new Point(30, 288);
+            posProfLbl.Location = new Point(30, 336);
             posProfLbl.Margin = new Padding(5, 0, 5, 0);
             posProfLbl.Name = "posProfLbl";
             posProfLbl.Size = new Size(61, 20);
@@ -389,7 +407,7 @@ namespace SelfSampleProRAD
             // genderProfLbl
             // 
             genderProfLbl.AutoSize = true;
-            genderProfLbl.Location = new Point(30, 238);
+            genderProfLbl.Location = new Point(30, 286);
             genderProfLbl.Margin = new Padding(5, 0, 5, 0);
             genderProfLbl.Name = "genderProfLbl";
             genderProfLbl.Size = new Size(57, 20);
@@ -399,7 +417,7 @@ namespace SelfSampleProRAD
             // empIdProfLbl
             // 
             empIdProfLbl.AutoSize = true;
-            empIdProfLbl.Location = new Point(30, 52);
+            empIdProfLbl.Location = new Point(30, 100);
             empIdProfLbl.Margin = new Padding(5, 0, 5, 0);
             empIdProfLbl.Name = "empIdProfLbl";
             empIdProfLbl.Size = new Size(94, 20);
@@ -409,7 +427,7 @@ namespace SelfSampleProRAD
             // ageProfLbl
             // 
             ageProfLbl.AutoSize = true;
-            ageProfLbl.Location = new Point(30, 191);
+            ageProfLbl.Location = new Point(30, 239);
             ageProfLbl.Margin = new Padding(5, 0, 5, 0);
             ageProfLbl.Name = "ageProfLbl";
             ageProfLbl.Size = new Size(36, 20);
@@ -419,7 +437,7 @@ namespace SelfSampleProRAD
             // lNameProfLbl
             // 
             lNameProfLbl.AutoSize = true;
-            lNameProfLbl.Location = new Point(30, 144);
+            lNameProfLbl.Location = new Point(30, 192);
             lNameProfLbl.Margin = new Padding(5, 0, 5, 0);
             lNameProfLbl.Name = "lNameProfLbl";
             lNameProfLbl.Size = new Size(79, 20);
@@ -429,7 +447,7 @@ namespace SelfSampleProRAD
             // fNameProfLbl
             // 
             fNameProfLbl.AutoSize = true;
-            fNameProfLbl.Location = new Point(30, 95);
+            fNameProfLbl.Location = new Point(30, 143);
             fNameProfLbl.Margin = new Padding(5, 0, 5, 0);
             fNameProfLbl.Name = "fNameProfLbl";
             fNameProfLbl.Size = new Size(80, 20);
@@ -438,6 +456,7 @@ namespace SelfSampleProRAD
             // 
             // viewTabPage
             // 
+            viewTabPage.BackColor = SystemColors.ControlLightLight;
             viewTabPage.Controls.Add(employeeDataGrid);
             viewTabPage.Location = new Point(4, 53);
             viewTabPage.Name = "viewTabPage";
@@ -445,7 +464,6 @@ namespace SelfSampleProRAD
             viewTabPage.Size = new Size(825, 550);
             viewTabPage.TabIndex = 5;
             viewTabPage.Text = "👥✅ View Accounts";
-            viewTabPage.UseVisualStyleBackColor = true;
             // 
             // employeeDataGrid
             // 
@@ -506,6 +524,7 @@ namespace SelfSampleProRAD
             // 
             // AddNewTabPage
             // 
+            AddNewTabPage.BackColor = SystemColors.ControlLightLight;
             AddNewTabPage.Controls.Add(clearBtn);
             AddNewTabPage.Controls.Add(saveBtn);
             AddNewTabPage.Controls.Add(regPanel);
@@ -515,26 +534,32 @@ namespace SelfSampleProRAD
             AddNewTabPage.Size = new Size(825, 550);
             AddNewTabPage.TabIndex = 3;
             AddNewTabPage.Text = "➕👤Add New Employee";
-            AddNewTabPage.UseVisualStyleBackColor = true;
             // 
             // clearBtn
             // 
+            clearBtn.BackColor = Color.IndianRed;
+            clearBtn.FlatStyle = FlatStyle.Flat;
+            clearBtn.ForeColor = SystemColors.ControlLightLight;
             clearBtn.Location = new Point(253, 462);
             clearBtn.Name = "clearBtn";
-            clearBtn.Size = new Size(94, 29);
+            clearBtn.Size = new Size(116, 38);
             clearBtn.TabIndex = 19;
-            clearBtn.Text = "Clear";
-            clearBtn.UseVisualStyleBackColor = true;
+            clearBtn.Text = "\U0001f9f9 Clear";
+            clearBtn.UseVisualStyleBackColor = false;
             clearBtn.Click += ClearBtn_Click;
             // 
             // saveBtn
             // 
-            saveBtn.Location = new Point(148, 462);
+            saveBtn.BackColor = Color.MediumSeaGreen;
+            saveBtn.FlatStyle = FlatStyle.Flat;
+            saveBtn.Font = new Font("Segoe UI", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            saveBtn.ForeColor = SystemColors.ControlLightLight;
+            saveBtn.Location = new Point(126, 461);
             saveBtn.Name = "saveBtn";
-            saveBtn.Size = new Size(94, 29);
+            saveBtn.Size = new Size(116, 38);
             saveBtn.TabIndex = 18;
-            saveBtn.Text = "Save";
-            saveBtn.UseVisualStyleBackColor = true;
+            saveBtn.Text = "💾 Save";
+            saveBtn.UseVisualStyleBackColor = false;
             saveBtn.Click += SaveBtn_Click;
             // 
             // regPanel
@@ -760,6 +785,7 @@ namespace SelfSampleProRAD
             // 
             // employeeTaskTab
             // 
+            employeeTaskTab.BackColor = SystemColors.ControlLightLight;
             employeeTaskTab.Controls.Add(emptaskListBox);
             employeeTaskTab.Controls.Add(submitTaskBtn);
             employeeTaskTab.Controls.Add(doTaskRcTxtBx);
@@ -770,7 +796,6 @@ namespace SelfSampleProRAD
             employeeTaskTab.Size = new Size(825, 550);
             employeeTaskTab.TabIndex = 2;
             employeeTaskTab.Text = "📝 Tasks";
-            employeeTaskTab.UseVisualStyleBackColor = true;
             // 
             // emptaskListBox
             // 
@@ -784,12 +809,16 @@ namespace SelfSampleProRAD
             // 
             // submitTaskBtn
             // 
-            submitTaskBtn.Location = new Point(327, 467);
+            submitTaskBtn.BackColor = Color.MediumSeaGreen;
+            submitTaskBtn.FlatStyle = FlatStyle.Flat;
+            submitTaskBtn.Font = new Font("Segoe UI", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            submitTaskBtn.ForeColor = SystemColors.ControlLightLight;
+            submitTaskBtn.Location = new Point(327, 476);
             submitTaskBtn.Name = "submitTaskBtn";
-            submitTaskBtn.Size = new Size(94, 29);
+            submitTaskBtn.Size = new Size(116, 38);
             submitTaskBtn.TabIndex = 3;
-            submitTaskBtn.Text = "Submit";
-            submitTaskBtn.UseVisualStyleBackColor = true;
+            submitTaskBtn.Text = "📤 Submit";
+            submitTaskBtn.UseVisualStyleBackColor = false;
             submitTaskBtn.Click += SubmitTaskBtn_Click;
             // 
             // doTaskRcTxtBx
@@ -814,6 +843,7 @@ namespace SelfSampleProRAD
             // 
             // taskManTab
             // 
+            taskManTab.BackColor = SystemColors.ControlLightLight;
             taskManTab.Controls.Add(taskAsgTbl);
             taskManTab.Controls.Add(addTaskLkLbl);
             taskManTab.Location = new Point(4, 53);
@@ -822,7 +852,6 @@ namespace SelfSampleProRAD
             taskManTab.Size = new Size(825, 550);
             taskManTab.TabIndex = 4;
             taskManTab.Text = "📋 Task Management";
-            taskManTab.UseVisualStyleBackColor = true;
             // 
             // taskAsgTbl
             // 
@@ -854,12 +883,12 @@ namespace SelfSampleProRAD
             // 
             // LogoutBtn
             // 
-            LogoutBtn.BackColor = Color.Teal;
+            LogoutBtn.BackColor = Color.FromArgb(210, 51, 54);
             LogoutBtn.FlatAppearance.BorderSize = 0;
             LogoutBtn.FlatStyle = FlatStyle.Flat;
             LogoutBtn.Font = new Font("Segoe UI", 9F);
             LogoutBtn.ForeColor = SystemColors.ControlLightLight;
-            LogoutBtn.Location = new Point(737, 7);
+            LogoutBtn.Location = new Point(734, 4);
             LogoutBtn.Name = "LogoutBtn";
             LogoutBtn.Size = new Size(94, 49);
             LogoutBtn.TabIndex = 47;
@@ -884,6 +913,8 @@ namespace SelfSampleProRAD
             mainTab.ResumeLayout(false);
             employeeProfileTab.ResumeLayout(false);
             employeeProfileTab.PerformLayout();
+            ProfileRibon.ResumeLayout(false);
+            ProfileRibon.PerformLayout();
             viewTabPage.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)employeeDataGrid).EndInit();
             AddNewTabPage.ResumeLayout(false);
@@ -966,5 +997,6 @@ namespace SelfSampleProRAD
         private TabPage logoutBtn;
         private Button LogoutBtn;
         private LinkLabel EditProfileLkLbl;
+        private Panel ProfileRibon;
     }
 }

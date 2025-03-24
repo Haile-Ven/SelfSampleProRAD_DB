@@ -44,13 +44,16 @@
             // 
             // UpdateBtn
             // 
+            UpdateBtn.BackColor = Color.MediumSeaGreen;
+            UpdateBtn.FlatStyle = FlatStyle.Flat;
             UpdateBtn.Font = new Font("Segoe UI", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            UpdateBtn.ForeColor = SystemColors.ControlLightLight;
             UpdateBtn.Location = new Point(204, 246);
             UpdateBtn.Name = "UpdateBtn";
             UpdateBtn.Size = new Size(118, 46);
             UpdateBtn.TabIndex = 21;
             UpdateBtn.Text = "🔄 Update";
-            UpdateBtn.UseVisualStyleBackColor = true;
+            UpdateBtn.UseVisualStyleBackColor = false;
             UpdateBtn.Click += UpdateBtn_Click;
             // 
             // genderSelect

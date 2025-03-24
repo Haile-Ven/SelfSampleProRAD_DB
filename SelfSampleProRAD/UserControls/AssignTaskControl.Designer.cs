@@ -39,12 +39,15 @@
             // 
             // AsgnTaskBtn
             // 
-            AsgnTaskBtn.Location = new Point(190, 196);
+            AsgnTaskBtn.BackColor = Color.MediumSeaGreen;
+            AsgnTaskBtn.FlatStyle = FlatStyle.Flat;
+            AsgnTaskBtn.ForeColor = SystemColors.ControlLightLight;
+            AsgnTaskBtn.Location = new Point(202, 187);
             AsgnTaskBtn.Name = "AsgnTaskBtn";
-            AsgnTaskBtn.Size = new Size(119, 29);
+            AsgnTaskBtn.Size = new Size(139, 42);
             AsgnTaskBtn.TabIndex = 19;
-            AsgnTaskBtn.Text = "Assign Tasks";
-            AsgnTaskBtn.UseVisualStyleBackColor = true;
+            AsgnTaskBtn.Text = "📝 Assign Task";
+            AsgnTaskBtn.UseVisualStyleBackColor = false;
             AsgnTaskBtn.Click += AsgnTaskBtn_Click;
             // 
             // asgToCmbBx
