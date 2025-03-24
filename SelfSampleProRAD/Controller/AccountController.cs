@@ -16,30 +16,39 @@ namespace SelfSampleProRAD_DB.Controller
         //Login
         public (EmployeeResponseDTO, string) Login(string userNm, string pass)
         {
-            var account = _context.Account
+            // First find the account by username only
+            var accountEntity = _context.Account
                 .Include(a => a.Employee)
-                .Where(a => a.UserName == userNm && a.Password == pass)
-                .Select(ac => new EmployeeResponseDTO()
-                {
-                    EmployeeId = ac.Employee.EmployeeId,
-                    FirstName = ac.Employee.FirstName,
-                    LastName = ac.Employee.LastName,
-                    Gender = ac.Employee.Gender,
-                    Age = ac.Employee.Age,
-                    Position = ac.Employee.Position,
-                    Salary = ac.Employee.Salary,
-                    Tax = ac.Employee.Tax,
-                    Catagory = ac.Employee.Catagory,
-                    accountdto = new AccountResponseDTO()
-                    {
-                        UserId = ac.UserId,
-                        UserName = ac.UserName,
-                        Status = ac.Status
-                    }
-                })
+                .Where(a => a.UserName == userNm)
                 .FirstOrDefault();
-            if (account == null) return (null, "Invalid Username or Password.");
-            if (account.accountdto.Status == 'D') return (null, "Account is deactivated.");
+
+            // If no account found or password doesn't match (case-sensitive)
+            if (accountEntity == null || accountEntity.Password != pass)
+                return (null, "Invalid Username or Password.");
+
+            // Check if account is deactivated
+            if (accountEntity.Status == 'D') 
+                return (null, "Account is deactivated.");
+
+            // Map to DTO
+            var account = new EmployeeResponseDTO()
+            {
+                EmployeeId = accountEntity.Employee.EmployeeId,
+                FirstName = accountEntity.Employee.FirstName,
+                LastName = accountEntity.Employee.LastName,
+                Gender = accountEntity.Employee.Gender,
+                Age = accountEntity.Employee.Age,
+                Position = accountEntity.Employee.Position,
+                Salary = accountEntity.Employee.Salary,
+                Tax = accountEntity.Employee.Tax,
+                Catagory = accountEntity.Employee.Catagory,
+                accountdto = new AccountResponseDTO()
+                {
+                    UserId = accountEntity.UserId,
+                    UserName = accountEntity.UserName,
+                    Status = accountEntity.Status
+                }
+            };
 
             return (account, "Login Successful.");
         }
