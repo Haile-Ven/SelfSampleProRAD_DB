@@ -1,4 +1,4 @@
-﻿namespace SelfSampleProRAD_DB
+﻿namespace SelfSampleProRAD_DB_SQL.Models
 {
     public class Tasks
     {

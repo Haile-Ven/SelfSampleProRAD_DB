@@ -1,6 +1,6 @@
 ﻿//using System.Data.SqlClient;
 using Microsoft.SqlServer;
-namespace SelfSampleProRAD_DB
+namespace SelfSampleProRAD_DB_SQL.DB
 {
     internal class DBConnection
     {
