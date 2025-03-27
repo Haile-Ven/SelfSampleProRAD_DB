@@ -1,4 +1,4 @@
-﻿namespace SelfSampleProRAD
+namespace SelfSampleProRAD
 {
     partial class CompleteForm
     {
@@ -133,7 +133,7 @@
             loginBtb.TabIndex = 9;
             loginBtb.Text = "Login";
             loginBtb.UseVisualStyleBackColor = false;
-            loginBtb.Click += loginBtb_Click_1;
+            loginBtb.Click += LoginBtb_Click;
             // 
             // passwordLbl
             // 
@@ -186,6 +186,7 @@
             mainTab.Size = new Size(833, 607);
             mainTab.SizeMode = TabSizeMode.FillToRight;
             mainTab.TabIndex = 47;
+            mainTab.SelectedIndexChanged += MainTab_SelectedIndexChanged;
             // 
             // employeeProfileTab
             // 
@@ -238,6 +239,7 @@
             EditProfileLkLbl.TabIndex = 47;
             EditProfileLkLbl.TabStop = true;
             EditProfileLkLbl.Text = "✏️👤Edit";
+            EditProfileLkLbl.LinkClicked += EditProfileLkLbl_LinkClicked;
             // 
             // cngPwdLkLbl
             // 
@@ -251,6 +253,7 @@
             cngPwdLkLbl.TabIndex = 46;
             cngPwdLkLbl.TabStop = true;
             cngPwdLkLbl.Text = "🔒✏️ Change Password";
+            cngPwdLkLbl.LinkClicked += CngPwdLkLbl_LinkClicked;
             // 
             // catagProfTxtBx
             // 
@@ -389,7 +392,7 @@
             catgProfLbl.Name = "catgProfLbl";
             catgProfLbl.Size = new Size(69, 20);
             catgProfLbl.TabIndex = 32;
-            catgProfLbl.Text = "Category";
+            catgProfLbl.Text = "Catagory";
             // 
             // posProfLbl
             // 
@@ -483,6 +486,7 @@
             employeeDataGrid.Size = new Size(760, 492);
             employeeDataGrid.StandardTab = true;
             employeeDataGrid.TabIndex = 3;
+            employeeDataGrid.CellContentClick += EmployeeDataGrid_CellContentClick;
             // 
             // UserIdClm
             // 
@@ -542,6 +546,7 @@
             clearBtn.TabIndex = 19;
             clearBtn.Text = "\U0001f9f9 Clear";
             clearBtn.UseVisualStyleBackColor = false;
+            clearBtn.Click += ClearBtn_Click;
             // 
             // saveBtn
             // 
@@ -555,6 +560,7 @@
             saveBtn.TabIndex = 18;
             saveBtn.Text = "💾 Save";
             saveBtn.UseVisualStyleBackColor = false;
+            saveBtn.Click += SaveBtn_Click;
             // 
             // regPanel
             // 
@@ -657,6 +663,7 @@
             dobSelector.Name = "dobSelector";
             dobSelector.Size = new Size(158, 27);
             dobSelector.TabIndex = 24;
+            dobSelector.ValueChanged += DobSelector_ValueChanged;
             // 
             // taxTxtBx
             // 
@@ -724,7 +731,7 @@
             catagoryLbl.Name = "catagoryLbl";
             catagoryLbl.Size = new Size(69, 20);
             catagoryLbl.TabIndex = 15;
-            catagoryLbl.Text = "Category";
+            catagoryLbl.Text = "Catagory";
             // 
             // positionLbl
             // 
@@ -812,6 +819,7 @@
             submitTaskBtn.TabIndex = 3;
             submitTaskBtn.Text = "📤 Submit";
             submitTaskBtn.UseVisualStyleBackColor = false;
+            submitTaskBtn.Click += SubmitTaskBtn_Click;
             // 
             // doTaskRcTxtBx
             // 
@@ -821,6 +829,7 @@
             doTaskRcTxtBx.Size = new Size(741, 241);
             doTaskRcTxtBx.TabIndex = 2;
             doTaskRcTxtBx.Text = "";
+            doTaskRcTxtBx.TextChanged += DoTaskRcTxtBx_TextChanged;
             // 
             // empTaskLbl
             // 
@@ -870,6 +879,7 @@
             addTaskLkLbl.TabIndex = 7;
             addTaskLkLbl.TabStop = true;
             addTaskLkLbl.Text = "➕📋 Add Tasks";
+            addTaskLkLbl.LinkClicked += AddTaskLkLbl_LinkClicked;
             // 
             // LogoutBtn
             // 
@@ -884,15 +894,16 @@
             LogoutBtn.TabIndex = 47;
             LogoutBtn.Text = "🔓 Logout";
             LogoutBtn.UseVisualStyleBackColor = false;
+            LogoutBtn.Click += LogoutBtn_Click;
             // 
             // CompleteForm
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(843, 611);
-            Controls.Add(loginPanel);
             Controls.Add(LogoutBtn);
             Controls.Add(mainTab);
+            Controls.Add(loginPanel);
             FormBorderStyle = FormBorderStyle.FixedSingle;
             MaximizeBox = false;
             Name = "CompleteForm";

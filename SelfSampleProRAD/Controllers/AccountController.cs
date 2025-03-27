@@ -1,244 +1,334 @@
-using SelfSampleProRAD_DB_SQL.DB;
+using SelfSampleProRAD_DB.DTOs;
 using SelfSampleProRAD_DB_SQL.Models;
-using System.Collections.Generic;
-namespace SelfSampleProRAD_DB_SQL.Controllers
+using SelfSampleProRAD_DB_SQL.DB;
+namespace SelfSampleProRAD_DB.Controller
 {
-    internal class AccountController
+    class AccountController
     {
-        public (string, string, bool) ChangePassword(Guid UserId, string oldPass, string newPass)
+        public AccountController()
         {
-            using (SqlConnection con = new DBConnection().openConnection())
-            {
-                string oldPassDB = string.Empty;
-                try
-                {
-                    var cksql = "SELECT Password FROM Account WHERE UserID = @UserID";
-                    SqlCommand ckcmd = new SqlCommand(cksql, con);
-                    ckcmd.Parameters.AddWithValue("@UserID", UserId);
-                    oldPassDB = ckcmd.ExecuteScalar().ToString();
-                }
-                catch (Exception dbEx) 
-                {
-                    return (dbEx.Message, "Failed to change password.", false);
-                }
-               
-                if (oldPass == oldPassDB)
-                {
-                    if(oldPass == newPass)
-                    {
-                        return ("New password must be different from old password.", "Failed to change password.", false);
-                    }
-                    try
-                    {
-                        string sql = "UPDATE Account SET Password = @Password WHERE UserID = @UserID";
-                        SqlCommand cmd = new SqlCommand(sql, con);
-                        cmd.Parameters.AddWithValue("@UserID", UserId);
-                        cmd.Parameters.AddWithValue("@Password", newPass);
-                        if(cmd.ExecuteNonQuery() > 0)
-                        {
-                            return ("Password changed successfully.", "Password changed successfully.", true);
-                        }
-                        
-                        return ("Failed to change password.", "Failed to change password.", false);
-                    }
-                    catch (Exception dbEx) { return (dbEx.Message, "Failed to change password.", false); }
-                }
-                return ("Old password is incorrect.", "Failed to change password.", false);
-            }
-        }
-        public (List<Account>, string, bool) ListAllAccounts()
-        {
-            List<Account> accounts = new List<Account>();
-            
-            try
-            {
-                using (SqlConnection con = new DBConnection().openConnection())
-                {
-                    string sql = "SELECT * FROM Account";
-                    using (SqlCommand cmd = new SqlCommand(sql, con))
-                    {
-                        using (SqlDataReader reader = cmd.ExecuteReader())
-                        {
-                            while (reader.Read())
-                            {
-                                Account account = new Account
-                                {
-                                    UserID = reader.GetGuid(reader.GetOrdinal("UserId")),
-                                    UserName = reader.GetString(reader.GetOrdinal("UserName")),
-                                    Password = reader.GetString(reader.GetOrdinal("Password")),
-                                    Status = reader.GetString(reader.GetOrdinal("Status"))[0]
-                                };
-                                
-                                accounts.Add(account);
-                            }
-                        }
-                    }
-                }
-                
-                return (accounts, $"{accounts.Count} accounts retrieved successfully.", true);
-            }
-            catch (Exception ex)
-            {
-                return (null, $"Error retrieving accounts: {ex.Message}", false);
-            }
         }
 
-        public (List<Account>, string, bool) ListAllDevs()
-        {
-            List<Account> accounts = new List<Account>();
-            
-            try
-            {
-                using (SqlConnection con = new DBConnection().openConnection())
-                {
-                    string sql = "SELECT * FROM Account WHERE Username LIKE '%Developer%'";
-                    using (SqlCommand cmd = new SqlCommand(sql, con))
-                    {
-                        using (SqlDataReader reader = cmd.ExecuteReader())
-                        {
-                            while (reader.Read())
-                            {
-                                Account account = new Account
-                                {
-                                    UserID = reader.GetGuid(reader.GetOrdinal("UserId")),
-                                    UserName = reader.GetString(reader.GetOrdinal("UserName")),
-                                    Password = reader.GetString(reader.GetOrdinal("Password")),
-                                    Status = reader.GetString(reader.GetOrdinal("Status"))[0]
-                                };
-                                
-                                accounts.Add(account);
-                            }
-                        }
-                    }
-                }
-                
-                return (accounts, $"{accounts.Count} developer accounts retrieved successfully.", true);
-            }
-            catch (Exception ex)
-            {
-                return (null, $"Error retrieving developer accounts: {ex.Message}", false);
-            }
-        }
-
-        public (bool, string, bool) ToggleAccountStatus(string username, char newStatus)
+        //Login
+        public (EmployeeResponseDTO, string) Login(string userNm, string pass)
         {
             try
             {
-                // Validate the status parameter
-                if (newStatus != 'A' && newStatus != 'D')
+                using (SqlConnection connection = new DBConnection().openConnection())
                 {
-                    return (false, "Invalid status. Status must be 'A' for active or 'D' for deactivated.", false);
-                }
-                
-                string statusText = newStatus == 'A' ? "activated" : "deactivated";
-                string statusColor = newStatus == 'A' ? "Forest Green" : "Tomato Red";
-                
-                using (SqlConnection con = new DBConnection().openConnection())
-                {
-                    string sql = "UPDATE Account SET Status = @Status WHERE Username = @Username";
-                    using (SqlCommand cmd = new SqlCommand(sql, con))
+                    // First find the account by username only
+                    string query = @"SELECT a.UserId, a.UserName, a.Status, a.Password, 
+                                    e.EmployeeId, e.FirstName, e.LastName, e.Gender, e.Age, 
+                                    e.Position, e.Salary, e.Tax, e.Category 
+                                    FROM Account a 
+                                    INNER JOIN Employee e ON a.UserId = e.UserId 
+                                    WHERE a.UserName = @UserName";
+                    
+                    using (SqlCommand command = new SqlCommand(query, connection))
                     {
-                        cmd.Parameters.AddWithValue("@Username", username);
-                        cmd.Parameters.AddWithValue("@Status", newStatus.ToString());
-                        int rowsAffected = cmd.ExecuteNonQuery();
+                        command.Parameters.AddWithValue("@UserName", userNm);
                         
-                        if (rowsAffected > 0)
-                        {
-                            return (true, $"Account '{username}' has been {statusText} successfully.", true);
-                        }
-                        else
-                        {
-                            return (false, $"Account '{username}' not found or already {statusText}.", false);
-                        }
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                return (false, $"Error changing account status: {ex.Message}", false);
-            }
-        }
-
-        /// <summary>
-        /// Gets an Account with its associated Employee loaded
-        /// </summary>
-        public (Account, string, bool) GetAccountWithEmployee(Guid userId)
-        {
-            Account account = null;
-            
-            try
-            {
-                using (SqlConnection con = new DBConnection().openConnection())
-                {
-                    // First, get the account
-                    string accountSql = "SELECT * FROM Account WHERE UserId = @UserId";
-                    using (SqlCommand cmd = new SqlCommand(accountSql, con))
-                    {
-                        cmd.Parameters.AddWithValue("@UserId", userId);
-                        
-                        using (SqlDataReader reader = cmd.ExecuteReader())
+                        using (SqlDataReader reader = command.ExecuteReader())
                         {
                             if (reader.Read())
                             {
-                                account = new Account
+                                // Check password match
+                                string storedPassword = reader["Password"].ToString();
+                                char status = Convert.ToChar(reader["Status"]);
+                                
+                                if (storedPassword != pass)
+                                    return (null, "Invalid Username or Password.");
+                                    
+                                // Check if account is deactivated
+                                if (status == 'D')
+                                    return (null, "Account is deactivated.");
+                                    
+                                // Map to DTO
+                                var account = new EmployeeResponseDTO()
                                 {
-                                    UserID = reader.GetGuid(reader.GetOrdinal("UserId")),
-                                    UserName = reader.GetString(reader.GetOrdinal("UserName")),
-                                    Password = reader.GetString(reader.GetOrdinal("Password")),
-                                    Status = reader.GetString(reader.GetOrdinal("Status"))[0]
+                                    EmployeeId = (Guid)reader["EmployeeId"],
+                                    FirstName = reader["FirstName"].ToString(),
+                                    LastName = reader["LastName"].ToString(),
+                                    Gender = Convert.ToChar(reader["Gender"]),
+                                    Age = Convert.ToByte(reader["Age"]),
+                                    Position = reader["Position"].ToString(),
+                                    Salary = Convert.ToSingle(reader["Salary"]),
+                                    Tax = Convert.ToSingle(reader["Tax"]),
+                                    Catagory = reader["Category"].ToString(),
+                                    accountdto = new AccountResponseDTO()
+                                    {
+                                        UserId = (Guid)reader["UserId"],
+                                        UserName = reader["UserName"].ToString(),
+                                        Status = status
+                                    }
+                                };
+                                
+                                return (account, "Login Successful.");
+                            }
+                            else
+                            {
+                                return (null, "Invalid Username or Password.");
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                return (null, "Error: " + ex.Message);
+            }
+        }
+
+        //Change password
+        public (string,bool) ChangePassword(Guid employeeId, string oldPass, string newPass)
+        {
+            try
+            {
+                using (SqlConnection connection = new DBConnection().openConnection())
+                {
+                    // First, find the employee by employeeId
+                    string employeeQuery = "SELECT UserId FROM Employee WHERE EmployeeId = @EmployeeId";
+                    Guid userId;
+                    
+                    using (SqlCommand employeeCommand = new SqlCommand(employeeQuery, connection))
+                    {
+                        employeeCommand.Parameters.AddWithValue("@EmployeeId", employeeId);
+                        var result = employeeCommand.ExecuteScalar();
+                        
+                        if (result == null || result == DBNull.Value)
+                            return ("Employee not found.", false);
+                            
+                        userId = (Guid)result;
+                    }
+                    
+                    // Now find the account using the userId
+                    string accountQuery = "SELECT Password FROM Account WHERE UserId = @UserId";
+                    string currentPassword;
+                    
+                    using (SqlCommand accountCommand = new SqlCommand(accountQuery, connection))
+                    {
+                        accountCommand.Parameters.AddWithValue("@UserId", userId);
+                        var result = accountCommand.ExecuteScalar();
+                        
+                        if (result == null || result == DBNull.Value)
+                            return ("Account not found.", false);
+                            
+                        currentPassword = result.ToString();
+                    }
+                    
+                    // Verify old password
+                    if (currentPassword != oldPass)
+                        return ("Old Password is incorrect.", false);
+                        
+                    // Update the password
+                    string updateQuery = "UPDATE Account SET Password = @NewPassword WHERE UserId = @UserId";
+                    
+                    using (SqlCommand updateCommand = new SqlCommand(updateQuery, connection))
+                    {
+                        updateCommand.Parameters.AddWithValue("@NewPassword", newPass);
+                        updateCommand.Parameters.AddWithValue("@UserId", userId);
+                        updateCommand.ExecuteNonQuery();
+                    }
+                    
+                    return ("Password Changed Successfully.", true);
+                }
+            }
+            catch (Exception ex)
+            {
+                return ("Unable to Change Password.\nError: " + ex.Message, false);
+            }
+        }
+
+        //List all accounts
+        public List<AccountResponseDTO> ListAllAccounts()
+        {
+            var accounts = new List<AccountResponseDTO>();
+            
+            try
+            {
+                using (SqlConnection connection = new DBConnection().openConnection())
+                {
+                    string query = "SELECT UserId, UserName, Status FROM Account";
+                    
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            accounts.Add(new AccountResponseDTO()
+                            {
+                                UserId = (Guid)reader["UserId"],
+                                UserName = reader["UserName"].ToString(),
+                                Status = Convert.ToChar(reader["Status"])
+                            });
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error in ListAllAccounts: {ex.Message}");
+            }
+            
+            return accounts;
+        }
+
+        public List<AccountResponseDTO> ListAllDevs()
+        {
+            var devs = new List<AccountResponseDTO>();
+            
+            try
+            {
+                using (SqlConnection connection = new DBConnection().openConnection())
+                {
+                    string query = @"SELECT a.UserId, a.UserName, a.Status 
+                                   FROM Account a 
+                                   INNER JOIN Employee e ON a.UserId = e.UserId 
+                                   WHERE e.Position = 'Developer'";
+                    
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            devs.Add(new AccountResponseDTO()
+                            {
+                                UserId = (Guid)reader["UserId"],
+                                UserName = reader["UserName"].ToString(),
+                                Status = Convert.ToChar(reader["Status"])
+                            });
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error in ListAllDevs: {ex.Message}");
+            }
+            
+            return devs;
+        }
+
+        public Account FindAccountByID(Guid? id)
+        {
+            if (id == null)
+                return null;
+                
+            try
+            {
+                using (SqlConnection connection = new DBConnection().openConnection())
+                {
+                    // First get the account information
+                    string accountQuery = "SELECT UserId, UserName, Password, Status FROM Account WHERE UserId = @UserId";
+                    Account account = null;
+                    
+                    using (SqlCommand accountCommand = new SqlCommand(accountQuery, connection))
+                    {
+                        accountCommand.Parameters.AddWithValue("@UserId", id);
+                        
+                        using (SqlDataReader reader = accountCommand.ExecuteReader())
+                        {
+                            if (reader.Read())
+                            {
+                                account = new Account()
+                                {
+                                    UserID = (Guid)reader["UserId"],
+                                    UserName = reader["UserName"].ToString(),
+                                    Password = reader["Password"].ToString(),
+                                    Status = Convert.ToChar(reader["Status"])
                                 };
                             }
                             else
                             {
-                                return (null, "Account not found.", false);
+                                return null; // Account not found
                             }
                         }
                     }
                     
-                    // If account exists, get the associated employee
-                    if (account != null)
+                    // Now get the associated employee information
+                    string employeeQuery = "SELECT EmployeeId, FirstName, LastName, Gender, Age, Position, Salary, Tax, Category FROM Employee WHERE UserId = @UserId";
+                    
+                    using (SqlCommand employeeCommand = new SqlCommand(employeeQuery, connection))
                     {
-                        string employeeSql = "SELECT * FROM Employee WHERE UserId = @UserId";
-                        using (SqlCommand cmd = new SqlCommand(employeeSql, con))
+                        employeeCommand.Parameters.AddWithValue("@UserId", id);
+                        
+                        using (SqlDataReader reader = employeeCommand.ExecuteReader())
                         {
-                            cmd.Parameters.AddWithValue("@UserId", account.UserID);
-                            
-                            using (SqlDataReader reader = cmd.ExecuteReader())
+                            if (reader.Read())
                             {
-                                if (reader.Read())
+                                account.Employee = new Employee()
                                 {
-                                    account.Employee = new Employee
-                                    {
-                                        EmployeeId = reader.GetGuid(reader.GetOrdinal("EmployeeId")),
-                                        FirstName = reader.GetString(reader.GetOrdinal("FirstName")),
-                                        LastName = reader.GetString(reader.GetOrdinal("LastName")),
-                                        Gender = reader.GetString(reader.GetOrdinal("Gender"))[0],
-                                        Age = reader.GetByte(reader.GetOrdinal("Age")),
-                                        Position = reader.GetString(reader.GetOrdinal("Position")),
-                                        Category = reader.GetString(reader.GetOrdinal("Category")),
-                                        Salary = (float)reader.GetDouble(reader.GetOrdinal("Salary")),
-                                        Tax = (float)reader.GetDouble(reader.GetOrdinal("Tax")),
-                                        UserId = account.UserID
-                                    };
-                                    
-                                    // Set the back-reference to complete the navigation
-                                    account.Employee.Account = account;
-                                    return (account, "Account and employee retrieved successfully.", true);
-                                }
-                                else
-                                {
-                                    return (account, "Account found but no associated employee exists.", true);
-                                }
+                                    EmployeeId = (Guid)reader["EmployeeId"],
+                                    FirstName = reader["FirstName"].ToString(),
+                                    LastName = reader["LastName"].ToString(),
+                                    Gender = Convert.ToChar(reader["Gender"]),
+                                    Age = Convert.ToByte(reader["Age"]),
+                                    Position = reader["Position"].ToString(),
+                                    Salary = Convert.ToSingle(reader["Salary"]),
+                                    Tax = Convert.ToSingle(reader["Tax"]),
+                                    Category = reader["Category"].ToString(),
+                                    UserId = id
+                                };
+                                
+                                // Set the bidirectional relationship
+                                account.Employee.Account = account;
                             }
                         }
                     }
                     
-                    return (account, "Account retrieved successfully.", true);
+                    return account;
                 }
             }
             catch (Exception ex)
             {
-                return (null, $"Error retrieving account: {ex.Message}", false);
+                Console.WriteLine($"Error in FindAccountByID: {ex.Message}");
+            }
+            
+            return null;
+        }
+
+        //Change account status (Activate/Deactivate)
+        public (string, bool) ChangeAccountStatus(Guid accId)
+        {
+            try
+            {
+                using (SqlConnection connection = new DBConnection().openConnection())
+                {
+                    // First, get the current status
+                    string statusQuery = "SELECT Status FROM Account WHERE UserId = @UserId";
+                    char currentStatus;
+                    
+                    using (SqlCommand statusCommand = new SqlCommand(statusQuery, connection))
+                    {
+                        statusCommand.Parameters.AddWithValue("@UserId", accId);
+                        var result = statusCommand.ExecuteScalar();
+                        
+                        if (result == null || result == DBNull.Value)
+                            return ("Account not found.", false);
+                            
+                        currentStatus = Convert.ToChar(result);
+                    }
+                    
+                    // Toggle the status
+                    char newStatus = currentStatus == 'A' ? 'D' : 'A';
+                    
+                    // Update the status
+                    string updateQuery = "UPDATE Account SET Status = @NewStatus WHERE UserId = @UserId";
+                    
+                    using (SqlCommand updateCommand = new SqlCommand(updateQuery, connection))
+                    {
+                        updateCommand.Parameters.AddWithValue("@NewStatus", newStatus);
+                        updateCommand.Parameters.AddWithValue("@UserId", accId);
+                        updateCommand.ExecuteNonQuery();
+                    }
+                    
+                    var msg = newStatus == 'A' ? "Account Activated Successfully." : "Account Deactivated Successfully.";
+                    return (msg, true);
+                }
+            }
+            catch (Exception ex)
+            {
+                return ("Unable to Change Account Status.\nError: " + ex.Message, false);
             }
         }
     }

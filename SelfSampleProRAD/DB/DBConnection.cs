@@ -1,5 +1,3 @@
-﻿//using System.Data.SqlClient;
-using Microsoft.SqlServer;
 namespace SelfSampleProRAD_DB_SQL.DB
 {
     internal class DBConnection
@@ -12,7 +10,7 @@ namespace SelfSampleProRAD_DB_SQL.DB
         public SqlConnection openConnection() 
         {
             try { 
-            connectionString = "Data Source=HAILE-VEN;Initial Catalog=RADSampleProDB;Integrated Security=True;Encrypt=False;";
+            connectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\Haile-Work\\source\\repos\\SelfSampleProRAD_DB_SQL\\SelfSampleProRAD\\DB\\EmployeeTaskDB.mdf;Integrated Security=True";
             connection = new SqlConnection(connectionString);
             connection.Open();
             }
