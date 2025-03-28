@@ -71,12 +71,6 @@ namespace SelfSampleProRAD_DB.UserControls
             }
         }
 
-        /// <summary>
-        /// Shows a notification with the specified message
-        /// </summary>
-        /// <param name="message">The message to display</param>
-        /// <param name="title">The title of the notification (default: SUCCESS)</param>
-        /// <param name="isSuccess">Whether this is a success or error notification</param>
         public void Show(string message, string title = "SUCCESS", bool isSuccess = true)
         {
             if (_parentForm == null)

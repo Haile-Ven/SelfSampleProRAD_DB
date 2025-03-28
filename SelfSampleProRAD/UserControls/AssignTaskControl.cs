@@ -1,4 +1,4 @@
-﻿using SelfSampleProRAD_DB.Controller;
+using SelfSampleProRAD_DB.Controller;
 
 namespace SelfSampleProRAD_DB
 {
@@ -31,7 +31,8 @@ namespace SelfSampleProRAD_DB
         {
             var userIds = new AccountController()
                 .ListAllDevs()
-                .Select(d => d.UserId);
+                .Select(d => d.UserId)
+                .ToList();
 
             var employees = userIds
                 .Select(id => new EmployeeController().SelectEmployeeByUserId(id))
