@@ -1,5 +1,6 @@
 using SelfSampleProRAD_DB.DTOs;
 using SelfSampleProRAD_DB.Controller;
+using SelfSampleProRAD_DB_SQL.Controllers;
 
 namespace SelfSampleProRAD_DB
 {
@@ -10,21 +11,20 @@ namespace SelfSampleProRAD_DB
         // Event for toast notifications
         public delegate void NotificationEventHandler(string message, string title, bool isSuccess);
         public event NotificationEventHandler ShowNotification;
+        HelperMethodsUserControl _helper;
 
         public EditControl()
         {
             InitializeComponent();
-            MouseDown += UserControl_MouseDown;
-            MouseMove += UserControl_MouseMove;
-            MouseUp += UserControl_MouseUp;
+            _helper = new HelperMethodsUserControl(this);
+            InitializeDragging();
         }
 
         public EditControl(EmployeeEditDTO employee)
         {
             InitializeComponent();
-            MouseDown += UserControl_MouseDown;
-            MouseMove += UserControl_MouseMove;
-            MouseUp += UserControl_MouseUp;
+            _helper = new HelperMethodsUserControl(this);
+            InitializeDragging();
             this.employee = employee;
             firstNameTxtBx.Text = employee.FirstName;
             lastNameTxtBx.Text = employee.LastName;
@@ -36,6 +36,13 @@ namespace SelfSampleProRAD_DB
             };
             dobSelector.Value = DateTime.Now.AddYears(-employee.Age);
             ageTxtBx.Text = employee.Age.ToString();
+        }
+
+        public void InitializeDragging()
+        {
+            MouseDown += _helper._MouseDown;
+            MouseMove += _helper._MouseMove;
+            MouseUp += _helper._MouseUp;
         }
 
         // Transfer Edit Link Lable Event Handler To CompleteForm
@@ -76,10 +83,10 @@ namespace SelfSampleProRAD_DB
         public event EventHandler UpdateBtnClicked;
         private void UpdateBtn_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(firstNameTxtBx.Text) || string.IsNullOrEmpty(lastNameTxtBx.Text) 
+            if (string.IsNullOrEmpty(firstNameTxtBx.Text) || string.IsNullOrEmpty(lastNameTxtBx.Text)
                 || string.IsNullOrEmpty(ageTxtBx.Text) || genderSelect.SelectedItem == null)
             {
-                ShowNotification?.Invoke("Please Fill All Fields","Error",false);
+                ShowNotification?.Invoke("Please Fill All Fields", "Error", false);
                 return;
             }
             var response = new EmployeeController().UpdateEmployee
@@ -92,7 +99,7 @@ namespace SelfSampleProRAD_DB
                     Gender = genderSelect.SelectedItem.ToString()[0],
                     Age = byte.Parse(ageTxtBx.Text)
                 });
-            ShowNotification?.Invoke(response.Item1,response.Item2?"Success":"Failed",response.Item2);
+            ShowNotification?.Invoke(response.Item1, response.Item2 ? "Success" : "Failed", response.Item2);
             firstNameTxtBx.Text = string.Empty;
             lastNameTxtBx.Text = string.Empty;
             genderSelect.SelectedIndex = 0;

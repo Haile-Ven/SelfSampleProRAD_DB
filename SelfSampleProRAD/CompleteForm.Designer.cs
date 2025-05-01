@@ -163,6 +163,7 @@ namespace SelfSampleProRAD
             passwordTxt.Size = new Size(314, 27);
             passwordTxt.TabIndex = 6;
             passwordTxt.UseSystemPasswordChar = true;
+            passwordTxt.KeyPress += passwordTxt_KeyPress;
             // 
             // userNameTxt
             // 
@@ -171,6 +172,7 @@ namespace SelfSampleProRAD
             userNameTxt.Name = "userNameTxt";
             userNameTxt.Size = new Size(314, 27);
             userNameTxt.TabIndex = 5;
+            userNameTxt.KeyPress += userNameTxt_KeyPress;
             // 
             // mainTab
             // 
@@ -902,8 +904,8 @@ namespace SelfSampleProRAD
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(843, 611);
             Controls.Add(LogoutBtn);
-            Controls.Add(mainTab);
             Controls.Add(loginPanel);
+            Controls.Add(mainTab);
             FormBorderStyle = FormBorderStyle.FixedSingle;
             MaximizeBox = false;
             Name = "CompleteForm";

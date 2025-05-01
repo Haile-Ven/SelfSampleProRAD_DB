@@ -23,11 +23,11 @@ namespace SelfSampleProRAD_DB.Controller
                                     FROM Account a 
                                     INNER JOIN Employee e ON a.UserId = e.UserId 
                                     WHERE a.UserName = @UserName";
-                    
+
                     using (SqlCommand command = new SqlCommand(query, connection))
                     {
                         command.Parameters.AddWithValue("@UserName", userNm);
-                        
+
                         using (SqlDataReader reader = command.ExecuteReader())
                         {
                             if (reader.Read())
@@ -35,14 +35,14 @@ namespace SelfSampleProRAD_DB.Controller
                                 // Check password match
                                 string storedPassword = reader["Password"].ToString();
                                 char status = Convert.ToChar(reader["Status"]);
-                                
+
                                 if (storedPassword != pass)
                                     return (null, "Invalid Username or Password.");
-                                    
+
                                 // Check if account is deactivated
                                 if (status == 'D')
                                     return (null, "Account is deactivated.");
-                                    
+
                                 // Map to DTO
                                 var account = new EmployeeResponseDTO()
                                 {
@@ -62,7 +62,7 @@ namespace SelfSampleProRAD_DB.Controller
                                         Status = status
                                     }
                                 };
-                                
+
                                 return (account, "Login Successful.");
                             }
                             else
@@ -80,7 +80,7 @@ namespace SelfSampleProRAD_DB.Controller
         }
 
         //Change password
-        public (string,bool) ChangePassword(Guid employeeId, string oldPass, string newPass)
+        public (string, bool) ChangePassword(Guid employeeId, string oldPass, string newPass)
         {
             try
             {
@@ -89,47 +89,47 @@ namespace SelfSampleProRAD_DB.Controller
                     // First, find the employee by employeeId
                     string employeeQuery = "SELECT UserId FROM Employee WHERE EmployeeId = @EmployeeId";
                     Guid userId;
-                    
+
                     using (SqlCommand employeeCommand = new SqlCommand(employeeQuery, connection))
                     {
                         employeeCommand.Parameters.AddWithValue("@EmployeeId", employeeId);
                         var result = employeeCommand.ExecuteScalar();
-                        
+
                         if (result == null || result == DBNull.Value)
                             return ("Employee not found.", false);
-                            
+
                         userId = (Guid)result;
                     }
-                    
+
                     // Now find the account using the userId
                     string accountQuery = "SELECT Password FROM Account WHERE UserId = @UserId";
                     string currentPassword;
-                    
+
                     using (SqlCommand accountCommand = new SqlCommand(accountQuery, connection))
                     {
                         accountCommand.Parameters.AddWithValue("@UserId", userId);
                         var result = accountCommand.ExecuteScalar();
-                        
+
                         if (result == null || result == DBNull.Value)
                             return ("Account not found.", false);
-                            
+
                         currentPassword = result.ToString();
                     }
-                    
+
                     // Verify old password
                     if (currentPassword != oldPass)
                         return ("Old Password is incorrect.", false);
-                        
+
                     // Update the password
                     string updateQuery = "UPDATE Account SET Password = @NewPassword WHERE UserId = @UserId";
-                    
+
                     using (SqlCommand updateCommand = new SqlCommand(updateQuery, connection))
                     {
                         updateCommand.Parameters.AddWithValue("@NewPassword", newPass);
                         updateCommand.Parameters.AddWithValue("@UserId", userId);
                         updateCommand.ExecuteNonQuery();
                     }
-                    
+
                     return ("Password Changed Successfully.", true);
                 }
             }
@@ -143,13 +143,13 @@ namespace SelfSampleProRAD_DB.Controller
         public List<AccountResponseDTO> ListAllAccounts()
         {
             var accounts = new List<AccountResponseDTO>();
-            
+
             try
             {
                 using (SqlConnection connection = new DBConnection().openConnection())
                 {
                     string query = "SELECT UserId, UserName, Status FROM Account";
-                    
+
                     using (SqlCommand command = new SqlCommand(query, connection))
                     using (SqlDataReader reader = command.ExecuteReader())
                     {
@@ -169,14 +169,14 @@ namespace SelfSampleProRAD_DB.Controller
             {
                 Console.WriteLine($"Error in ListAllAccounts: {ex.Message}");
             }
-            
+
             return accounts;
         }
 
         public List<AccountResponseDTO> ListAllDevs()
         {
             var devs = new List<AccountResponseDTO>();
-            
+
             try
             {
                 using (SqlConnection connection = new DBConnection().openConnection())
@@ -185,7 +185,7 @@ namespace SelfSampleProRAD_DB.Controller
                                    FROM Account a 
                                    INNER JOIN Employee e ON a.UserId = e.UserId 
                                    WHERE e.Position = 'Developer'";
-                    
+
                     using (SqlCommand command = new SqlCommand(query, connection))
                     using (SqlDataReader reader = command.ExecuteReader())
                     {
@@ -205,7 +205,7 @@ namespace SelfSampleProRAD_DB.Controller
             {
                 Console.WriteLine($"Error in ListAllDevs: {ex.Message}");
             }
-            
+
             return devs;
         }
 
@@ -213,7 +213,7 @@ namespace SelfSampleProRAD_DB.Controller
         {
             if (id == null)
                 return null;
-                
+
             try
             {
                 using (SqlConnection connection = new DBConnection().openConnection())
@@ -221,11 +221,11 @@ namespace SelfSampleProRAD_DB.Controller
                     // First get the account information
                     string accountQuery = "SELECT UserId, UserName, Password, Status FROM Account WHERE UserId = @UserId";
                     Account account = null;
-                    
+
                     using (SqlCommand accountCommand = new SqlCommand(accountQuery, connection))
                     {
                         accountCommand.Parameters.AddWithValue("@UserId", id);
-                        
+
                         using (SqlDataReader reader = accountCommand.ExecuteReader())
                         {
                             if (reader.Read())
@@ -244,14 +244,14 @@ namespace SelfSampleProRAD_DB.Controller
                             }
                         }
                     }
-                    
+
                     // Now get the associated employee information
                     string employeeQuery = "SELECT EmployeeId, FirstName, LastName, Gender, Age, Position, Salary, Tax, Category FROM Employee WHERE UserId = @UserId";
-                    
+
                     using (SqlCommand employeeCommand = new SqlCommand(employeeQuery, connection))
                     {
                         employeeCommand.Parameters.AddWithValue("@UserId", id);
-                        
+
                         using (SqlDataReader reader = employeeCommand.ExecuteReader())
                         {
                             if (reader.Read())
@@ -269,13 +269,13 @@ namespace SelfSampleProRAD_DB.Controller
                                     Category = reader["Category"].ToString(),
                                     UserId = id
                                 };
-                                
+
                                 // Set the bidirectional relationship
                                 account.Employee.Account = account;
                             }
                         }
                     }
-                    
+
                     return account;
                 }
             }
@@ -283,7 +283,7 @@ namespace SelfSampleProRAD_DB.Controller
             {
                 Console.WriteLine($"Error in FindAccountByID: {ex.Message}");
             }
-            
+
             return null;
         }
 
@@ -297,31 +297,31 @@ namespace SelfSampleProRAD_DB.Controller
                     // First, get the current status
                     string statusQuery = "SELECT Status FROM Account WHERE UserId = @UserId";
                     char currentStatus;
-                    
+
                     using (SqlCommand statusCommand = new SqlCommand(statusQuery, connection))
                     {
                         statusCommand.Parameters.AddWithValue("@UserId", accId);
                         var result = statusCommand.ExecuteScalar();
-                        
+
                         if (result == null || result == DBNull.Value)
                             return ("Account not found.", false);
-                            
+
                         currentStatus = Convert.ToChar(result);
                     }
-                    
+
                     // Toggle the status
                     char newStatus = currentStatus == 'A' ? 'D' : 'A';
-                    
+
                     // Update the status
                     string updateQuery = "UPDATE Account SET Status = @NewStatus WHERE UserId = @UserId";
-                    
+
                     using (SqlCommand updateCommand = new SqlCommand(updateQuery, connection))
                     {
                         updateCommand.Parameters.AddWithValue("@NewStatus", newStatus);
                         updateCommand.Parameters.AddWithValue("@UserId", accId);
                         updateCommand.ExecuteNonQuery();
                     }
-                    
+
                     var msg = newStatus == 'A' ? "Account Activated Successfully." : "Account Deactivated Successfully.";
                     return (msg, true);
                 }

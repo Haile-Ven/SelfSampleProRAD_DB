@@ -1,4 +1,5 @@
 using SelfSampleProRAD_DB.Controller;
+using SelfSampleProRAD_DB_SQL.Controllers;
 
 namespace SelfSampleProRAD_DB
 {
@@ -7,24 +8,30 @@ namespace SelfSampleProRAD_DB
         // Event for toast notifications
         public delegate void NotificationEventHandler(string message, string title, bool isSuccess);
         public event NotificationEventHandler ShowNotification;
+        HelperMethodsUserControl _helper;
 
         Guid employeeID;
         public AssignTaskControl()
         {
             InitializeComponent();
-            MouseDown += AssignTaskControl_MouseDown;
-            MouseMove += AssignTaskControl_MouseMove;
-            MouseUp += AssignTaskControl_MouseUp;
+            _helper = new HelperMethodsUserControl(this);
+            InitializeDragging();
         }
 
         public AssignTaskControl(Guid employeeID)
         {
             InitializeComponent();
-            MouseDown += AssignTaskControl_MouseDown;
-            MouseMove += AssignTaskControl_MouseMove;
-            MouseUp += AssignTaskControl_MouseUp;
+            _helper = new HelperMethodsUserControl(this);
+            InitializeDragging();
             this.employeeID = employeeID;
             LoadUseComboBox(employeeID);
+        }
+
+        public void InitializeDragging()
+        {
+            MouseDown += _helper._MouseDown;
+            MouseMove += _helper._MouseMove;
+            MouseUp += _helper._MouseUp;
         }
 
         public void LoadUseComboBox(Guid empID)
@@ -82,7 +89,7 @@ namespace SelfSampleProRAD_DB
         {
             if (string.IsNullOrEmpty(tskNmTxtBx.Text) || asgToCmbBx.SelectedItem == null)
             {
-                ShowNotification?.Invoke("Please fill in all fields.", "Error",false);
+                ShowNotification?.Invoke("Please fill in all fields.", "Error", false);
                 return;
             }
             asgToCmbBx.SelectedValue.ToString();
@@ -91,7 +98,7 @@ namespace SelfSampleProRAD_DB
                     tskNmTxtBx.Text,
                     Guid.Parse(asgToCmbBx.SelectedValue.ToString()),
                     employeeID);
-            ShowNotification?.Invoke(response.Item2, response.Item3?"Success":"Faild",response.Item3);
+            ShowNotification?.Invoke(response.Item2, response.Item3 ? "Success" : "Faild", response.Item3);
             AsgnTaskBtnClicked?.Invoke(sender, e);
         }
 

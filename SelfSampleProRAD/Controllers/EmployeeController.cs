@@ -8,7 +8,7 @@ namespace SelfSampleProRAD_DB.Controller
 {
     class EmployeeController
     {
-        
+
         public (string, bool) AddEmployee(string fName, string lName, char gen, byte age, string pos, string cat)
         {
             float salary;
@@ -48,7 +48,7 @@ namespace SelfSampleProRAD_DB.Controller
                     // Create account model
                     string userName = $"{lName}_{fName}@{employee.EmployeeId.ToString().Substring(0, 3)}";
                     string password = GenerateRandomPassword();
-                    
+
                     var account = new Account
                     {
                         UserID = Guid.NewGuid(),
@@ -247,7 +247,7 @@ namespace SelfSampleProRAD_DB.Controller
                                             Password = reader["Password"].ToString(),
                                             Status = Convert.ToChar(reader["Status"])
                                         };
-                                        
+
                                         // Set the bidirectional relationship
                                         employee.Account.Employee = employee;
                                     }
@@ -262,7 +262,7 @@ namespace SelfSampleProRAD_DB.Controller
             catch (Exception ex)
             {
                 // Handle exceptions as needed
-                MessageBox.Show($"Error in SelectEmployee: {ex.Message}","Error",MessageBoxButtons.OK,MessageBoxIcon.Error);
+                MessageBox.Show($"Error in SelectEmployee: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
             return null;
@@ -311,7 +311,7 @@ namespace SelfSampleProRAD_DB.Controller
                                         UserName = reader["UserName"].ToString(),
                                         Status = Convert.ToChar(reader["Status"])
                                     };
-                                    
+
                                     // Set the bidirectional relationship
                                     employee.Account.Employee = employee;
                                 }
@@ -325,7 +325,7 @@ namespace SelfSampleProRAD_DB.Controller
             catch (Exception ex)
             {
                 // Handle exceptions as needed
-                MessageBox.Show($"Error in SelectEmployeeByUserId: {ex.Message}","Error",MessageBoxButtons.OK,MessageBoxIcon.Error);
+                MessageBox.Show($"Error in SelectEmployeeByUserId: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
             return null;

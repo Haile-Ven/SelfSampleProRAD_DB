@@ -7,7 +7,7 @@ namespace SelfSampleProRAD_DB.Controller
 {
     class TasksController
     {
-        public (EmployeeTasks,string,bool) AssignTask(string tskNm, Guid aTo, Guid aBy)
+        public (EmployeeTasksController, string, bool) AssignTask(string tskNm, Guid aTo, Guid aBy)
         {
             try
             {
@@ -19,7 +19,7 @@ namespace SelfSampleProRAD_DB.Controller
                 };
 
                 // Create the EmployeeTasks model instance
-                var employeeTask = new EmployeeTasks
+                var employeeTask = new EmployeeTasksController
                 {
                     TaskId = task.TaskId,
                     AssignedToId = aTo,
@@ -29,12 +29,12 @@ namespace SelfSampleProRAD_DB.Controller
                 using (SqlConnection connection = new DBConnection().openConnection())
                 {
                     SqlTransaction transaction = connection.BeginTransaction();
-                    
+
                     try
                     {
                         // Insert task
                         string taskSql = "INSERT INTO Tasks (TaskId, TaskName, Status) VALUES (@TaskId, @TaskName, @Status)";
-                        
+
                         using (SqlCommand taskCommand = new SqlCommand(taskSql, connection, transaction))
                         {
                             taskCommand.Parameters.AddWithValue("@TaskId", task.TaskId);
@@ -42,10 +42,10 @@ namespace SelfSampleProRAD_DB.Controller
                             taskCommand.Parameters.AddWithValue("@Status", task.Status);
                             taskCommand.ExecuteNonQuery();
                         }
-                        
+
                         // Insert employee task
                         string employeeTaskSql = "INSERT INTO EmployeeTasks (ETID, TaskId, AssignedToId, AssignedById) VALUES (@ETID, @TaskId, @AssignedToId, @AssignedById)";
-                        
+
                         using (SqlCommand employeeTaskCommand = new SqlCommand(employeeTaskSql, connection, transaction))
                         {
                             employeeTaskCommand.Parameters.AddWithValue("@ETID", employeeTask.ETID);
@@ -54,7 +54,7 @@ namespace SelfSampleProRAD_DB.Controller
                             employeeTaskCommand.Parameters.AddWithValue("@AssignedById", employeeTask.AssignedById);
                             employeeTaskCommand.ExecuteNonQuery();
                         }
-                        
+
                         transaction.Commit();
                         return (employeeTask, "Task Successfully assigned", true);
                     }
@@ -84,7 +84,7 @@ namespace SelfSampleProRAD_DB.Controller
             try
             {
                 var tasks = new List<TaskViewToResponseDTO>();
-                
+
                 using (SqlConnection connection = new DBConnection().openConnection())
                 {
                     string query = @"SELECT t.TaskId, e.FirstName, e.LastName, t.TaskName, t.Status 
@@ -92,11 +92,11 @@ namespace SelfSampleProRAD_DB.Controller
                                    INNER JOIN Tasks t ON et.TaskId = t.TaskId 
                                    INNER JOIN Employee e ON et.AssignedById = e.EmployeeId 
                                    WHERE et.AssignedToId = @AssignedToId AND t.Status != 'C'";
-                    
+
                     using (SqlCommand command = new SqlCommand(query, connection))
                     {
                         command.Parameters.AddWithValue("@AssignedToId", taskTo);
-                        
+
                         using (SqlDataReader reader = command.ExecuteReader())
                         {
                             while (reader.Read())
@@ -113,7 +113,7 @@ namespace SelfSampleProRAD_DB.Controller
                         }
                     }
                 }
-                
+
                 return (tasks, "Success");
             }
             catch (Exception ex)
@@ -127,7 +127,7 @@ namespace SelfSampleProRAD_DB.Controller
             try
             {
                 var tasks = new List<TaskViewByResponseDTO>();
-                
+
                 using (SqlConnection connection = new DBConnection().openConnection())
                 {
                     string query = @"SELECT e.FirstName, e.LastName, t.TaskName, t.Status 
@@ -135,11 +135,11 @@ namespace SelfSampleProRAD_DB.Controller
                                    INNER JOIN Tasks t ON et.TaskId = t.TaskId 
                                    INNER JOIN Employee e ON et.AssignedToId = e.EmployeeId 
                                    WHERE et.AssignedById = @AssignedById";
-                    
+
                     using (SqlCommand command = new SqlCommand(query, connection))
                     {
                         command.Parameters.AddWithValue("@AssignedById", taskBy);
-                        
+
                         using (SqlDataReader reader = command.ExecuteReader())
                         {
                             while (reader.Read())
@@ -154,7 +154,7 @@ namespace SelfSampleProRAD_DB.Controller
                         }
                     }
                 }
-                
+
                 return (tasks, "Success");
             }
             catch (Exception ex)
@@ -172,32 +172,32 @@ namespace SelfSampleProRAD_DB.Controller
                     // First check if task exists and its status
                     string checkQuery = "SELECT Status FROM Tasks WHERE TaskId = @TaskId";
                     char? currentStatus = null;
-                    
+
                     using (SqlCommand checkCommand = new SqlCommand(checkQuery, connection))
                     {
                         checkCommand.Parameters.AddWithValue("@TaskId", taskID);
                         var result = checkCommand.ExecuteScalar();
-                        
+
                         if (result == null || result == DBNull.Value)
                             return ("Task not found.", false);
-                            
+
                         currentStatus = Convert.ToChar(result);
                     }
-                    
+
                     // Check if task is already completed
                     if (currentStatus == 'C')
                         return ("Task is already completed.", false);
-                        
+
                     // Update task status
                     string updateQuery = "UPDATE Tasks SET Status = 'S' WHERE TaskId = @TaskId";
-                    
+
                     using (SqlCommand updateCommand = new SqlCommand(updateQuery, connection))
                     {
                         updateCommand.Parameters.AddWithValue("@TaskId", taskID);
                         updateCommand.ExecuteNonQuery();
                     }
                 }
-                
+
                 return ("Task started.", true);
             }
             catch (Exception ex)
@@ -206,7 +206,7 @@ namespace SelfSampleProRAD_DB.Controller
             }
         }
 
-        public (string,bool) submitWork(Guid taskID)
+        public (string, bool) submitWork(Guid taskID)
         {
             try
             {
@@ -215,32 +215,32 @@ namespace SelfSampleProRAD_DB.Controller
                     // First check if task exists and its status
                     string checkQuery = "SELECT Status FROM Tasks WHERE TaskId = @TaskId";
                     char? currentStatus = null;
-                    
+
                     using (SqlCommand checkCommand = new SqlCommand(checkQuery, connection))
                     {
                         checkCommand.Parameters.AddWithValue("@TaskId", taskID);
                         var result = checkCommand.ExecuteScalar();
-                        
+
                         if (result == null || result == DBNull.Value)
                             return ("Task not found.", false);
-                            
+
                         currentStatus = Convert.ToChar(result);
                     }
-                    
+
                     // Check if task is already completed
                     if (currentStatus == 'C')
                         return ("Task is already completed.", false);
-                        
+
                     // Update task status
                     string updateQuery = "UPDATE Tasks SET Status = 'C' WHERE TaskId = @TaskId";
-                    
+
                     using (SqlCommand updateCommand = new SqlCommand(updateQuery, connection))
                     {
                         updateCommand.Parameters.AddWithValue("@TaskId", taskID);
                         updateCommand.ExecuteNonQuery();
                     }
                 }
-                
+
                 return ("Task completed.", true);
             }
             catch (Exception ex)

@@ -3,9 +3,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace SelfSampleProRAD_DB_SQL.Controllers
 {
-    class EmployeeTasks
+    class EmployeeTasksController
     {
-        
+
         public Guid ETID { get; set; }
         public Guid TaskId { get; set; }
         public Guid AssignedToId { get; set; }
@@ -16,7 +16,7 @@ namespace SelfSampleProRAD_DB_SQL.Controllers
         public virtual Employee AssignedBy { get; set; }
         public virtual Tasks Tasks { get; set; }
 
-        public EmployeeTasks()
+        public EmployeeTasksController()
         {
             ETID = Guid.NewGuid();
         }

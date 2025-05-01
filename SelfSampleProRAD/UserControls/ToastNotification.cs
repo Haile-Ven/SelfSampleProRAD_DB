@@ -21,7 +21,7 @@ namespace SelfSampleProRAD_DB.UserControls
         {
             InitializeComponent();
             this.Visible = false;
-            
+
             // Create timer for auto-hiding
             _notificationTimer = new System.Windows.Forms.Timer
             {
@@ -41,7 +41,7 @@ namespace SelfSampleProRAD_DB.UserControls
         public void AttachToForm(Form parentForm)
         {
             _parentForm = parentForm;
-            
+
             // Add control to form
             if (!_parentForm.Controls.Contains(this))
             {
@@ -49,7 +49,8 @@ namespace SelfSampleProRAD_DB.UserControls
             }
 
             // Handle form resize to reposition the notification
-            _parentForm.Resize += (s, e) => {
+            _parentForm.Resize += (s, e) =>
+            {
                 if (this.Visible)
                 {
                     PositionNotification();
@@ -160,9 +161,9 @@ namespace SelfSampleProRAD_DB.UserControls
         protected override void OnPaint(PaintEventArgs e)
         {
             base.OnPaint(e);
-            
+
             // Draw left border with appropriate color
-            Color borderColor = _isErrorStyle ? 
+            Color borderColor = _isErrorStyle ?
                 Color.FromArgb(255, 99, 71) : // Tomato red for errors
                 Color.FromArgb(76, 175, 80);  // Green for success
 

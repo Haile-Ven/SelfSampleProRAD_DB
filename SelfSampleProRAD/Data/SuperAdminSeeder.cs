@@ -21,7 +21,7 @@ namespace SelfSampleProRAD_DB_SQL.Data
                     {
                         checkCmd.Parameters.AddWithValue("@EmployeeId", SuperAdminEmployeeId);
                         int count = (int)checkCmd.ExecuteScalar();
-                        
+
                         // If super admin already exists, return
                         if (count > 0)
                             return;
@@ -53,7 +53,7 @@ namespace SelfSampleProRAD_DB_SQL.Data
                     // Create Employee record
                     string employeeSql = @"INSERT INTO Employee (EmployeeId, FirstName, LastName, Gender, Age, Position, Category, Salary, Tax, UserId) 
                                            VALUES (@EmployeeId, @FirstName, @LastName, @Gender, @Age, @Position, @Category, @Salary, @Tax, @UserId)";
-                    
+
                     using (SqlCommand employeeCmd = new SqlCommand(employeeSql, con))
                     {
                         employeeCmd.Parameters.AddWithValue("@EmployeeId", employee.EmployeeId);
@@ -66,32 +66,32 @@ namespace SelfSampleProRAD_DB_SQL.Data
                         employeeCmd.Parameters.AddWithValue("@Salary", employee.Salary);
                         employeeCmd.Parameters.AddWithValue("@Tax", employee.Tax);
                         employeeCmd.Parameters.AddWithValue("@UserId", DBNull.Value); // Will be updated after account creation
-                        
+
                         employeeCmd.ExecuteNonQuery();
                     }
 
                     // Create Account record
                     string accountSql = @"INSERT INTO Account (UserId, UserName, Password, Status) 
                                           VALUES (@UserId, @UserName, @Password, @Status)";
-                    
+
                     using (SqlCommand accountCmd = new SqlCommand(accountSql, con))
                     {
                         accountCmd.Parameters.AddWithValue("@UserId", account.UserID);
                         accountCmd.Parameters.AddWithValue("@UserName", account.UserName);
                         accountCmd.Parameters.AddWithValue("@Password", account.Password);
                         accountCmd.Parameters.AddWithValue("@Status", account.Status);
-                        
+
                         accountCmd.ExecuteNonQuery();
                     }
 
                     // Link Employee to Account
                     string updateSql = "UPDATE Employee SET UserId = @UserId WHERE EmployeeId = @EmployeeId";
-                    
+
                     using (SqlCommand updateCmd = new SqlCommand(updateSql, con))
                     {
                         updateCmd.Parameters.AddWithValue("@UserId", account.UserID);
                         updateCmd.Parameters.AddWithValue("@EmployeeId", employee.EmployeeId);
-                        
+
                         updateCmd.ExecuteNonQuery();
                     }
 

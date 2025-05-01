@@ -1,4 +1,5 @@
 ﻿using SelfSampleProRAD_DB.Controller;
+using SelfSampleProRAD_DB_SQL.Controllers;
 
 namespace SelfSampleProRAD_DB
 {
@@ -7,31 +8,37 @@ namespace SelfSampleProRAD_DB
         // Event for toast notifications
         public delegate void NotificationEventHandler(string message, string title, bool isSuccess);
         public event NotificationEventHandler ShowNotification;
+        HelperMethodsUserControl _helper;
 
         Guid EmployeeID;
         public ChangePasswordControl()
         {
             InitializeComponent();
-            MouseDown += ChangePasswordControl_MouseDown;
-            MouseMove += ChangePasswordControl_MouseMove;
-            MouseUp += ChangePasswordControl_MouseUp;
+            _helper = new HelperMethodsUserControl(this);
+            InitializeDragging();
         }
 
         public ChangePasswordControl(Guid EmployeeID)
         {
             InitializeComponent();
+            _helper = new HelperMethodsUserControl(this);
+            InitializeDragging();
             this.EmployeeID = EmployeeID;
-            MouseDown += ChangePasswordControl_MouseDown;
-            MouseMove += ChangePasswordControl_MouseMove;
-            MouseUp += ChangePasswordControl_MouseUp;
+        }
+
+        public void InitializeDragging()
+        {
+            MouseDown += _helper._MouseDown;
+            MouseMove += _helper._MouseMove;
+            MouseUp += _helper._MouseUp;
         }
         // Transfer Update Button Click Event Handler To CompleteForm After Finishing Update
         public event EventHandler CngPwdBtnClicked;
         private void CngPwdBtn_Click(object sender, EventArgs e)
         {
-            if(string.IsNullOrEmpty(oldPwdTxtBx.Text) || string.IsNullOrEmpty(nwPwdTxtBx.Text) || string.IsNullOrEmpty(reNwPwdTxtBx.Text))
+            if (string.IsNullOrEmpty(oldPwdTxtBx.Text) || string.IsNullOrEmpty(nwPwdTxtBx.Text) || string.IsNullOrEmpty(reNwPwdTxtBx.Text))
             {
-                ShowNotification?.Invoke("Please Fill All Fields", "Error",false);
+                ShowNotification?.Invoke("Please Fill All Fields", "Error", false);
                 return;
             }
             if (nwPwdTxtBx.Text != reNwPwdTxtBx.Text)
@@ -40,7 +47,7 @@ namespace SelfSampleProRAD_DB
                 return;
             }
             var response = new AccountController().ChangePassword(EmployeeID, oldPwdTxtBx.Text, nwPwdTxtBx.Text);
-            ShowNotification?.Invoke(response.Item1,response.Item2?"Success":"Failed",response.Item2);
+            ShowNotification?.Invoke(response.Item1, response.Item2 ? "Success" : "Failed", response.Item2);
             CngPwdBtnClicked?.Invoke(sender, e);
         }
 

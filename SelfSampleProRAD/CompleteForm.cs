@@ -106,7 +106,7 @@ namespace SelfSampleProRAD
             emptaskListBox.DisplayMember = "DisplayName";
             emptaskListBox.ValueMember = "TaskId";
         }
-        
+
         private void ClearAll(Control parentControl)
         {
             for (int i = parentControl.Controls.Count - 1; i >= 0; i--)
@@ -159,7 +159,7 @@ namespace SelfSampleProRAD
                 }
                 toastNotification = null;
             }
-            
+
             // Create a new toast notification
             toastNotification = new ToastNotification();
             toastNotification.AttachToForm(this);
@@ -168,6 +168,12 @@ namespace SelfSampleProRAD
         //Event handlers
         private void LoginBtb_Click(object sender, EventArgs e)
         {
+            if (string.IsNullOrEmpty(userNameTxt.Text) || string.IsNullOrEmpty(passwordTxt.Text) ||
+                string.IsNullOrWhiteSpace(userNameTxt.Text) || string.IsNullOrWhiteSpace(passwordTxt.Text))
+            {
+                toastNotification.Show("Both Username and password are required.", "Login Failed", false);
+                return;
+            }
             var response = new AccountController().Login(userNameTxt.Text, passwordTxt.Text);
 
             if (response.Item1 == null)
@@ -219,6 +225,7 @@ namespace SelfSampleProRAD
 
         private void AddTaskLkLbl_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
+            if (Controls.ContainsKey("assignTaskControl")) return;
             var assignTaskControl = new AssignTaskControl(Guid.Parse(empIDProfTxtBx.Text));
             Controls.Add(assignTaskControl);
             assignTaskControl.Location = new Point(50, 50);
@@ -261,7 +268,7 @@ namespace SelfSampleProRAD
             catch (Exception ex)
             {
                 InitializeToastNotification();
-                toastNotification.Show(ex.Message,"Error",false);
+                toastNotification.Show(ex.Message, "Error", false);
             }
         }
 
@@ -272,6 +279,7 @@ namespace SelfSampleProRAD
 
         private void CngPwdLkLbl_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
+            if (Controls.ContainsKey("ChangePasswordControl")) return;
             var cngPwdControl = new ChangePasswordControl(Guid.Parse(empIDProfTxtBx.Text));
             Controls.Add(cngPwdControl);
             cngPwdControl.Location = new Point(50, 50);
@@ -311,17 +319,17 @@ namespace SelfSampleProRAD
             var response = new TasksController().submitWork(Guid.Parse(emptaskListBox.SelectedValue.ToString()));
             doTaskRcTxtBx.Text = string.Empty;
             LoadTasksFor(Guid.Parse(empIDProfTxtBx.Text));
-            toastNotification.Show(response.Item1, response.Item2?"Success":"Failed",response.Item2);
+            toastNotification.Show(response.Item1, response.Item2 ? "Success" : "Failed", response.Item2);
         }
 
         private void DoTaskRcTxtBx_TextChanged(object sender, EventArgs e)
         {
             if (emptaskListBox.SelectedItem == null)
             {
-                toastNotification.Show("Please select a task to start working on.", "Error",false);
+                toastNotification.Show("Please select a task to start working on.", "Error", false);
                 return;
             }
-            if(!emptaskListBox.Text.Contains("Started"))
+            if (!emptaskListBox.Text.Contains("Started"))
             {
                 var response = new TasksController().startWorking(Guid.Parse(emptaskListBox.SelectedValue.ToString()));
                 toastNotification.Show(response.Item1, response.Item2 ? "Success" : "Failed", response.Item2);
@@ -357,7 +365,7 @@ namespace SelfSampleProRAD
                 var userid = Guid.Parse(employeeDataGrid.Rows[e.RowIndex].Cells["UserIdClm"].Value.ToString());
                 var response = new AccountController().ChangeAccountStatus(userid);
                 InitializeToastNotification();
-                toastNotification.Show(response.Item1,response.Item2?"Success":"Failed", response.Item2);
+                toastNotification.Show(response.Item1, response.Item2 ? "Success" : "Failed", response.Item2);
                 LoadEmployeeData();
             }
         }
@@ -369,6 +377,7 @@ namespace SelfSampleProRAD
 
         private void EditProfileLkLbl_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
+            if (Controls.ContainsKey("editControl")) return;
             EditControl editControl = new EditControl
                 (
                 new EmployeeEditDTO
@@ -384,7 +393,8 @@ namespace SelfSampleProRAD
             Controls.Add(editControl);
             editControl.BringToFront();
             editControl.UpdateBtnClicked += UpdateBtn_Click;
-            editControl.ShowNotification += (message, title, isSuccess) => {
+            editControl.ShowNotification += (message, title, isSuccess) =>
+            {
                 InitializeToastNotification();
                 toastNotification.Show(message, title, isSuccess);
             };
@@ -431,6 +441,26 @@ namespace SelfSampleProRAD
             contrRdBtn.Checked = false;
             salaryProfTxtBx.Text = string.Empty;
             taxProfTxtBx.Text = string.Empty;
+        }
+
+        private void userNameTxt_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (char)Keys.Enter)
+            {
+                e.Handled = true;
+                if (string.IsNullOrEmpty(passwordTxt.Text)) passwordTxt.Focus();
+                else LoginBtb_Click(sender, e);
+            }
+        }
+
+        private void passwordTxt_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (char)Keys.Enter)
+            {
+                e.Handled = true;
+                if (string.IsNullOrEmpty(userNameTxt.Text)) userNameTxt.Focus();
+                else LoginBtb_Click(sender, e);
+            }
         }
     }
 }

@@ -9,6 +9,6 @@ namespace SelfSampleProRAD_DB_SQL.Models
         public string AssignedBy { get; set; }
         public char Status { get; set; }
         //Constructors
-        public Tasks() { TaskId = Guid.NewGuid();}
+        public Tasks() { TaskId = Guid.NewGuid(); }
     }
 }

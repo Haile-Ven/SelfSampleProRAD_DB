@@ -12,7 +12,7 @@
         public float Salary { get; set; }
         public float Tax { get; set; }
         public string Category { get; set; }
-        public Guid? UserId {  get; set; }
+        public Guid? UserId { get; set; }
         //Navigation property for Account
         public Account? Account { get; set; }
         //Constructors
