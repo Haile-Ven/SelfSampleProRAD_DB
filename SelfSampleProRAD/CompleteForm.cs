@@ -462,5 +462,20 @@ namespace SelfSampleProRAD
                 else LoginBtb_Click(sender, e);
             }
         }
+
+        private void ShowPasswordLkLbl_MouseDown(object sender, MouseEventArgs e)
+        {
+            passwordTxt.UseSystemPasswordChar = false;
+        }
+
+        private void ShowPasswordLkLbl_MouseUp(object sender, MouseEventArgs e)
+        {
+            passwordTxt.UseSystemPasswordChar = true;
+        }
+
+        private void ShowPasswordLkLbl_MouseHover(object sender, EventArgs e)
+        {
+            TipInfo.Show("Click to show password", ShowPasswordLkLbl);
+        }
     }
 }

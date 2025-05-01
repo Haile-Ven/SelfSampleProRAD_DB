@@ -28,8 +28,10 @@ namespace SelfSampleProRAD
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
             DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
             loginPanel = new Panel();
+            ShowPasswordLkLbl = new LinkLabel();
             loginBtb = new Button();
             passwordLbl = new Label();
             userNameLbl = new Label();
@@ -96,6 +98,7 @@ namespace SelfSampleProRAD
             taskAsgTbl = new DataGridView();
             addTaskLkLbl = new LinkLabel();
             LogoutBtn = new Button();
+            TipInfo = new ToolTip(components);
             loginPanel.SuspendLayout();
             mainTab.SuspendLayout();
             employeeProfileTab.SuspendLayout();
@@ -111,6 +114,7 @@ namespace SelfSampleProRAD
             // 
             // loginPanel
             // 
+            loginPanel.Controls.Add(ShowPasswordLkLbl);
             loginPanel.Controls.Add(loginBtb);
             loginPanel.Controls.Add(passwordLbl);
             loginPanel.Controls.Add(userNameLbl);
@@ -120,6 +124,21 @@ namespace SelfSampleProRAD
             loginPanel.Name = "loginPanel";
             loginPanel.Size = new Size(831, 613);
             loginPanel.TabIndex = 0;
+            // 
+            // ShowPasswordLkLbl
+            // 
+            ShowPasswordLkLbl.AutoSize = true;
+            ShowPasswordLkLbl.LinkBehavior = LinkBehavior.NeverUnderline;
+            ShowPasswordLkLbl.LinkColor = Color.Black;
+            ShowPasswordLkLbl.Location = new Point(600, 252);
+            ShowPasswordLkLbl.Name = "ShowPasswordLkLbl";
+            ShowPasswordLkLbl.Size = new Size(30, 20);
+            ShowPasswordLkLbl.TabIndex = 10;
+            ShowPasswordLkLbl.TabStop = true;
+            ShowPasswordLkLbl.Text = "👁️";
+            ShowPasswordLkLbl.MouseDown += ShowPasswordLkLbl_MouseDown;
+            ShowPasswordLkLbl.MouseHover += ShowPasswordLkLbl_MouseHover;
+            ShowPasswordLkLbl.MouseUp += ShowPasswordLkLbl_MouseUp;
             // 
             // loginBtb
             // 
@@ -903,8 +922,8 @@ namespace SelfSampleProRAD
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(843, 611);
-            Controls.Add(LogoutBtn);
             Controls.Add(loginPanel);
+            Controls.Add(LogoutBtn);
             Controls.Add(mainTab);
             FormBorderStyle = FormBorderStyle.FixedSingle;
             MaximizeBox = false;
@@ -1000,5 +1019,7 @@ namespace SelfSampleProRAD
         private Button LogoutBtn;
         private LinkLabel EditProfileLkLbl;
         private Panel ProfileRibon;
+        private LinkLabel ShowPasswordLkLbl;
+        private ToolTip TipInfo;
     }
 }
