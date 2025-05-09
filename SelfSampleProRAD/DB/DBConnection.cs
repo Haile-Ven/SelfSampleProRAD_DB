@@ -2,22 +2,22 @@ namespace SelfSampleProRAD_DB_SQL.DB
 {
     internal class DBConnection
     {
-        string connectionString;
+        public string _connectionString { get; set; }
         SqlConnection connection;
-        public DBConnection()
+        public DBConnection(string? connectionString)
         {
+            _connectionString = connectionString == null ?
+                "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\Haile-Work\\source\\repos\\SelfSampleProRAD_DB_SQL\\SelfSampleProRAD\\DB\\EmployeeTaskDB.mdf;Integrated Security=True" :
+                connectionString;
         }
-        public SqlConnection openConnection()
+        public SqlConnection _connection
         {
-            try
+            get
             {
-                connectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\Haile-Work\\source\\repos\\SelfSampleProRAD_DB_SQL\\SelfSampleProRAD\\DB\\EmployeeTaskDB.mdf;Integrated Security=True";
-                connection = new SqlConnection(connectionString);
+                connection = new SqlConnection(_connectionString);
                 connection.Open();
+                return connection;
             }
-            catch (Exception dbEx) { if (MessageBox.Show(dbEx.Message, "Database Error in DBConnection", MessageBoxButtons.OK, MessageBoxIcon.Error) == DialogResult.OK) { Environment.Exit(0); } }
-            return connection;
         }
-        public void closeConnection() { connection.Close(); }
     }
 }

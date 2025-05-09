@@ -17,7 +17,7 @@ namespace SelfSampleProRAD_DB.Controller
 
             try
             {
-                using (SqlConnection connection = new DBConnection().openConnection())
+                using (SqlConnection connection = new DBConnection(null)._connection)
                 {
                     // Check if employee already exists
                     string checkQuery = "SELECT COUNT(*) FROM Employee WHERE FirstName = @FirstName AND LastName = @LastName";
@@ -129,7 +129,7 @@ namespace SelfSampleProRAD_DB.Controller
             bool isNameChanged = false;
             try
             {
-                using (SqlConnection connection = new DBConnection().openConnection())
+                using (SqlConnection connection = new DBConnection(null)._connection)
                 {
                     // First check if employee exists and get current name
                     string checkQuery = "SELECT FirstName, LastName, UserId FROM Employee WHERE EmployeeId = @EmployeeId";
@@ -204,7 +204,7 @@ namespace SelfSampleProRAD_DB.Controller
         {
             try
             {
-                using (SqlConnection connection = new DBConnection().openConnection())
+                using (SqlConnection connection = new DBConnection(null)._connection)
                 {
                     string query = @"SELECT e.EmployeeId, e.FirstName, e.LastName, e.Gender, e.Age, 
                                    e.Position, e.Salary, e.Tax, e.Category, e.UserId, 
@@ -272,7 +272,7 @@ namespace SelfSampleProRAD_DB.Controller
         {
             try
             {
-                using (SqlConnection connection = new DBConnection().openConnection())
+                using (SqlConnection connection = new DBConnection(null)._connection)
                 {
                     string query = @"SELECT e.EmployeeId, e.FirstName, e.LastName, e.Gender, e.Age, 
                                    e.Position, e.Salary, e.Tax, e.Category, 
@@ -337,7 +337,7 @@ namespace SelfSampleProRAD_DB.Controller
 
             try
             {
-                using (SqlConnection connection = new DBConnection().openConnection())
+                using (SqlConnection connection = new DBConnection(null)._connection)
                 {
                     string query = @"SELECT e.EmployeeId, e.FirstName, e.LastName, e.Gender, e.Age, 
                                    e.Position, e.Salary, e.Tax, e.Category, 

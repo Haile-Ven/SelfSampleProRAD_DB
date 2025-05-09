@@ -31,6 +31,7 @@ namespace SelfSampleProRAD_DB
             MouseDown += _helper._MouseDown;
             MouseMove += _helper._MouseMove;
             MouseUp += _helper._MouseUp;
+            Click += _helper._Click;
         }
         // Transfer Update Button Click Event Handler To CompleteForm After Finishing Update
         public event EventHandler CngPwdBtnClicked;

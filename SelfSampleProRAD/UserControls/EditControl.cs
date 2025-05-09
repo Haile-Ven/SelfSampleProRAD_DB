@@ -43,6 +43,7 @@ namespace SelfSampleProRAD_DB
             MouseDown += _helper._MouseDown;
             MouseMove += _helper._MouseMove;
             MouseUp += _helper._MouseUp;
+            Click += _helper._Click;
         }
 
         // Transfer Edit Link Lable Event Handler To CompleteForm

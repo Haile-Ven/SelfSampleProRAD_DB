@@ -1,9 +1,6 @@
-﻿using SelfSampleProRAD_DB_SQL.Models;
-using System.ComponentModel.DataAnnotations;
-
-namespace SelfSampleProRAD_DB_SQL.Controllers
+﻿namespace SelfSampleProRAD_DB_SQL.Models
 {
-    class EmployeeTasksController
+    class EmployeeTasks
     {
 
         public Guid ETID { get; set; }
@@ -16,7 +13,7 @@ namespace SelfSampleProRAD_DB_SQL.Controllers
         public virtual Employee AssignedBy { get; set; }
         public virtual Tasks Tasks { get; set; }
 
-        public EmployeeTasksController()
+        public EmployeeTasks()
         {
             ETID = Guid.NewGuid();
         }

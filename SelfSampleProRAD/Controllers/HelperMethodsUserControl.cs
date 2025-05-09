@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace SelfSampleProRAD_DB_SQL.Controllers
+﻿namespace SelfSampleProRAD_DB_SQL.Controllers
 {
     class HelperMethodsUserControl
     {
@@ -15,14 +9,14 @@ namespace SelfSampleProRAD_DB_SQL.Controllers
         }
         // Make User Control Draggable
         private bool isDragging = false;
-        private Point startPoint = new Point(0, 0);
+        private Point StartingPosition = new Point(0, 0);
 
         public void _MouseDown(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
             {
                 isDragging = true;
-                startPoint = e.Location; // Save the initial mouse position
+                StartingPosition = e.Location; // Save the initial mouse position
             }
         }
 
@@ -30,15 +24,21 @@ namespace SelfSampleProRAD_DB_SQL.Controllers
         {
             if (isDragging)
             {
-                // Calculate the new position based on mouse movement
-                _userControl.Left += e.X - startPoint.X;
-                _userControl.Top += e.Y - startPoint.Y;
+                _userControl.BringToFront();
+                var newX = _userControl.Location.X + e.X - StartingPosition.X;
+                var newY = _userControl.Location.Y + e.Y - StartingPosition.Y;
+                _userControl.Location = new Point(newX, newY);
             }
         }
 
         public void _MouseUp(object sender, MouseEventArgs e)
         {
             isDragging = false; // Stop dragging
+        }
+
+        public void _Click(object sender, EventArgs e) 
+        {
+            _userControl.BringToFront();
         }
     }
 }

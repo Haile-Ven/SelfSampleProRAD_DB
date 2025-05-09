@@ -1,5 +1,4 @@
 using SelfSampleProRAD_DB.DTOs;
-using SelfSampleProRAD_DB_SQL.Controllers;
 using SelfSampleProRAD_DB_SQL.DB;
 using SelfSampleProRAD_DB_SQL.Models;
 
@@ -7,7 +6,7 @@ namespace SelfSampleProRAD_DB.Controller
 {
     class TasksController
     {
-        public (EmployeeTasksController, string, bool) AssignTask(string tskNm, Guid aTo, Guid aBy)
+        public (EmployeeTasks, string, bool) AssignTask(string tskNm, Guid aTo, Guid aBy)
         {
             try
             {
@@ -19,14 +18,14 @@ namespace SelfSampleProRAD_DB.Controller
                 };
 
                 // Create the EmployeeTasks model instance
-                var employeeTask = new EmployeeTasksController
+                var employeeTask = new EmployeeTasks
                 {
                     TaskId = task.TaskId,
                     AssignedToId = aTo,
                     AssignedById = aBy
                 };
 
-                using (SqlConnection connection = new DBConnection().openConnection())
+                using (SqlConnection connection = new DBConnection(null)._connection)
                 {
                     SqlTransaction transaction = connection.BeginTransaction();
 
@@ -85,7 +84,7 @@ namespace SelfSampleProRAD_DB.Controller
             {
                 var tasks = new List<TaskViewToResponseDTO>();
 
-                using (SqlConnection connection = new DBConnection().openConnection())
+                using (SqlConnection connection = new DBConnection(null)._connection)
                 {
                     string query = @"SELECT t.TaskId, e.FirstName, e.LastName, t.TaskName, t.Status 
                                    FROM EmployeeTasks et 
@@ -128,7 +127,7 @@ namespace SelfSampleProRAD_DB.Controller
             {
                 var tasks = new List<TaskViewByResponseDTO>();
 
-                using (SqlConnection connection = new DBConnection().openConnection())
+                using (SqlConnection connection = new DBConnection(null)._connection)
                 {
                     string query = @"SELECT e.FirstName, e.LastName, t.TaskName, t.Status 
                                    FROM EmployeeTasks et 
@@ -167,7 +166,7 @@ namespace SelfSampleProRAD_DB.Controller
         {
             try
             {
-                using (SqlConnection connection = new DBConnection().openConnection())
+                using (SqlConnection connection = new DBConnection(null)._connection)
                 {
                     // First check if task exists and its status
                     string checkQuery = "SELECT Status FROM Tasks WHERE TaskId = @TaskId";
@@ -210,7 +209,7 @@ namespace SelfSampleProRAD_DB.Controller
         {
             try
             {
-                using (SqlConnection connection = new DBConnection().openConnection())
+                using (SqlConnection connection = new DBConnection(null)._connection)
                 {
                     // First check if task exists and its status
                     string checkQuery = "SELECT Status FROM Tasks WHERE TaskId = @TaskId";

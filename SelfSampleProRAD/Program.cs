@@ -1,6 +1,4 @@
 using SelfSampleProRAD;
-using SelfSampleProRAD_DB;
-using System.Runtime.CompilerServices;
 
 namespace SelfSampleProRAD_DB_SQL
 {

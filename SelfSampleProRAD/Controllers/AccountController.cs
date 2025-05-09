@@ -14,7 +14,7 @@ namespace SelfSampleProRAD_DB.Controller
         {
             try
             {
-                using (SqlConnection connection = new DBConnection().openConnection())
+                using (SqlConnection connection = new DBConnection(null)._connection)
                 {
                     // First find the account by username only
                     string query = @"SELECT a.UserId, a.UserName, a.Status, a.Password, 
@@ -84,7 +84,7 @@ namespace SelfSampleProRAD_DB.Controller
         {
             try
             {
-                using (SqlConnection connection = new DBConnection().openConnection())
+                using (SqlConnection connection = new DBConnection(null)._connection)
                 {
                     // First, find the employee by employeeId
                     string employeeQuery = "SELECT UserId FROM Employee WHERE EmployeeId = @EmployeeId";
@@ -146,7 +146,7 @@ namespace SelfSampleProRAD_DB.Controller
 
             try
             {
-                using (SqlConnection connection = new DBConnection().openConnection())
+                using (SqlConnection connection = new DBConnection(null)._connection)
                 {
                     string query = "SELECT UserId, UserName, Status FROM Account";
 
@@ -179,7 +179,7 @@ namespace SelfSampleProRAD_DB.Controller
 
             try
             {
-                using (SqlConnection connection = new DBConnection().openConnection())
+                using (SqlConnection connection = new DBConnection(null)._connection)
                 {
                     string query = @"SELECT a.UserId, a.UserName, a.Status 
                                    FROM Account a 
@@ -216,7 +216,7 @@ namespace SelfSampleProRAD_DB.Controller
 
             try
             {
-                using (SqlConnection connection = new DBConnection().openConnection())
+                using (SqlConnection connection = new DBConnection(null)._connection)
                 {
                     // First get the account information
                     string accountQuery = "SELECT UserId, UserName, Password, Status FROM Account WHERE UserId = @UserId";
@@ -292,7 +292,7 @@ namespace SelfSampleProRAD_DB.Controller
         {
             try
             {
-                using (SqlConnection connection = new DBConnection().openConnection())
+                using (SqlConnection connection = new DBConnection(null)._connection)
                 {
                     // First, get the current status
                     string statusQuery = "SELECT Status FROM Account WHERE UserId = @UserId";
