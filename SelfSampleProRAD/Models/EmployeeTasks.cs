@@ -8,7 +8,6 @@
         public Guid AssignedToId { get; set; }
         public Guid AssignedById { get; set; }
 
-        // Navigation properties
         public virtual Employee AssignedTo { get; set; }
         public virtual Employee AssignedBy { get; set; }
         public virtual Tasks Tasks { get; set; }

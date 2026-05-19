@@ -5,7 +5,6 @@ namespace SelfSampleProRAD_DB
 {
     public partial class AssignTaskControl : UserControl
     {
-        // Event for toast notifications
         public delegate void NotificationEventHandler(string message, string title, bool isSuccess);
         public event NotificationEventHandler ShowNotification;
         HelperMethodsUserControl _helper;
@@ -58,7 +57,6 @@ namespace SelfSampleProRAD_DB
             asgToCmbBx.ValueMember = "Value";
         }
 
-        // Make User Control Draggable
         private bool isDragging = false;
         private Point startPoint = new Point(0, 0);
         private void AssignTaskControl_MouseDown(object sender, MouseEventArgs e)
@@ -66,7 +64,7 @@ namespace SelfSampleProRAD_DB
             if (e.Button == MouseButtons.Left)
             {
                 isDragging = true;
-                startPoint = e.Location; // Save the initial mouse position
+                startPoint = e.Location;      
             }
         }
 
@@ -74,7 +72,6 @@ namespace SelfSampleProRAD_DB
         {
             if (isDragging)
             {
-                // Calculate the new position based on mouse movement
                 Left += e.X - startPoint.X;
                 Top += e.Y - startPoint.Y;
             }
@@ -82,7 +79,7 @@ namespace SelfSampleProRAD_DB
 
         private void AssignTaskControl_MouseUp(object sender, MouseEventArgs e)
         {
-            isDragging = false; // Stop dragging
+            isDragging = false;   
         }
 
         public event EventHandler AsgnTaskBtnClicked;
@@ -103,7 +100,6 @@ namespace SelfSampleProRAD_DB
             AsgnTaskBtnClicked?.Invoke(sender, e);
         }
 
-        // Transfer Close Link Lable Event Handler To CompleteForm
         public event LinkLabelLinkClickedEventHandler ClsTaskControlLblClicked;
         private void ClsTaskControlLbl_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {

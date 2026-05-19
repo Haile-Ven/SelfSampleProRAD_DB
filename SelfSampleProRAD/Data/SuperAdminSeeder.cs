@@ -5,7 +5,6 @@ namespace SelfSampleProRAD_DB_SQL.Data
 {
     public class SuperAdminSeeder
     {
-        // Define static GUIDs for the super admin
         private static readonly Guid SuperAdminEmployeeId = new Guid("11111111-1111-1111-1111-111111111111");
         private static readonly Guid SuperAdminUserId = new Guid("22222222-2222-2222-2222-222222222222");
 
@@ -15,19 +14,16 @@ namespace SelfSampleProRAD_DB_SQL.Data
             {
                 using (SqlConnection con = new DBConnection(null)._connection)
                 {
-                    // Check if super admin exists by the static EmployeeId
                     string checkSql = "SELECT COUNT(*) FROM Employee WHERE EmployeeId = @EmployeeId";
                     using (SqlCommand checkCmd = new SqlCommand(checkSql, con))
                     {
                         checkCmd.Parameters.AddWithValue("@EmployeeId", SuperAdminEmployeeId);
                         int count = (int)checkCmd.ExecuteScalar();
 
-                        // If super admin already exists, return
                         if (count > 0)
                             return;
                     }
 
-                    // Create employee model
                     var employee = new Employee
                     {
                         EmployeeId = SuperAdminEmployeeId,
@@ -41,7 +37,6 @@ namespace SelfSampleProRAD_DB_SQL.Data
                         Tax = 5000f
                     };
 
-                    // Create account model
                     var account = new Account
                     {
                         UserID = SuperAdminUserId,
@@ -50,7 +45,6 @@ namespace SelfSampleProRAD_DB_SQL.Data
                         Status = 'A'
                     };
 
-                    // Create Employee record
                     string employeeSql = @"INSERT INTO Employee (EmployeeId, FirstName, LastName, Gender, Age, Position, Category, Salary, Tax, UserId) 
                                            VALUES (@EmployeeId, @FirstName, @LastName, @Gender, @Age, @Position, @Category, @Salary, @Tax, @UserId)";
 
@@ -69,12 +63,11 @@ namespace SelfSampleProRAD_DB_SQL.Data
                             employeeCmd.Parameters.AddWithValue("@Category", employee.Category);
                             employeeCmd.Parameters.AddWithValue("@Salary", employee.Salary);
                             employeeCmd.Parameters.AddWithValue("@Tax", employee.Tax);
-                            employeeCmd.Parameters.AddWithValue("@UserId", DBNull.Value); // Will be updated after account creation
+                            employeeCmd.Parameters.AddWithValue("@UserId", DBNull.Value);       
 
                             employeeCmd.ExecuteNonQuery();
                         }
 
-                        // Create Account record
                         string accountSql = @"INSERT INTO Account (UserId, UserName, Password, Status) 
                                           VALUES (@UserId, @UserName, @Password, @Status)";
 
@@ -88,7 +81,6 @@ namespace SelfSampleProRAD_DB_SQL.Data
                             accountCmd.ExecuteNonQuery();
                         }
 
-                        // Link Employee to Account
                         string updateSql = "UPDATE Employee SET UserId = @UserId WHERE EmployeeId = @EmployeeId";
 
                         using (SqlCommand updateCmd = new SqlCommand(updateSql, con))
@@ -99,7 +91,6 @@ namespace SelfSampleProRAD_DB_SQL.Data
                             updateCmd.ExecuteNonQuery();
                         }
 
-                        // Set up navigation properties
                         employee.UserId = account.UserID;
                         employee.Account = account;
                         account.Employee = employee;
@@ -115,7 +106,6 @@ namespace SelfSampleProRAD_DB_SQL.Data
             }
             catch (Exception ex)
             {
-                // Handle exceptions
                 System.Windows.Forms.MessageBox.Show($"Error seeding super admin: {ex.Message}", "Error", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
             }
         }

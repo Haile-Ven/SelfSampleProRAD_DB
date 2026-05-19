@@ -36,7 +36,7 @@
             isDragging = false; // Stop dragging
         }
 
-        public void _Click(object sender, EventArgs e) 
+        public void _Click(object sender, EventArgs e)
         {
             _userControl.BringToFront();
         }

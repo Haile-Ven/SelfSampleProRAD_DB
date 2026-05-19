@@ -29,7 +29,7 @@ namespace SelfSampleProRAD
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
-            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
             loginPanel = new Panel();
             ShowPasswordLkLbl = new LinkLabel();
             loginBtb = new Button();
@@ -153,6 +153,7 @@ namespace SelfSampleProRAD
             loginBtb.Text = "Login";
             loginBtb.UseVisualStyleBackColor = false;
             loginBtb.Click += LoginBtb_Click;
+            loginBtb.KeyPress += loginBtb_KeyPress;
             // 
             // passwordLbl
             // 
@@ -160,9 +161,9 @@ namespace SelfSampleProRAD
             passwordLbl.Font = new Font("Segoe UI", 10.8F);
             passwordLbl.Location = new Point(153, 247);
             passwordLbl.Name = "passwordLbl";
-            passwordLbl.Size = new Size(117, 25);
+            passwordLbl.Size = new Size(112, 25);
             passwordLbl.TabIndex = 8;
-            passwordLbl.Text = "🔒 Password";
+            passwordLbl.Text = "🔒Password";
             // 
             // userNameLbl
             // 
@@ -536,7 +537,7 @@ namespace SelfSampleProRAD
             // ActionBtnClm
             // 
             ActionBtnClm.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            ActionBtnClm.DefaultCellStyle = dataGridViewCellStyle1;
+            ActionBtnClm.DefaultCellStyle = dataGridViewCellStyle2;
             ActionBtnClm.FillWeight = 25F;
             ActionBtnClm.FlatStyle = FlatStyle.Flat;
             ActionBtnClm.HeaderText = "Action";
@@ -923,8 +924,8 @@ namespace SelfSampleProRAD
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(843, 611);
             Controls.Add(loginPanel);
-            Controls.Add(LogoutBtn);
             Controls.Add(mainTab);
+            Controls.Add(LogoutBtn);
             FormBorderStyle = FormBorderStyle.FixedSingle;
             MaximizeBox = false;
             Name = "CompleteForm";

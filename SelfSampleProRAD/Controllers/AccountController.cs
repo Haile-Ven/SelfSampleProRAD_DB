@@ -1,6 +1,6 @@
 using SelfSampleProRAD_DB.DTOs;
-using SelfSampleProRAD_DB_SQL.Models;
 using SelfSampleProRAD_DB_SQL.DB;
+using SelfSampleProRAD_DB_SQL.Models;
 namespace SelfSampleProRAD_DB.Controller
 {
     class AccountController

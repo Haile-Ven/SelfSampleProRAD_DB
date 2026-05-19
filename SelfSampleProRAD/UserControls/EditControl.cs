@@ -1,5 +1,5 @@
-using SelfSampleProRAD_DB.DTOs;
 using SelfSampleProRAD_DB.Controller;
+using SelfSampleProRAD_DB.DTOs;
 using SelfSampleProRAD_DB_SQL.Controllers;
 
 namespace SelfSampleProRAD_DB
@@ -8,7 +8,6 @@ namespace SelfSampleProRAD_DB
     {
         EmployeeEditDTO employee;
 
-        // Event for toast notifications
         public delegate void NotificationEventHandler(string message, string title, bool isSuccess);
         public event NotificationEventHandler ShowNotification;
         HelperMethodsUserControl _helper;
@@ -46,7 +45,6 @@ namespace SelfSampleProRAD_DB
             Click += _helper._Click;
         }
 
-        // Transfer Edit Link Lable Event Handler To CompleteForm
         public event LinkLabelLinkClickedEventHandler clsEditControlLblClicked;
 
         private void clsEditControlLbl_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -54,7 +52,6 @@ namespace SelfSampleProRAD_DB
             clsEditControlLblClicked?.Invoke(sender, e);
         }
 
-        // Make User Control Draggable
         private bool isDragging = false;
         private Point startPoint = new Point(0, 0);
         private void UserControl_MouseDown(object sender, MouseEventArgs e)
@@ -62,7 +59,7 @@ namespace SelfSampleProRAD_DB
             if (e.Button == MouseButtons.Left)
             {
                 isDragging = true;
-                startPoint = e.Location; // Save the initial mouse position
+                startPoint = e.Location;      
             }
         }
 
@@ -70,7 +67,6 @@ namespace SelfSampleProRAD_DB
         {
             if (isDragging)
             {
-                // Calculate the new position based on mouse movement
                 Left += e.X - startPoint.X;
                 Top += e.Y - startPoint.Y;
             }
@@ -78,9 +74,8 @@ namespace SelfSampleProRAD_DB
 
         private void UserControl_MouseUp(object sender, MouseEventArgs e)
         {
-            isDragging = false; // Stop dragging
+            isDragging = false;   
         }
-        // Transfer Update Button Click Event Handler To CompleteForm After Finishing Update
         public event EventHandler UpdateBtnClicked;
         private void UpdateBtn_Click(object sender, EventArgs e)
         {

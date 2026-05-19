@@ -1,3 +1,5 @@
+using System.Data;
+
 namespace SelfSampleProRAD_DB_SQL.DB
 {
     internal class DBConnection
@@ -9,13 +11,13 @@ namespace SelfSampleProRAD_DB_SQL.DB
             _connectionString = connectionString == null ?
                 "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\Haile-Work\\source\\repos\\SelfSampleProRAD_DB_SQL\\SelfSampleProRAD\\DB\\EmployeeTaskDB.mdf;Integrated Security=True" :
                 connectionString;
+            connection = new SqlConnection(_connectionString);
         }
         public SqlConnection _connection
         {
             get
             {
-                connection = new SqlConnection(_connectionString);
-                connection.Open();
+                if (connection.State != ConnectionState.Open) connection.Open();
                 return connection;
             }
         }

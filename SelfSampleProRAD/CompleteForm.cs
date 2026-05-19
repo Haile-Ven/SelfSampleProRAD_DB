@@ -16,7 +16,6 @@ namespace SelfSampleProRAD
             InitializeToastNotification();
         }
 
-        //Methods
         private void InitPanels()
         {
             mainTab.Visible = false;
@@ -76,7 +75,6 @@ namespace SelfSampleProRAD
             foreach (var account in accounts)
             {
                 int rowIndex = employeeDataGrid.Rows.Add(account.UserId, account.UserName, account.Status);
-                // Style the action button
                 var actionCell = employeeDataGrid.Rows[rowIndex].Cells["ActionBtnClm"];
                 bool isActive = account.Status == 'A';
                 actionCell.Value = isActive ? "Deactivate" : "Activate";
@@ -146,10 +144,8 @@ namespace SelfSampleProRAD
             }
         }
 
-        // Ensure toast notification is properly initialized
         private void InitializeToastNotification()
         {
-            // Dispose of existing toast notification if it exists
             if (toastNotification != null)
             {
                 if (toastNotification.IsHandleCreated && !toastNotification.IsDisposed)
@@ -160,12 +156,10 @@ namespace SelfSampleProRAD
                 toastNotification = null;
             }
 
-            // Create a new toast notification
             toastNotification = new ToastNotification();
             toastNotification.AttachToForm(this);
         }
 
-        //Event handlers
         private void LoginBtb_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrEmpty(userNameTxt.Text) || string.IsNullOrEmpty(passwordTxt.Text) ||
@@ -187,10 +181,8 @@ namespace SelfSampleProRAD
             loginPanel.Visible = false;
             mainTab.Visible = true;
             InitializeToastNotification();
-            // Clear all tab pages first
             mainTab.TabPages.Clear();
 
-            // Load tabs based on position
             switch (response.Item1.Position)
             {
                 case "Developer":
@@ -407,7 +399,6 @@ namespace SelfSampleProRAD
 
         private void UpdateBtn_Click(object sender, EventArgs e)
         {
-            // Cast sender to Button and ensure it's not null
             var edBtn = sender as Button;
 
             var edC = edBtn.Parent as EditControl;
@@ -476,6 +467,14 @@ namespace SelfSampleProRAD
         private void ShowPasswordLkLbl_MouseHover(object sender, EventArgs e)
         {
             TipInfo.Show("Click to show password", ShowPasswordLkLbl);
+        }
+
+        private void loginBtb_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (char)Keys.Enter)
+            {
+                LoginBtb_Click(sender, e);
+            }
         }
     }
 }
