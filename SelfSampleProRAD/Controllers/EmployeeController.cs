@@ -19,7 +19,6 @@ namespace SelfSampleProRAD_DB.Controller
             {
                 using (SqlConnection connection = new DBConnection(null)._connection)
                 {
-                    // Check if employee already exists
                     string checkQuery = "SELECT COUNT(*) FROM Employee WHERE FirstName = @FirstName AND LastName = @LastName";
                     using (SqlCommand checkCommand = new SqlCommand(checkQuery, connection))
                     {
@@ -31,7 +30,6 @@ namespace SelfSampleProRAD_DB.Controller
                             return ($"Employee {fName} {lName} Already Exists", false);
                     }
 
-                    // Create employee model
                     var employee = new Employee
                     {
                         EmployeeId = Guid.NewGuid(),
@@ -45,7 +43,6 @@ namespace SelfSampleProRAD_DB.Controller
                         Category = cat
                     };
 
-                    // Create account model
                     string userName = $"{lName}_{fName}@{employee.EmployeeId.ToString().Substring(0, 3)}";
                     string password = GenerateRandomPassword();
 
@@ -57,12 +54,10 @@ namespace SelfSampleProRAD_DB.Controller
                         Status = 'A'
                     };
 
-                    // Begin transaction
                     SqlTransaction transaction = connection.BeginTransaction();
 
                     try
                     {
-                        // Insert employee
                         string employeeSql = @"INSERT INTO Employee (EmployeeId, FirstName, LastName, Gender, Age, Position, Salary, Tax, Category) 
                                              VALUES (@EmployeeId, @FirstName, @LastName, @Gender, @Age, @Position, @Salary, @Tax, @Category)";
 
@@ -80,7 +75,6 @@ namespace SelfSampleProRAD_DB.Controller
                             employeeCommand.ExecuteNonQuery();
                         }
 
-                        // Insert account
                         string accountSql = @"INSERT INTO Account (UserId, UserName, Password, Status) 
                                             VALUES (@UserId, @UserName, @Password, @Status)";
 
@@ -93,7 +87,6 @@ namespace SelfSampleProRAD_DB.Controller
                             accountCommand.ExecuteNonQuery();
                         }
 
-                        // Link employee to account
                         employee.UserId = account.UserID;
                         string updateSql = "UPDATE Employee SET UserId = @UserId WHERE EmployeeId = @EmployeeId";
 
@@ -104,7 +97,6 @@ namespace SelfSampleProRAD_DB.Controller
                             updateCommand.ExecuteNonQuery();
                         }
 
-                        // Set up navigation properties
                         employee.Account = account;
                         account.Employee = employee;
 
@@ -131,7 +123,6 @@ namespace SelfSampleProRAD_DB.Controller
             {
                 using (SqlConnection connection = new DBConnection(null)._connection)
                 {
-                    // First check if employee exists and get current name
                     string checkQuery = "SELECT FirstName, LastName, UserId FROM Employee WHERE EmployeeId = @EmployeeId";
                     string currentFirstName = null;
                     string currentLastName = null;
@@ -157,11 +148,9 @@ namespace SelfSampleProRAD_DB.Controller
                         }
                     }
 
-                    // Check if name changed
                     if (currentFirstName != employee.FirstName || currentLastName != employee.LastName)
                         isNameChanged = true;
 
-                    // Update employee
                     string updateSql = @"UPDATE Employee 
                                        SET FirstName = @FirstName, LastName = @LastName, 
                                            Age = @Age, Gender = @Gender 
@@ -177,7 +166,6 @@ namespace SelfSampleProRAD_DB.Controller
                         updateCommand.ExecuteNonQuery();
                     }
 
-                    // Update username if name changed
                     if (isNameChanged && userId.HasValue)
                     {
                         string newUserName = $"{employee.LastName}_{employee.FirstName}@{employee.EmployeeId.ToString().Substring(0, 3)}";
@@ -248,7 +236,6 @@ namespace SelfSampleProRAD_DB.Controller
                                             Status = Convert.ToChar(reader["Status"])
                                         };
 
-                                        // Set the bidirectional relationship
                                         employee.Account.Employee = employee;
                                     }
                                 }
@@ -261,7 +248,6 @@ namespace SelfSampleProRAD_DB.Controller
             }
             catch (Exception ex)
             {
-                // Handle exceptions as needed
                 MessageBox.Show($"Error in SelectEmployee: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
@@ -312,7 +298,6 @@ namespace SelfSampleProRAD_DB.Controller
                                         Status = Convert.ToChar(reader["Status"])
                                     };
 
-                                    // Set the bidirectional relationship
                                     employee.Account.Employee = employee;
                                 }
 
@@ -324,7 +309,6 @@ namespace SelfSampleProRAD_DB.Controller
             }
             catch (Exception ex)
             {
-                // Handle exceptions as needed
                 MessageBox.Show($"Error in SelectEmployeeByUserId: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
@@ -380,7 +364,6 @@ namespace SelfSampleProRAD_DB.Controller
             }
             catch (Exception ex)
             {
-                // Handle exceptions as needed
                 MessageBox.Show($"Error in ListAllEmployees: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
@@ -411,20 +394,17 @@ namespace SelfSampleProRAD_DB.Controller
             var random = new Random();
             var password = new StringBuilder();
 
-            // Ensure at least one character from each category
             password.Append(upperCase[random.Next(upperCase.Length)]);
             password.Append(lowerCase[random.Next(lowerCase.Length)]);
             password.Append(digits[random.Next(digits.Length)]);
             password.Append(special[random.Next(special.Length)]);
 
-            // Fill the rest of the password
             var allChars = upperCase + lowerCase + digits + special;
             for (int i = 4; i < length; i++)
             {
                 password.Append(allChars[random.Next(allChars.Length)]);
             }
 
-            // Shuffle the password
             return new string(password.ToString().OrderBy(c => random.Next()).ToArray());
         }
     }

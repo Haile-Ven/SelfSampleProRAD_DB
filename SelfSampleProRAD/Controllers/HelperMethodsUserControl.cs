@@ -7,7 +7,6 @@
         {
             _userControl = userControl;
         }
-        // Make User Control Draggable
         private bool isDragging = false;
         private Point StartingPosition = new Point(0, 0);
 
@@ -16,7 +15,7 @@
             if (e.Button == MouseButtons.Left)
             {
                 isDragging = true;
-                StartingPosition = e.Location; // Save the initial mouse position
+                StartingPosition = e.Location;      
             }
         }
 
@@ -33,7 +32,7 @@
 
         public void _MouseUp(object sender, MouseEventArgs e)
         {
-            isDragging = false; // Stop dragging
+            isDragging = false;   
         }
 
         public void _Click(object sender, EventArgs e)

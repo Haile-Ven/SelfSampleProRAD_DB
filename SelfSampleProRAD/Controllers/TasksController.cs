@@ -10,14 +10,12 @@ namespace SelfSampleProRAD_DB.Controller
         {
             try
             {
-                // Create the Tasks model instance
                 var task = new Tasks
                 {
                     TaskName = tskNm,
                     Status = 'P'
                 };
 
-                // Create the EmployeeTasks model instance
                 var employeeTask = new EmployeeTasks
                 {
                     TaskId = task.TaskId,
@@ -31,7 +29,6 @@ namespace SelfSampleProRAD_DB.Controller
 
                     try
                     {
-                        // Insert task
                         string taskSql = "INSERT INTO Tasks (TaskId, TaskName, Status) VALUES (@TaskId, @TaskName, @Status)";
 
                         using (SqlCommand taskCommand = new SqlCommand(taskSql, connection, transaction))
@@ -42,7 +39,6 @@ namespace SelfSampleProRAD_DB.Controller
                             taskCommand.ExecuteNonQuery();
                         }
 
-                        // Insert employee task
                         string employeeTaskSql = "INSERT INTO EmployeeTasks (ETID, TaskId, AssignedToId, AssignedById) VALUES (@ETID, @TaskId, @AssignedToId, @AssignedById)";
 
                         using (SqlCommand employeeTaskCommand = new SqlCommand(employeeTaskSql, connection, transaction))
@@ -168,7 +164,6 @@ namespace SelfSampleProRAD_DB.Controller
             {
                 using (SqlConnection connection = new DBConnection(null)._connection)
                 {
-                    // First check if task exists and its status
                     string checkQuery = "SELECT Status FROM Tasks WHERE TaskId = @TaskId";
                     char? currentStatus = null;
 
@@ -183,11 +178,9 @@ namespace SelfSampleProRAD_DB.Controller
                         currentStatus = Convert.ToChar(result);
                     }
 
-                    // Check if task is already completed
                     if (currentStatus == 'C')
                         return ("Task is already completed.", false);
 
-                    // Update task status
                     string updateQuery = "UPDATE Tasks SET Status = 'S' WHERE TaskId = @TaskId";
 
                     using (SqlCommand updateCommand = new SqlCommand(updateQuery, connection))
@@ -211,7 +204,6 @@ namespace SelfSampleProRAD_DB.Controller
             {
                 using (SqlConnection connection = new DBConnection(null)._connection)
                 {
-                    // First check if task exists and its status
                     string checkQuery = "SELECT Status FROM Tasks WHERE TaskId = @TaskId";
                     char? currentStatus = null;
 
@@ -226,11 +218,9 @@ namespace SelfSampleProRAD_DB.Controller
                         currentStatus = Convert.ToChar(result);
                     }
 
-                    // Check if task is already completed
                     if (currentStatus == 'C')
                         return ("Task is already completed.", false);
 
-                    // Update task status
                     string updateQuery = "UPDATE Tasks SET Status = 'C' WHERE TaskId = @TaskId";
 
                     using (SqlCommand updateCommand = new SqlCommand(updateQuery, connection))

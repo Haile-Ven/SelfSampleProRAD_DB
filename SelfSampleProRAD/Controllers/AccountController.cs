@@ -9,14 +9,12 @@ namespace SelfSampleProRAD_DB.Controller
         {
         }
 
-        //Login
         public (EmployeeResponseDTO, string) Login(string userNm, string pass)
         {
             try
             {
                 using (SqlConnection connection = new DBConnection(null)._connection)
                 {
-                    // First find the account by username only
                     string query = @"SELECT a.UserId, a.UserName, a.Status, a.Password, 
                                     e.EmployeeId, e.FirstName, e.LastName, e.Gender, e.Age, 
                                     e.Position, e.Salary, e.Tax, e.Category 
@@ -32,18 +30,15 @@ namespace SelfSampleProRAD_DB.Controller
                         {
                             if (reader.Read())
                             {
-                                // Check password match
                                 string storedPassword = reader["Password"].ToString();
                                 char status = Convert.ToChar(reader["Status"]);
 
                                 if (storedPassword != pass)
                                     return (null, "Invalid Username or Password.");
 
-                                // Check if account is deactivated
                                 if (status == 'D')
                                     return (null, "Account is deactivated.");
 
-                                // Map to DTO
                                 var account = new EmployeeResponseDTO()
                                 {
                                     EmployeeId = (Guid)reader["EmployeeId"],
@@ -79,14 +74,12 @@ namespace SelfSampleProRAD_DB.Controller
             }
         }
 
-        //Change password
         public (string, bool) ChangePassword(Guid employeeId, string oldPass, string newPass)
         {
             try
             {
                 using (SqlConnection connection = new DBConnection(null)._connection)
                 {
-                    // First, find the employee by employeeId
                     string employeeQuery = "SELECT UserId FROM Employee WHERE EmployeeId = @EmployeeId";
                     Guid userId;
 
@@ -101,7 +94,6 @@ namespace SelfSampleProRAD_DB.Controller
                         userId = (Guid)result;
                     }
 
-                    // Now find the account using the userId
                     string accountQuery = "SELECT Password FROM Account WHERE UserId = @UserId";
                     string currentPassword;
 
@@ -116,11 +108,9 @@ namespace SelfSampleProRAD_DB.Controller
                         currentPassword = result.ToString();
                     }
 
-                    // Verify old password
                     if (currentPassword != oldPass)
                         return ("Old Password is incorrect.", false);
 
-                    // Update the password
                     string updateQuery = "UPDATE Account SET Password = @NewPassword WHERE UserId = @UserId";
 
                     using (SqlCommand updateCommand = new SqlCommand(updateQuery, connection))
@@ -139,7 +129,6 @@ namespace SelfSampleProRAD_DB.Controller
             }
         }
 
-        //List all accounts
         public List<AccountResponseDTO> ListAllAccounts()
         {
             var accounts = new List<AccountResponseDTO>();
@@ -218,7 +207,6 @@ namespace SelfSampleProRAD_DB.Controller
             {
                 using (SqlConnection connection = new DBConnection(null)._connection)
                 {
-                    // First get the account information
                     string accountQuery = "SELECT UserId, UserName, Password, Status FROM Account WHERE UserId = @UserId";
                     Account account = null;
 
@@ -240,12 +228,11 @@ namespace SelfSampleProRAD_DB.Controller
                             }
                             else
                             {
-                                return null; // Account not found
+                                return null;    
                             }
                         }
                     }
 
-                    // Now get the associated employee information
                     string employeeQuery = "SELECT EmployeeId, FirstName, LastName, Gender, Age, Position, Salary, Tax, Category FROM Employee WHERE UserId = @UserId";
 
                     using (SqlCommand employeeCommand = new SqlCommand(employeeQuery, connection))
@@ -270,7 +257,6 @@ namespace SelfSampleProRAD_DB.Controller
                                     UserId = id
                                 };
 
-                                // Set the bidirectional relationship
                                 account.Employee.Account = account;
                             }
                         }
@@ -287,14 +273,12 @@ namespace SelfSampleProRAD_DB.Controller
             return null;
         }
 
-        //Change account status (Activate/Deactivate)
         public (string, bool) ChangeAccountStatus(Guid accId)
         {
             try
             {
                 using (SqlConnection connection = new DBConnection(null)._connection)
                 {
-                    // First, get the current status
                     string statusQuery = "SELECT Status FROM Account WHERE UserId = @UserId";
                     char currentStatus;
 
@@ -309,10 +293,8 @@ namespace SelfSampleProRAD_DB.Controller
                         currentStatus = Convert.ToChar(result);
                     }
 
-                    // Toggle the status
                     char newStatus = currentStatus == 'A' ? 'D' : 'A';
 
-                    // Update the status
                     string updateQuery = "UPDATE Account SET Status = @NewStatus WHERE UserId = @UserId";
 
                     using (SqlCommand updateCommand = new SqlCommand(updateQuery, connection))

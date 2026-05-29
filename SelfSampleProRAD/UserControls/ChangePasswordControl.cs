@@ -5,7 +5,6 @@ namespace SelfSampleProRAD_DB
 {
     public partial class ChangePasswordControl : UserControl
     {
-        // Event for toast notifications
         public delegate void NotificationEventHandler(string message, string title, bool isSuccess);
         public event NotificationEventHandler ShowNotification;
         HelperMethodsUserControl _helper;
@@ -33,7 +32,6 @@ namespace SelfSampleProRAD_DB
             MouseUp += _helper._MouseUp;
             Click += _helper._Click;
         }
-        // Transfer Update Button Click Event Handler To CompleteForm After Finishing Update
         public event EventHandler CngPwdBtnClicked;
         private void CngPwdBtn_Click(object sender, EventArgs e)
         {
@@ -52,7 +50,6 @@ namespace SelfSampleProRAD_DB
             CngPwdBtnClicked?.Invoke(sender, e);
         }
 
-        // Make User Control Draggable
         private bool isDragging = false;
         private Point startPoint = new Point(0, 0);
         private void ChangePasswordControl_MouseDown(object sender, MouseEventArgs e)
@@ -60,7 +57,7 @@ namespace SelfSampleProRAD_DB
             if (e.Button == MouseButtons.Left)
             {
                 isDragging = true;
-                startPoint = e.Location; // Save the initial mouse position
+                startPoint = e.Location;      
             }
         }
 
@@ -68,7 +65,6 @@ namespace SelfSampleProRAD_DB
         {
             if (isDragging)
             {
-                // Calculate the new position based on mouse movement
                 Left += e.X - startPoint.X;
                 Top += e.Y - startPoint.Y;
             }
@@ -76,10 +72,9 @@ namespace SelfSampleProRAD_DB
 
         private void ChangePasswordControl_MouseUp(object sender, MouseEventArgs e)
         {
-            isDragging = false; // Stop dragging
+            isDragging = false;   
         }
 
-        // Transfer Close Link Lable Event Handler To CompleteForm
         public event LinkLabelLinkClickedEventHandler ClsPwdCngLblClicked;
         private void ClsPwdCngLbl_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
